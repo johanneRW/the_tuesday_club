@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Grid, GridItem } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import Banner from './components/Banner';
+import LPCard from './components/LPCard';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
    
   </GridItem>
   <GridItem  area={'main'}>
+    <LPCard/>
    
   </GridItem>
   <GridItem  area={'footer'}>
