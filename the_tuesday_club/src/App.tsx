@@ -8,26 +8,25 @@ function App() {
   return(
     <Grid
   templateAreas={`
-    "banner banner"
-    "header header"
-                  "nav main"
-                  "nav footer"`}
-  gridTemplateRows={'50px 1fr 30px'}
+          "banner banner"
+          "nav nav"
+          "aside main"
+          "footer footer"`}
+  
   gridTemplateColumns={'150px 1fr'}
   h='200px'
   gap='1'
-  color='blackAlpha.700'
+ 
   fontWeight='bold'
 >
   <GridItem area={'banner'}>
 <Banner/>
   </GridItem>
   
-  <GridItem area={'header'}>
-    <NavBar/>
-  
-  </GridItem>
   <GridItem  area={'nav'}>
+    <NavBar/>
+  </GridItem>
+  <GridItem  area={'aside'}>
    
   </GridItem>
   <GridItem  area={'main'}>
