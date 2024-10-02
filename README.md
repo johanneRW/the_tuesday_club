@@ -1,1 +1,1 @@
-# the_tuesday_club
+The Tuesday Club is a community for vinyl enthusiasts, where you can discover and order new records. Members share their passion for music on LPs, and the club makes it easy to find both new releases and reissues. It’s a casual way to build your record collection over time, while also saving on shipping costs.
