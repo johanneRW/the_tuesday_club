@@ -2,9 +2,10 @@
     "builds": [
       {
         "src": "package.json",
-        "use": "@vercel/node"
+        "use": "@vercel/static-build"
       }
     ],
+    "framework": "vite",
     "routes": [
       {
         "src": "/(.*)",
