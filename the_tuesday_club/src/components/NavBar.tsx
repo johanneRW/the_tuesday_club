@@ -7,7 +7,6 @@ import SearchBar from "./searchBar";
 const NavBar =() => {return(
     <HStack justifyContent={"space-between"}> 
        <ColorModeSwitch />
-       <SearchBar/>
     </HStack>
 )};
 

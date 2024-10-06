@@ -3,6 +3,7 @@ import { Grid, GridItem } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import Banner from './components/Banner';
 import LPCard from './components/LPCard';
+import SearchBar from './components/searchBar';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
     <NavBar/>
   </GridItem>
   <GridItem  area={'aside'}>
-   
+   <SearchBar/>
   </GridItem>
   <GridItem  area={'main'}>
     <LPCard/>
