@@ -3,12 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
-    "postinstall": "npm install"
-  },
+"scripts": {
+  "dev": "vite",
+  "build": "tsc && vite build",
+  "preview": "vite preview"
+},
   "dependencies": {
   "vite": "^4.1.0", 
   "@chakra-ui/icons": "^2.2.1",
