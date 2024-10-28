@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class Artist(models.Model):
@@ -43,39 +44,16 @@ class AlbumPrice(models.Model):
     class Meta:
         unique_together = ('album', 'price_start_date')
 
-
-class MemberRole(models.Model):
-    roles_id = models.IntegerField(primary_key=True)
-    roles_name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.roles_name
-
-
-class MemberStatus(models.Model):
-    member_status_id = models.IntegerField(primary_key=True)
-    member_status_name = models.CharField(max_length=255)
+   
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    postal_code = models.CharField(max_length=20)
+    country = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.member_status_name
-
-
-class Member(models.Model):
-    member_id = models.CharField(primary_key=True, max_length=255)
-    member_name = models.CharField(max_length=255)
-    member_address = models.CharField(max_length=255)
-    member_email = models.EmailField()
-    member_status = models.OneToOneField(MemberStatus, on_delete=models.CASCADE, db_column='member_status_id')
-    member_role = models.OneToOneField(MemberRole, on_delete=models.CASCADE, db_column='member_role_id')
-
-    def __str__(self):
-        return self.member_name
-
-
-class MemberPassword(models.Model):
-    member = models.OneToOneField(Member, on_delete=models.CASCADE, primary_key=True, db_column='member_id')
-    member_password = models.CharField(max_length=255)
-
+        return f"{self.street}, {self.city}, {self.postal_code}, {self.country}"
 
 class PileStatus(models.Model):
     status_id = models.IntegerField(primary_key=True)
@@ -87,12 +65,12 @@ class PileStatus(models.Model):
 
 class Pile(models.Model):
     pile_id = models.CharField(max_length=255)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE, db_column='member_id')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
     pile_status = models.ForeignKey(PileStatus, on_delete=models.CASCADE, db_column='pile_status_id')
     pile_start_date = models.DateTimeField()
 
     class Meta:
-        unique_together = ('pile_id', 'member')
+        unique_together = ('pile_id', 'user')
 
 
 class PileItem(models.Model):

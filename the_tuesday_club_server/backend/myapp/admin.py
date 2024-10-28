@@ -1,17 +1,14 @@
 from django.contrib import admin
 
-from .models import Artist, Label, AlbumImage, Album, AlbumPrice, MemberRole, MemberStatus, Member, MemberPassword, PileStatus, Pile, PileItem
+from .models import Artist, Label, AlbumImage, Album, AlbumPrice, PileStatus, Pile, PileItem, Address
 admin.site.register(Artist)
 admin.site.register(Label)
 admin.site.register(AlbumImage)
 admin.site.register(AlbumPrice)
-admin.site.register(MemberRole)
-admin.site.register(MemberStatus)
-admin.site.register(Member)
-admin.site.register(MemberPassword)
 admin.site.register(PileStatus)
 admin.site.register(Pile)
 admin.site.register(PileItem)
+admin.site.register(Address)
 
 class AlbumAdmin(admin.ModelAdmin):
     list_display = ('album_id', 'album_name', 'album_year')
