@@ -1,4 +1,5 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
+import recordttc from "../assets/recordttc.webp";
 
 const LPPlaceholder = () => {
   return (
@@ -11,9 +12,12 @@ const LPPlaceholder = () => {
       justifyContent="center"
       borderRadius="md" 
     >
-      <Box fontSize="xl" color="gray.600">
-        LP Placeholder
-      </Box>
+         <Image src={recordttc}
+          alt="Cover not found" 
+          objectFit="contain" 
+          width="100%" 
+          
+        />
     </Box>
   );
 };
