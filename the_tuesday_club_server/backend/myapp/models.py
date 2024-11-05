@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
+import uuid
 from django.db import models
 
 class Artist(models.Model):
-    artist_id = models.CharField(primary_key=True, max_length=255)
+    artist_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     artist_name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -10,7 +11,7 @@ class Artist(models.Model):
 
 
 class Label(models.Model):
-    label_id = models.CharField(primary_key=True, max_length=255)
+    label_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
     label_name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -18,7 +19,7 @@ class Label(models.Model):
 
 
 class AlbumImage(models.Model):
-    image_id = models.CharField(primary_key=True, max_length=255)
+    image_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
     image_name = models.CharField(max_length=255)
     album_id = models.OneToOneField(
         'Album', on_delete=models.CASCADE, unique=True, related_name='album_image'
@@ -26,10 +27,10 @@ class AlbumImage(models.Model):
 
 
 class Album(models.Model):
-    album_id = models.CharField(primary_key=True, max_length=255)
+    album_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
     album_name = models.CharField(max_length=255)
-    artist = models.ForeignKey(Artist, on_delete=models.CASCADE, db_column='artist_id')
-    label = models.ForeignKey(Label, on_delete=models.CASCADE, db_column='label_id')
+    artist_id = models.ForeignKey(Artist, on_delete=models.CASCADE, db_column='artist_id')
+    label_id = models.ForeignKey(Label, on_delete=models.CASCADE, db_column='label_id')
     album_year = models.DateField()
 
     def __str__(self):
@@ -37,16 +38,18 @@ class Album(models.Model):
 
 
 class AlbumPrice(models.Model):
-    album = models.ForeignKey(Album, on_delete=models.CASCADE, db_column='album_id')
-    price_start_date = models.IntegerField()
+    album_price_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
+    album_id = models.ForeignKey(Album, on_delete=models.CASCADE, db_column='album_id')
+    price_start_date = models.DateField()
     album_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     class Meta:
-        unique_together = ('album', 'price_start_date')
+        unique_together = ('album_id', 'price_start_date')
 
-   
+
 class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
+    address_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
+    user_id= models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     postal_code = models.CharField(max_length=20)
@@ -55,8 +58,9 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.street}, {self.city}, {self.postal_code}, {self.country}"
 
+
 class PileStatus(models.Model):
-    status_id = models.IntegerField(primary_key=True)
+    status_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
     pile_status_name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -64,18 +68,22 @@ class PileStatus(models.Model):
 
 
 class Pile(models.Model):
-    pile_id = models.CharField(max_length=255)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
+    pile_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
     pile_status = models.ForeignKey(PileStatus, on_delete=models.CASCADE, db_column='pile_status_id')
     pile_start_date = models.DateTimeField()
 
     class Meta:
-        unique_together = ('pile_id', 'user')
+        unique_together = ('pile_id', 'user_id')
 
 
 class PileItem(models.Model):
-    pile = models.OneToOneField(Pile, on_delete=models.CASCADE, db_column='pile_id')
-    album = models.OneToOneField(Album, on_delete=models.CASCADE, primary_key=True, db_column='album_id')
+    pile_item_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    pile_id = models.ForeignKey(Pile, on_delete=models.CASCADE, db_column='pile_id')
+    album_id= models.ForeignKey(Album, on_delete=models.CASCADE, db_column='album_id')
     added_to_pile = models.DateTimeField()
     pile_item_price = models.DecimalField(max_digits=10, decimal_places=2)
+    
+    class Meta:
+        unique_together = ('pile_id','album_id')
 
