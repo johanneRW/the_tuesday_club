@@ -43,12 +43,12 @@ class AlbumReleaseYear(models.Model):
     
 class AlbumEANcode(models.Model):
     album_id = models.OneToOneField(Album, on_delete=models.CASCADE, db_column='album_id')
-    album_ean_code=models.IntegerField(unique=True)
+    album_ean_code=models.BigIntegerField(unique=True)
         
     
 class AlbumUPC(models.Model):
     album_id = models.OneToOneField(Album, on_delete=models.CASCADE, db_column='album_id')
-    album_upc=models.IntegerField(unique=True)
+    album_upc=models.BigIntegerField(unique=True)
 
 
 class AlbumFormat(models.Model):
