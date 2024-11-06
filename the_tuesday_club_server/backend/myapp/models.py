@@ -64,6 +64,16 @@ class AlbumUnitFormat(models.Model):
 class AlbumAdditionalInfo(models.Model):
     album_id = models.OneToOneField(Album, on_delete=models.CASCADE, db_column='album_id')
     album_additional_info=models.CharField(max_length=255)
+    
+    
+class Genre(models.Model):
+    genre = models.CharField(unique=True, max_length=255)
+
+
+class AlbumGenre(models.Model):
+    album_id = models.ForeignKey(Album, on_delete=models.CASCADE, db_column='album_id')
+    genre_id = models.ForeignKey(Genre, on_delete=models.CASCADE, db_column='genre_id')
+
        
 
 class AlbumPrice(models.Model):
