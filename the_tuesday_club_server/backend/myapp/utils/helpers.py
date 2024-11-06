@@ -1,20 +1,20 @@
 from .column_aliases import COLUMN_ALIASES
+from datetime import date
 
 def get_column_value(row, key):
     """
-    Finder kolonnenavn i `row` baseret på en liste af aliaser i COLUMN_ALIASES.
-    Returnerer værdien for den første matchende kolonne.
+    Finder værdien i `row` baseret på en liste af mulige navne fra COLUMN_ALIASES.
+    Matcher uafhængigt af store/små bogstaver og ekstra mellemrum.
     """
-    # Hent listen af mulige navne fra alias-dictionary
     possible_names = COLUMN_ALIASES.get(key, [])
     for name in possible_names:
-        # Søger i kolonnerne med case-insensitive nøgler
-        if name.lower() in row:
-            return row[name.lower()]
+        for column in row:
+            # Matcher uden hensyn til store/små bogstaver og mellemrum
+            if column.strip().lower() == name.strip().lower():
+                return row[column]
     return None
 
 
-from datetime import date
 
 def parse_date(value):
     """

@@ -19,9 +19,31 @@ admin.site.register(Genre)
 admin.site.register(AlbumGenre)
 
 
+
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ('album_id', 'album_name')
+    list_display = ( 'album_name', 'get_artist', 'get_units', 'get_format', 'get_label')
     search_fields = ('album_name',)
-    #list_filter = ('album_year',)
+
+    def get_artist(self, obj):
+        return obj.artist_id.artist_name
+    get_artist.short_description = 'Artist'
+    
+    def get_units(self, obj):
+           # Hent AlbumUnitFormat objektet for det pågældende album
+        album_unit_format = AlbumUnitFormat.objects.get(album_id=obj)
+        # Returner antallet af enheder fra AlbumUnitFormat
+        return album_unit_format.album_units
+    get_units.short_description = 'Units'
+    
+    def get_format(self, obj):
+         # Hent AlbumUnitFormat objektet for det pågældende album
+        album_unit_format = AlbumUnitFormat.objects.get(album_id=obj)
+        # Returner navnet på formatet fra AlbumFormat
+        return album_unit_format.album_format_id.album_format
+    get_format.short_description = 'Format'
+
+    def get_label(self, obj):
+        return obj.label_id.label_name
+    get_label.short_description = 'Label'
 
 admin.site.register(Album, AlbumAdmin)

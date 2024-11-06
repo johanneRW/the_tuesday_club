@@ -118,20 +118,31 @@ def import_csv_to_multiple_tables(csv_file_path, start_row=0):
 
             # Album Format og AlbumUnitFormat
             if format_value:
-                # Brug regex til at matche formater som "12\"", "12in", eller "2LP"
-                if re.match(r"^\d+\s*(\"|in|inch)$", format_value.lower()):
-                    # Matcher formater som "12\"", "12in" eller "12inch"
-                    units = None  # Sætter units til None, da det hele er media
-                    media = format_value.strip()  # Brug hele værdien som media
+                format_value = format_value.lower().strip()  # Ensret til små bogstaver og fjern overskydende mellemrum
+
+                # Matcher formater som "12\"", "12in", "12inch"
+                if re.match(r"^\d+\s*(\"|in|inch)$", format_value):
+                    #units = None  # Sætter units til None, da det hele er media
+                    media = format_value  # Brug hele værdien som media
+                
+                # Matcher formater som "LP", ", "Vinyl", hvor der kun er tekst
+                elif re.match(r"^([a-zA-Z]\d|[a-zA-Z\s]+)$", format_value):
+                    if units is None:
+                        units = 1
+                    media = format_value  # Brug hele teksten som media
+                
+                # Matcher formater som "2LP", hvor der både er tal og bogstaver
                 else:
-                    # For formater som "2LP", hvor vi har antal og medietype
-                    match = re.match(r"(\d+)\s*(\D+)", format_value)
+                    match = re.match(r"(\d+)\s*([a-zA-Z]+)", format_value)
                     if match:
-                        units = match.group(1)  # Eksempel: '2'
-                        media = match.group(2).strip()  # Eksempel: 'LP'
+                        units = match.group(1)  # Eksempel: '2' fra "2LP"
+                        media = match.group(2).strip()  # Eksempel: 'LP' fra "2LP"
+            
+            if units is None:
+                raise Exception("mangler en units")
 
             if media:
-                # Opret eller hent albumformat baseret på medie
+                # Opret eller hent albumformat baseret på media
                 album_format, _ = AlbumFormat.objects.get_or_create(album_format=media)
                 if units:
                     AlbumUnitFormat.objects.update_or_create(
@@ -152,6 +163,7 @@ def import_csv_to_multiple_tables(csv_file_path, start_row=0):
                         }
                     )
                     print(f"Sat format for album uden specifikke enheder: {album}")
+        
             # Album Additional Info
             if additional_info:
                 AlbumAdditionalInfo.objects.update_or_create(
