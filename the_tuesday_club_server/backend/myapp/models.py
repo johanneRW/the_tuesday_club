@@ -31,14 +31,42 @@ class Album(models.Model):
     album_name = models.CharField(max_length=255)
     artist_id = models.ForeignKey(Artist, on_delete=models.CASCADE, db_column='artist_id')
     label_id = models.ForeignKey(Label, on_delete=models.CASCADE, db_column='label_id')
-    album_year = models.DateField()
-
+   
     def __str__(self):
         return self.album_name
 
 
+class AlbumReleaseYear(models.Model):
+    album_id = models.OneToOneField(Album, on_delete=models.CASCADE, db_column='album_id')
+    album_year = models.DateField()
+    
+    
+class AlbumEANcode(models.Model):
+    album_id = models.OneToOneField(Album, on_delete=models.CASCADE, db_column='album_id')
+    album_ean_code=models.IntegerField(unique=True)
+        
+    
+class AlbumUPC(models.Model):
+    album_id = models.OneToOneField(Album, on_delete=models.CASCADE, db_column='album_id')
+    album_upc=models.IntegerField(unique=True)
+
+
+class AlbumFormat(models.Model):
+    album_format=models.CharField(unique=True, max_length=255)
+        
+        
+class AlbumUnitFormat(models.Model):
+    album_id = models.OneToOneField(Album, on_delete=models.CASCADE, db_column='album_id')
+    album_units=models.CharField(max_length=255)
+    album_format_id=models.ForeignKey(AlbumFormat, on_delete=models.CASCADE, db_column='album_format_id')
+    
+    
+class AlbumAdditionalInfo(models.Model):
+    album_id = models.OneToOneField(Album, on_delete=models.CASCADE, db_column='album_id')
+    album_additional_info=models.CharField(max_length=255)
+       
+
 class AlbumPrice(models.Model):
-    album_price_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
     album_id = models.ForeignKey(Album, on_delete=models.CASCADE, db_column='album_id')
     price_start_date = models.DateField()
     album_price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -48,11 +76,10 @@ class AlbumPrice(models.Model):
 
 
 class Address(models.Model):
-    address_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
-    user_id= models.ForeignKey(User, on_delete=models.CASCADE, related_name="addresses")
+    user_id= models.OneToOneField(User, on_delete=models.CASCADE, related_name="addresses")
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
-    postal_code = models.CharField(max_length=20)
+    postal_code = models.IntegerField()
     country = models.CharField(max_length=100)
 
     def __str__(self):
@@ -60,7 +87,6 @@ class Address(models.Model):
 
 
 class PileStatus(models.Model):
-    status_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
     pile_status_name = models.CharField(max_length=255)
 
     def __str__(self):
@@ -68,7 +94,7 @@ class PileStatus(models.Model):
 
 
 class Pile(models.Model):
-    pile_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
+    pile_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
     pile_status = models.ForeignKey(PileStatus, on_delete=models.CASCADE, db_column='pile_status_id')
     pile_start_date = models.DateTimeField()

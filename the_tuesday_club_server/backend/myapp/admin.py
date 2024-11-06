@@ -11,8 +11,8 @@ admin.site.register(PileItem)
 admin.site.register(Address)
 
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ('album_id', 'album_name', 'album_year')
+    list_display = ('album_id', 'album_name')
     search_fields = ('album_name',)
-    list_filter = ('album_year',)
+    #list_filter = ('album_year',)
 
 admin.site.register(Album, AlbumAdmin)
