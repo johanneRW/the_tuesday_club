@@ -5,7 +5,7 @@ from datetime import date
 from django.apps import apps
 from itertools import islice
 from datetime import date
-from ..models import AlbumAdditionalInfo, AlbumEANcode, AlbumFormat, AlbumReleaseYear, AlbumUPC, AlbumUnitFormat, Artist, Label, Album, AlbumPrice
+from ..models import AlbumAdditionalInfo, AlbumEANcode, AlbumFormat, AlbumGenre, AlbumReleaseYear, AlbumUPC, AlbumUnitFormat, Artist, Genre, Label, Album, AlbumPrice
 from .helpers import get_column_value, parse_date 
 
 """ def parse_date(value):
@@ -38,8 +38,8 @@ def import_csv_to_multiple_tables(csv_file_path, start_row=0):
             media = get_column_value(row, 'media')
             additional_info = get_column_value(row, 'additional_info')
             price_value = get_column_value(row, 'price')
+            genre_value = get_column_value(row, 'genre') 
 
-            # Spring rækker over uden kunstnernavn
             if not artist_name:
                 print('Springer over tom række', row)
                 continue
@@ -118,11 +118,17 @@ def import_csv_to_multiple_tables(csv_file_path, start_row=0):
 
             # Album Format og AlbumUnitFormat
             if format_value:
-                # Brug regex til at finde antal enheder og formatbetegnelsen separat
-                match = re.match(r"(\d+)\s*(\"|inch|lp|cd|vinyl)?", format_value.lower())
-                if match:
-                    units = match.group(1)  # Eksempel: '12'
-                    media = match.group(2) if match.group(2) else ""  # Eksempel: '"'
+                # Brug regex til at matche formater som "12\"", "12in", eller "2LP"
+                if re.match(r"^\d+\s*(\"|in|inch)$", format_value.lower()):
+                    # Matcher formater som "12\"", "12in" eller "12inch"
+                    units = None  # Sætter units til None, da det hele er media
+                    media = format_value.strip()  # Brug hele værdien som media
+                else:
+                    # For formater som "2LP", hvor vi har antal og medietype
+                    match = re.match(r"(\d+)\s*(\D+)", format_value)
+                    if match:
+                        units = match.group(1)  # Eksempel: '2'
+                        media = match.group(2).strip()  # Eksempel: 'LP'
 
             if media:
                 # Opret eller hent albumformat baseret på medie
@@ -136,7 +142,16 @@ def import_csv_to_multiple_tables(csv_file_path, start_row=0):
                         }
                     )
                     print(f"Sat format og enheder for album: {album}")
-
+                else:
+                    # Hvis der ikke er enheder, gem kun medieformatet
+                    AlbumUnitFormat.objects.update_or_create(
+                        album_id=album,
+                        defaults={
+                            'album_units': "",  # Ingen enheder angivet
+                            'album_format_id': album_format
+                        }
+                    )
+                    print(f"Sat format for album uden specifikke enheder: {album}")
             # Album Additional Info
             if additional_info:
                 AlbumAdditionalInfo.objects.update_or_create(
@@ -144,6 +159,17 @@ def import_csv_to_multiple_tables(csv_file_path, start_row=0):
                     defaults={'album_additional_info': additional_info}
                 )
                 print(f"Sat yderligere info for album: {album}")
+
+
+            # Tilføj genre, hvis den findes
+            if genre_value:
+                genre, _ = Genre.objects.get_or_create(genre=genre_value)
+                AlbumGenre.objects.get_or_create(
+                    album_id=album,
+                    genre_id=genre
+                )
+                print(f"Tilføjet genre {genre} til album {album}")
+
 
             # Album pris for nyt album
             if current_price is not None:

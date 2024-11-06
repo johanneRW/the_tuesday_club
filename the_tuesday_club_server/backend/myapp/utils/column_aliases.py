@@ -8,5 +8,6 @@ COLUMN_ALIASES = {
     'units': ['units', 'discs per set' ],
     'media': ['media',],
     'price': ['price', 'pris', 'salgspris'],
-    'additional_info': ['additional info']
+    'additional_info': ['additional info'],
+    'genre':['genre']
 }
