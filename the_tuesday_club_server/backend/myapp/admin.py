@@ -12,7 +12,6 @@ admin.site.register(Address)
 admin.site.register(AlbumReleaseYear)
 admin.site.register(AlbumEANcode)
 admin.site.register(AlbumUPC)
-admin.site.register(AlbumFormat)
 admin.site.register(AlbumUnitFormat)
 admin.site.register(AlbumAdditionalInfo)
 admin.site.register(Genre)
@@ -29,16 +28,12 @@ class AlbumAdmin(admin.ModelAdmin):
     get_artist.short_description = 'Artist'
     
     def get_units(self, obj):
-           # Hent AlbumUnitFormat objektet for det pågældende album
         album_unit_format = AlbumUnitFormat.objects.get(album_id=obj)
-        # Returner antallet af enheder fra AlbumUnitFormat
         return album_unit_format.album_units
     get_units.short_description = 'Units'
     
     def get_format(self, obj):
-         # Hent AlbumUnitFormat objektet for det pågældende album
         album_unit_format = AlbumUnitFormat.objects.get(album_id=obj)
-        # Returner navnet på formatet fra AlbumFormat
         return album_unit_format.album_format_id.album_format
     get_format.short_description = 'Format'
 
@@ -47,3 +42,13 @@ class AlbumAdmin(admin.ModelAdmin):
     get_label.short_description = 'Label'
 
 admin.site.register(Album, AlbumAdmin)
+
+class FormatAdmin(admin.ModelAdmin):
+    def get_album_format(self, obj):
+        return obj.album_format  
+    get_album_format.short_description = 'Format'
+
+    list_display = ('get_album_format',) 
+
+admin.site.register(AlbumFormat, FormatAdmin)
+
