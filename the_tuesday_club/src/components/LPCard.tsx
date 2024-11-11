@@ -1,37 +1,19 @@
-import { Card, CardBody, Stack, Heading, Text, Divider, CardFooter, ButtonGroup, Button } from "@chakra-ui/react";
-import LPPlaceholder from "./LPPlaceholder";
+import { Card, CardBody, Heading, HStack } from "@chakra-ui/react";
+import { Album } from "../hooks/useAlbums";
 
-const LPCard = () => {
+interface Props {
+  album: Album;
+}
+
+const LPCard = ({ album }: Props) => {
+  console.log('lp-card' + album)
   return (
-    <Card maxW='250px' h='460px'> 
+    <Card>
       <CardBody>
-        <LPPlaceholder />
-        <Stack mt='3' spacing='1'>
-          <Heading size='lg' lineHeight='short'> 
-            album name
-          </Heading>
-          <Text fontSize='sm' lineHeight='short'>
-            album artist
-          </Text>
-          <Text fontSize='sm' lineHeight='short'>
-            album label
-          </Text>
-          <Text color='blue.600' fontSize='m'> 
-            XX kr
-          </Text>
-        </Stack>
+        <Heading fontSize="2xl">{album.album_name}</Heading>
+        <HStack justifyContent="space-between">
+        </HStack>
       </CardBody>
-      <Divider />
-      <CardFooter>
-        <ButtonGroup spacing='2'>
-          <Button variant='solid' colorScheme='blue' size='sm'>
-            Add to cart
-          </Button>
-          <Button variant='ghost' colorScheme='blue' size='sm'>
-            Add to wishlist
-          </Button>
-        </ButtonGroup>
-      </CardFooter>
     </Card>
   );
 };
