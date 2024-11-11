@@ -1,6 +1,8 @@
 import { Button, ButtonGroup, Card, CardBody, CardFooter, Divider, Heading, HStack, Stack , Text} from "@chakra-ui/react";
 import { Album } from "../hooks/useAlbums";
-import LPPlaceholder from "./LPPlaceholder";
+import ImagePlaceholder from "./ImagePlaceholder";
+import { getDisplayFormat } from "../services/formatUtils";
+
 
 interface Props {
   album: Album;
@@ -11,12 +13,12 @@ const LPCard = ({ album }: Props) => {
     return (
       <Card maxW='250px' h='460px'> 
         <CardBody>
-          <LPPlaceholder />
+        <ImagePlaceholder format={album.format} />
           <Stack mt='3' spacing='1'>
           <Heading fontSize="xl">{album.album_name}</Heading>
-            <Text color='blue.600' fontSize='l'>{album.artist_name}</Text>
-            <Text>{album.units} {album.format}</Text>
-            <Text fontSize='sm'>{album.label_name}</Text>
+            <Text  fontSize='l'>{album.artist_name}</Text>
+            <Text>{album.units}•{getDisplayFormat(album.format)}</Text>
+            <Text color='blue.600' fontSize='sm'>{album.label_name}</Text>
             <Text color='blue.600' fontSize='m'> 
               XX kr
             </Text>
@@ -29,7 +31,7 @@ const LPCard = ({ album }: Props) => {
               Add to cart
             </Button>
             <Button variant='ghost' colorScheme='blue' size='sm'>
-              Add to wishlist
+            ♥ 
             </Button>
           </ButtonGroup>
         </CardFooter>
