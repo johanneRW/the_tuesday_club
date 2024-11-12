@@ -8,7 +8,7 @@ export interface Album {
   units: number;
   format: string;
   label_name: string;
-  price: number; 
+  album_price: number; 
 }
 
 const useAlbums = () => {
@@ -26,7 +26,7 @@ const useAlbums = () => {
 
         const transformedData = response.data.map(album => ({
           ...album,
-          album_price: parseFloat(album.price as unknown as string)  // Konverterer pris til number
+          album_price: parseFloat(album.album_price as unknown as string)  // Konverterer pris til number
         }));
 
         setData(transformedData);

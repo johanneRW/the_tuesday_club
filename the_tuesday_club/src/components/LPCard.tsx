@@ -18,7 +18,7 @@ const LPCard = ({ album }: Props) => {
             <Text  fontSize='l'>{album.artist_name}</Text>
             <Text>{album.units}•{album.format}</Text>
             <Text color='blue.600' fontSize='sm'>{album.label_name}</Text>
-            <Text color='blue.600' fontSize='m'> {album.price} kr</Text>
+            <Text color='blue.600' fontSize='m'> {album.album_price} kr</Text>
           </Stack>
         </CardBody>
         <Divider />
