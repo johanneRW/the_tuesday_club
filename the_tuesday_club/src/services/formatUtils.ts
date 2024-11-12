@@ -1,4 +1,4 @@
-// formatUtils.ts
+/* // formatUtils.ts
 export const formatAliases: { [key: string]: string } = {
     "lp": "LP",
     "LP": "LP",
@@ -16,4 +16,4 @@ export const formatAliases: { [key: string]: string } = {
     const normalizedFormat = format.toLowerCase();
     return formatAliases[normalizedFormat] || format; // Brug originalen, hvis ingen match
   };
-  
+   */

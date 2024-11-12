@@ -13,15 +13,11 @@ interface LPPlaceholderProps {
 const LPPlaceholder = ({ format }: LPPlaceholderProps) => {
   
   const placeholderImages: { [key: string]: string } = {
-    "lp": twelveinch,
     "LP": twelveinch,
-    "12\"": twelveinch,
     "12in": twelveinch,
-    "vinyl with cd": twelveinchcd,
-    "7\"": seveninch,
+    "LP with CD": twelveinchcd,
     "7in": seveninch,
-    "v7": seveninch,
-    "mc": MC,
+    "Music Cassette": MC,
   };
 
   const selectedImage = placeholderImages[format] || recordttc;

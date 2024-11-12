@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import apiClient from '../services/api-client';
-import { AxiosRequestConfig } from 'axios';
 
 export interface Album {
   album_id: string;
@@ -9,6 +8,7 @@ export interface Album {
   units: number;
   format: string;
   label_name: string;
+  price: number; 
 }
 
 const useAlbums = () => {
@@ -20,10 +20,16 @@ const useAlbums = () => {
     setIsLoading(true);
 
     apiClient
-      .get<Album[]>('/api/albums') 
+      .get<Album[]>('/api/albums')
       .then((response) => {
         console.log("Fetched albums:", response.data); 
-        setData(response.data);
+
+        const transformedData = response.data.map(album => ({
+          ...album,
+          album_price: parseFloat(album.price as unknown as string)  // Konverterer pris til number
+        }));
+
+        setData(transformedData);
       })
       .catch((error) => setError(error.message))
       .finally(() => setIsLoading(false));

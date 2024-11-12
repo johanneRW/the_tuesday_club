@@ -25,7 +25,7 @@ const LPGrid = () => {
         ))}
 
       {albums.map((album) => (
-        <LPCardContainer key={album.album_name}>
+        <LPCardContainer key={album.album_id}>
           <LPCard album={album} />
         </LPCardContainer>
       ))}
