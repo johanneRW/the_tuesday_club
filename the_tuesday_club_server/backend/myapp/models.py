@@ -128,6 +128,24 @@ class PileItem(models.Model):
 class AlbumView(models.Model):
     album_id = models.UUIDField(primary_key=True)
     album_name = models.CharField(max_length=255)
+    artist_name = models.CharField(max_length=255, null=True, blank=True)
+    album_units = models.IntegerField(null=True, blank=True)
+    album_format_id = models.IntegerField(null=True, blank=True)
+    format_name = models.CharField(max_length=50, null=True, blank=True)
+    label_name = models.CharField(max_length=255, null=True, blank=True)
+    album_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    price_start_date = models.DateField(null=True, blank=True)
+    album_image = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False  # Django administrerer ikke viewet
+        db_table = 'album_view'  # Navn på viewet i databasen
+
+
+
+class AdminAlbumView(models.Model):
+    album_id = models.UUIDField(primary_key=True)
+    album_name = models.CharField(max_length=255)
     artist_name = models.CharField(max_length=255)
     album_units = models.IntegerField(null=True, blank=True)
     album_format_id = models.IntegerField(null=True, blank=True)
@@ -139,7 +157,5 @@ class AlbumView(models.Model):
     album_upc = models.BigIntegerField( null=True, blank=True)
 
     class Meta:
-        managed = False  # Forhindrer Django i at forsøge at oprette/redigere viewet der skal oprettes manuelt i databasen
-        db_table = 'album_view'  # Navnet på viewet i databasen
-
-
+        managed = False  
+        db_table = 'admin_album_view'
