@@ -1,0 +1,22 @@
+databases:
+  - name: ttcdb
+    plan: free
+    databaseName: mydatabase
+    user: myuser
+
+services:
+  - type: web
+    plan: free
+    name: ttc
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn backend.asgi:application -k uvicorn.workers.UvicornWorker"    
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ttcdb
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
