@@ -16,6 +16,12 @@ class AlbumSchema(Schema):
     format_name: Optional[str]
     label_name: Optional[str]
     album_price: Optional[Decimal]
+    
+def create_or_query(field_name: str, values: list[str]) -> Q:
+    query = Q()
+    for value in values:
+        query |= Q(**{f"{field_name}__icontains": value})
+    return query
 
 @api.get("/albums", response=list[AlbumSchema])
 def list_albums(
@@ -35,6 +41,20 @@ def list_albums(
         albums = albums.filter(album_name__icontains=album_name)
         print("Filtered by album_name:", albums.query)  # Debug
 
+ # Anvend den generiske create_or_query til felter med flere værdier
+    filter_params = {
+        'artist_name': request.GET.getlist('artist_name'),
+        'album_units': request.GET.getlist('album_units'),
+        'format_name': request.GET.getlist('format_name'),
+        'label_name': request.GET.getlist('label_name'),
+    }
+
+    for field, values in filter_params.items():
+        if values:
+            albums = albums.filter(create_or_query(field, values))
+            print(f"Filtered by {field}:", albums.query)  # Debug
+
+    """ 
     # Håndtering af flere værdier for artist_name
     artist_names = request.GET.getlist('artist_name')  # Hent alle artist_name-parametre som en liste
     if artist_names:
@@ -70,7 +90,7 @@ def list_albums(
             label_query |= Q(label_name__icontains=label)  # OR-betingelse for hver label_name
         albums = albums.filter(label_query)
         print("Filtered by label_name:", albums.query)  # Debug
-
+    """
     # Filtrering af prisinterval
     if min_price:
         albums = albums.filter(album_price__gte=min_price)
@@ -81,7 +101,7 @@ def list_albums(
         print("Filtered by max_price:", albums.query)  # Debug
 
     # Returner filtrerede albumdata
-    album_data = [
+    """ album_data = [
         {
             "album_id": album.album_id,  
             "album_name": album.album_name,
@@ -92,6 +112,7 @@ def list_albums(
             "album_price": album.album_price
         }
         for album in albums
-    ]
+    ] """
     
-    return album_data
+    #return album_data
+    return albums
