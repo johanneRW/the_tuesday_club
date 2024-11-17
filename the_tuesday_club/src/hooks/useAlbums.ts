@@ -5,8 +5,8 @@ export interface Album {
   album_id: string;
   album_name: string;
   artist_name: string;
-  units: number;
-  format: string;
+  album_units: number;
+  format_name: string;
   label_name: string;
   album_price: number; 
 }
