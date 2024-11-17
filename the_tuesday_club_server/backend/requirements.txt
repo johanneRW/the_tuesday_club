@@ -16,3 +16,4 @@ h11==0.14.0
 packaging==24.2 
 uvicorn==0.32.0
 django-cors-headers==4.6.0
+python-dotenv==1.0.1
