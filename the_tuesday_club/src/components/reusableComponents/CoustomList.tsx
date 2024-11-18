@@ -13,8 +13,8 @@ import {
 interface CustomListProps<T> {
   title: string;
   useDataHook: () => { data: T[]; error: string; isLoading: boolean };
-  selectedItems: T[]; // Opdateret til en liste af valgte elementer
-  onSelectItem: (items: T[]) => void; // Returnerer hele listen af valgte elementer
+  selectedItems?: T[]; 
+  onSelectItem: (items: T[]) => void; 
 }
 
 const CustomList = <
@@ -22,16 +22,16 @@ const CustomList = <
 >({
   title,
   useDataHook,
-  selectedItems,
+  selectedItems = [], 
   onSelectItem,
 }: CustomListProps<T>) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { data: items, error, isLoading } = useDataHook();
 
-  // Filtrering af viste elementer baseret på `isExpanded`
+
   const displayedItems = isExpanded ? items : items.slice(0, 5);
 
-  // Funktion til at håndtere valg af et element
+
   const handleSelectItem = (item: T) => {
     const isAlreadySelected = selectedItems.some(
       (selectedItem) => selectedItem.id === item.id
@@ -39,12 +39,10 @@ const CustomList = <
     let newSelectedItems;
 
     if (isAlreadySelected) {
-      // Fjern elementet, hvis det allerede er valgt
       newSelectedItems = selectedItems.filter(
         (selectedItem) => selectedItem.id !== item.id
       );
     } else {
-      // Tilføj elementet, hvis det ikke er valgt
       newSelectedItems = [...selectedItems, item];
     }
 
@@ -56,7 +54,6 @@ const CustomList = <
 
   return (
     <Box padding={4}>
-      {/* Tilføj `size="sm"` for en mindre overskrift */}
       <Heading size="xs">{title}</Heading>
       <List>
         {displayedItems.map((item) => (

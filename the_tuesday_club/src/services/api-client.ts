@@ -5,6 +5,9 @@ const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+  paramsSerializer: {
+    indexes: null, // no brackets at all
+  }
 });
 console.log('base-url hentet')
 export default apiClient;

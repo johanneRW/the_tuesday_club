@@ -3,9 +3,14 @@ import useAlbums from "../hooks/useAlbums";
 import LPCard from "./LPCard";
 import LPCardContainer from "./LPCardContainer";
 import LPCardSkeleton from "./LPCardSkeleton";
+import { LpQuery } from "../App";
 
-const LPGrid = () => {
-  const { data: albums, error, isLoading } = useAlbums();
+interface Props {
+  lpQuery: LpQuery;
+}
+
+const LPGrid = ({ lpQuery }: Props) => {
+  const { data: albums, error, isLoading } = useAlbums(lpQuery);
 
   const skeletons = [...Array(20).keys()];
 
@@ -32,3 +37,4 @@ const LPGrid = () => {
     </SimpleGrid>
   );
 };
+export default LPGrid

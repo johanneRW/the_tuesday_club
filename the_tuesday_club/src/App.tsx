@@ -7,22 +7,18 @@ import SearchBar from './components/searchBar';
 import useAlbums from './hooks/useAlbums';
 import useAlbumUnits, {AlbumUnit} from './hooks/useAlbumUnits';
 import CustomList from './components/reusableComponents/CoustomList';
+import LPGrid from './components/LPGrid';
 
 export interface LpQuery {
-  albumUnits: AlbumUnit | null;
+  albumUnits: AlbumUnit [];
   
 }
 
+
 function App() {
   // Hent albumdata ved at bruge useAlbums-hooket
-  const { data: albums, error, isLoading } = useAlbums();
+  const [lpQuery, setLpQuery] = useState<LpQuery>({} as LpQuery);
 
-  // State til det valgte album unit
-  const [LpQuery, setLpQuery] = useState({
-    albumUnits: [] as AlbumUnit[], // Start som en tom liste af AlbumUnit
-    // andre properties
-  });
-  
 
   return (
     <Grid
@@ -46,33 +42,28 @@ function App() {
 
       
       <GridItem area={'main'}>
-        {/* Indlæsningsindikator og fejlmeddelelse */}
-        {isLoading && <p>Loading...</p>}
-        {error && <p>Error: {error}</p>}
 
-        {/* Mapper over albums og rendere et LPCard for hvert album */}
-        {!isLoading && albums.length > 0 && (
-          <Grid templateColumns="repeat(auto-fill, minmax(200px, 1fr))" gap={6}>
-            {albums.map((album) => (
-              <LPCard key={album.album_id} album={album} />
-            ))}
-          </Grid>
-        )}
+      <LPGrid lpQuery={lpQuery}/>
+
       </GridItem>
 
       <GridItem area={"aside"}>
      
-        {/* CustomList for Album Units */}
+        
         <CustomList
           title="Album Units"
           useDataHook={useAlbumUnits}
-          selectedItems={LpQuery.albumUnits} // Opdateret til `selectedItems`
+          selectedItems={lpQuery.albumUnits} 
           onSelectItem={(selectedAlbumUnits) =>
-            setLpQuery({ ...LpQuery, albumUnits: selectedAlbumUnits }) // Opdateret til at tage en liste
+            setLpQuery({ ...lpQuery, albumUnits: selectedAlbumUnits }) 
           }
         />
 
       </GridItem>
+
+      
+      
+
 
       <GridItem area={'footer'}>{/* Eventuelt indhold i footer */}</GridItem>
     </Grid>
