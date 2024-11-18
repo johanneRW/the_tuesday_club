@@ -1,14 +1,28 @@
+import { useState } from 'react';
 import { Grid, GridItem } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import Banner from './components/Banner';
 import LPCard from './components/LPCard';
 import SearchBar from './components/searchBar';
 import useAlbums from './hooks/useAlbums';
+import useAlbumUnits, {AlbumUnit} from './hooks/useAlbumUnits';
+import CustomList from './components/reusableComponents/CoustomList';
 
+export interface LpQuery {
+  albumUnits: AlbumUnit | null;
+  
+}
 
 function App() {
   // Hent albumdata ved at bruge useAlbums-hooket
   const { data: albums, error, isLoading } = useAlbums();
+
+  // State til det valgte album unit
+  const [LpQuery, setLpQuery] = useState({
+    albumUnits: [] as AlbumUnit[], // Start som en tom liste af AlbumUnit
+    // andre properties
+  });
+  
 
   return (
     <Grid
@@ -30,10 +44,7 @@ function App() {
         <NavBar />
       </GridItem>
 
-      <GridItem area={'aside'}>
-        <SearchBar />
-      </GridItem>
-
+      
       <GridItem area={'main'}>
         {/* Indlæsningsindikator og fejlmeddelelse */}
         {isLoading && <p>Loading...</p>}
@@ -47,6 +58,20 @@ function App() {
             ))}
           </Grid>
         )}
+      </GridItem>
+
+      <GridItem area={"aside"}>
+     
+        {/* CustomList for Album Units */}
+        <CustomList
+          title="Album Units"
+          useDataHook={useAlbumUnits}
+          selectedItems={LpQuery.albumUnits} // Opdateret til `selectedItems`
+          onSelectItem={(selectedAlbumUnits) =>
+            setLpQuery({ ...LpQuery, albumUnits: selectedAlbumUnits }) // Opdateret til at tage en liste
+          }
+        />
+
       </GridItem>
 
       <GridItem area={'footer'}>{/* Eventuelt indhold i footer */}</GridItem>
