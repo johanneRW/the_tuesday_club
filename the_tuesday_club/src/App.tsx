@@ -2,21 +2,21 @@ import { useState } from 'react';
 import { Grid, GridItem } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import Banner from './components/Banner';
-import LPCard from './components/LPCard';
-import SearchBar from './components/searchBar';
-import useAlbums from './hooks/useAlbums';
 import useAlbumUnits, {AlbumUnit} from './hooks/useAlbumUnits';
 import CustomList from './components/reusableComponents/CoustomList';
 import LPGrid from './components/LPGrid';
 import useAlbumFormats, { AlbumFormat } from './hooks/useAlbumFormats';
 import useAlbumLabels, { AlbumLabel } from './hooks/useAlbumLabels';
 import useAlbumArtists, { AlbumArtist } from './hooks/useAlbumArtists';
+import { usePriceRange } from './hooks/usePriceRange';
+import PriceSlider from './components/PriceSlider';
 
 export interface LpQuery {
   albumUnits: AlbumUnit [];
   albumFormats: AlbumFormat [];
   albumLabels:AlbumLabel []; 
   albumArtists:AlbumArtist []; 
+  priceRange: [number, number] | undefined; 
 }
 
 
@@ -91,13 +91,20 @@ function App() {
           }
         />
 
+        
+<PriceSlider
+        title="Price Range"
+        useDataHook={usePriceRange}
+        selectedRange={lpQuery.priceRange}
+        onSelectRange={(range) => 
+          setLpQuery((prev) => ({ ...prev, priceRange: range }))
+        }
+      />
+
 
       </GridItem>
 
       
-      
-
-
       <GridItem area={'footer'}>{/* Eventuelt indhold i footer */}</GridItem>
     </Grid>
   );

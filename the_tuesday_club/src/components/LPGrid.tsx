@@ -10,8 +10,9 @@ interface Props {
 }
 
 const LPGrid = ({ lpQuery }: Props) => {
-  const { data: albums, error, isLoading } = useAlbums(lpQuery);
+  const { albums, error, isLoading } = useAlbums(lpQuery);
 
+  // Brug skeletons, hvis der indlæses
   const skeletons = [...Array(20).keys()];
 
   return (
@@ -20,8 +21,10 @@ const LPGrid = ({ lpQuery }: Props) => {
       spacing={3}
       padding={10}
     >
+      {/* Fejlmeddelelse */}
       {error && <p>{error}</p>}
 
+      {/* Viser skeletkort ved indlæsning */}
       {isLoading &&
         skeletons.map((skeleton) => (
           <LPCardContainer key={skeleton}>
@@ -29,12 +32,21 @@ const LPGrid = ({ lpQuery }: Props) => {
           </LPCardContainer>
         ))}
 
-      {albums.map((album) => (
-        <LPCardContainer key={album.album_id}>
-          <LPCard album={album} />
-        </LPCardContainer>
-      ))}
+      {/* Vis albums når de er indlæst */}
+      {!isLoading && albums.length > 0 &&
+        albums.map((album) => (
+          <LPCardContainer key={album.album_id}>
+            <LPCard album={album} />
+          </LPCardContainer>
+        ))
+      }
+
+      {/* Vis besked hvis ingen albums opfylder søgningen */}
+      {!isLoading && albums.length === 0 && (
+        <p>No albums found.</p>
+      )}
     </SimpleGrid>
   );
 };
-export default LPGrid
+
+export default LPGrid;
