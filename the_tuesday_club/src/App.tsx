@@ -8,7 +8,7 @@ import useAlbums from './hooks/useAlbums';
 import useAlbumUnits, {AlbumUnit} from './hooks/useAlbumUnits';
 import CustomList from './components/reusableComponents/CoustomList';
 import LPGrid from './components/LPGrid';
-import useAlbumFormats, { AlbumFormat } from './hooks/useFormats';
+import useAlbumFormats, { AlbumFormat } from './hooks/useAlbumFormats';
 import useAlbumLabels, { AlbumLabel } from './hooks/useAlbumLabels';
 import useAlbumArtists, { AlbumArtist } from './hooks/useAlbumArtists';
 
