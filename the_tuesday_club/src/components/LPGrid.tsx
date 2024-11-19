@@ -17,7 +17,7 @@ const LPGrid = ({ lpQuery }: Props) => {
 
   return (
     <SimpleGrid
-      columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+      columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
       spacing={3}
       padding={10}
     >

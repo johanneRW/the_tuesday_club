@@ -28,11 +28,11 @@ function App() {
   return (
     <Grid
       templateAreas={`
-          "banner banner"
-          "nav nav"
-          "aside main"
+          "banner banner "
+          "nav nav "
+          "aside main "
           "footer footer"`}
-      gridTemplateColumns={'150px 1fr'}
+      gridTemplateColumns={'190px 1fr'}
       h="200px"
       gap="1"
       fontWeight="bold"

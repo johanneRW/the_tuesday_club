@@ -24,8 +24,8 @@ const LPPlaceholder = ({ format }: LPPlaceholderProps) => {
 
   return (
     <Box
-      width="200px"
-      height="200px"
+      width="210px"
+      height="210px"
       bg="gray.300"
       display="flex"
       alignItems="center"
@@ -36,7 +36,7 @@ const LPPlaceholder = ({ format }: LPPlaceholderProps) => {
         src={selectedImage} // Dynamisk valgt billede baseret på format
         alt="Cover not found"
         objectFit="contain"
-        width="100%"
+        width="90%"
       />
     </Box>
   );

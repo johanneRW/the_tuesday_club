@@ -28,9 +28,8 @@ const CustomList = <
   const [isExpanded, setIsExpanded] = useState(false);
   const { data: items, error, isLoading } = useDataHook();
 
-
+  // Viser kun de første 5 elementer, medmindre isExpanded er true
   const displayedItems = isExpanded ? items : items.slice(0, 5);
-
 
   const handleSelectItem = (item: T) => {
     const isAlreadySelected = selectedItems.some(
@@ -71,9 +70,12 @@ const CustomList = <
             </HStack>
           </ListItem>
         ))}
-        <Button onClick={() => setIsExpanded(!isExpanded)}>
-          {isExpanded ? "Show less" : "Show more"}
-        </Button>
+        {/* Vis kun knappen "Show More" hvis der er flere end 5 elementer */}
+        {items.length > 5 && (
+          <Button onClick={() => setIsExpanded(!isExpanded)} mt={2}>
+            {isExpanded ? "Show less" : "Show more"}
+          </Button>
+        )}
       </List>
     </Box>
   );
