@@ -93,7 +93,6 @@ function App() {
 
         
 <PriceSlider
-        title="Price Range"
         useDataHook={usePriceRange}
         selectedRange={lpQuery.priceRange}
         onSelectRange={(range) => 
