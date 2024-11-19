@@ -1,9 +1,8 @@
 import useData from "./useData";
 
-// Interface til album_units data
 export interface AlbumFormat {
-  id: string;         // id er det samme som album_units
-  name: string;       // name er det samme som album_units
+  id: string;
+  name: string;
 }
 
 const useAlbumFormats = () => {
