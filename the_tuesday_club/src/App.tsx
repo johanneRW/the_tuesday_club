@@ -10,11 +10,13 @@ import CustomList from './components/reusableComponents/CoustomList';
 import LPGrid from './components/LPGrid';
 import useAlbumFormats, { AlbumFormat } from './hooks/useFormats';
 import useAlbumLabels, { AlbumLabel } from './hooks/useAlbumLabels';
+import useAlbumArtists, { AlbumArtist } from './hooks/useAlbumArtists';
 
 export interface LpQuery {
   albumUnits: AlbumUnit [];
   albumFormats: AlbumFormat [];
   albumLabels:AlbumLabel []; 
+  albumArtists:AlbumArtist []; 
 }
 
 
@@ -80,6 +82,14 @@ function App() {
           }
         />
 
+<CustomList
+          title="Album Artist"
+          useDataHook={useAlbumArtists}
+          selectedItems={lpQuery.albumArtists} 
+          onSelectItem={(selectedAlbumArtists) =>
+            setLpQuery({ ...lpQuery, albumArtists: selectedAlbumArtists }) 
+          }
+        />
 
 
       </GridItem>

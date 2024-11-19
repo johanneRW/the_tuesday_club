@@ -17,8 +17,9 @@ const useAlbums = (lpQuery: LpQuery) =>
     {
       params: {
         album_units: (lpQuery.albumUnits || []).map((unit) => unit.id),  // Sendes som array direkte
-        format_name: (lpQuery.albumFormats || []).map((unit) => unit.id),  
-        label_name: (lpQuery.albumLabels || []).map((unit) => unit.id),   
+        format_name: (lpQuery.albumFormats || []).map((format) => format.id),  
+        label_name: (lpQuery.albumLabels || []).map((label) => label.id), 
+        artist_name: (lpQuery.albumArtists || []).map((name) => name.id),    
        
       },
     },
