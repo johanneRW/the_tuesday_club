@@ -93,12 +93,10 @@ function App() {
 
         
 <PriceSlider
-        useDataHook={usePriceRange}
-        selectedRange={lpQuery.priceRange}
-        onSelectRange={(range) => 
-          setLpQuery((prev) => ({ ...prev, priceRange: range }))
-        }
-      />
+          title={'Price Range'}
+          useDataHook={usePriceRange}
+          selectedRange={lpQuery.priceRange}
+          onSelectRange={(range) => setLpQuery((prev) => ({ ...prev, priceRange: range }))}       />
 
 
       </GridItem>

@@ -8,29 +8,41 @@ import {
   RangeSliderFilledTrack,
   RangeSliderThumb,
   Text,
+  Button,
 } from "@chakra-ui/react";
 
-interface CustomRangeSliderProps {
- 
+interface PriceSliderProps {
+  title: string;
   useDataHook: () => { minPrice: number | undefined; maxPrice: number | undefined; isLoading: boolean; error: string | null };
   selectedRange: [number, number] | undefined;
   onSelectRange: (range: [number, number]) => void;
 }
 
-const CustomRangeSlider = ({  useDataHook, selectedRange, onSelectRange }: CustomRangeSliderProps) => {
+const PriceSlider = ({ title, useDataHook, selectedRange, onSelectRange }: PriceSliderProps) => {
   const { minPrice, maxPrice, isLoading, error } = useDataHook();
 
   const [range, setRange] = useState<[number, number] | undefined>(selectedRange);
 
+  // Sætter range til min og max værdier fra API'et, når de er hentet
   useEffect(() => {
     if (minPrice !== undefined && maxPrice !== undefined && !selectedRange) {
       setRange([minPrice, maxPrice]);
     }
   }, [selectedRange, minPrice, maxPrice]);
 
+  // Funktion til at håndtere ændring af intervallet
   const handleRangeChange = (value: [number, number]) => {
     setRange(value);
     onSelectRange(value);
+  };
+
+  // Reset til min og max værdier
+  const resetRange = () => {
+    if (minPrice !== undefined && maxPrice !== undefined) {
+      const resetValue: [number, number] = [minPrice, maxPrice];
+      setRange(resetValue);
+      onSelectRange(resetValue);
+    }
   };
 
   if (isLoading) return <Spinner />;
@@ -38,14 +50,14 @@ const CustomRangeSlider = ({  useDataHook, selectedRange, onSelectRange }: Custo
 
   return (
     <Box padding={4}>
-      <Heading size="xs">Price Range</Heading>
-      <Text fontSize="sm">  {range ? `${range[0]} kr - ${range[1]} kr` : ""}</Text>
+      <Heading size="xs">{title}</Heading>
+      <Text fontSize="sm">{range ? `${range[0]} kr - ${range[1]} kr` : ""}</Text>
 
       {range && minPrice !== undefined && maxPrice !== undefined && (
         <RangeSlider
           min={minPrice}
           max={maxPrice}
-          step={10}
+          step={1}
           value={range}
           onChange={handleRangeChange}
         >
@@ -56,8 +68,12 @@ const CustomRangeSlider = ({  useDataHook, selectedRange, onSelectRange }: Custo
           <RangeSliderThumb index={1} />
         </RangeSlider>
       )}
+      {/* Reset-knap */}
+      <Button onClick={resetRange} mt={4} colorScheme="blue" size="sm">
+        Reset range
+      </Button>
     </Box>
   );
 };
 
-export default CustomRangeSlider;
+export default PriceSlider;
