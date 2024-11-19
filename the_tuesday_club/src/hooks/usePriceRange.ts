@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import apiClient from "../services/api-client"; // Brug apiClient i stedet for axios
 
 export const usePriceRange = () => {
-  const [minPrice, setMinPrice] = useState<number | undefined>(0);
-  const [maxPrice, setMaxPrice] = useState<number | undefined>(1000);
+  const [minPrice, setMinPrice] = useState<number>(0); // Standardværdi 0
+  const [maxPrice, setMaxPrice] = useState<number>(1000); // Standardværdi 1000
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
