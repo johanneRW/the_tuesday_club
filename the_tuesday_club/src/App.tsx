@@ -8,9 +8,11 @@ import useAlbums from './hooks/useAlbums';
 import useAlbumUnits, {AlbumUnit} from './hooks/useAlbumUnits';
 import CustomList from './components/reusableComponents/CoustomList';
 import LPGrid from './components/LPGrid';
+import useAlbumFormats, { AlbumFormat } from './hooks/useFormats';
 
 export interface LpQuery {
   albumUnits: AlbumUnit [];
+  albumFormats: AlbumFormat [];
   
 }
 
@@ -56,6 +58,15 @@ function App() {
           selectedItems={lpQuery.albumUnits} 
           onSelectItem={(selectedAlbumUnits) =>
             setLpQuery({ ...lpQuery, albumUnits: selectedAlbumUnits }) 
+          }
+        />
+
+<CustomList
+          title="Album Formats"
+          useDataHook={useAlbumFormats}
+          selectedItems={lpQuery.albumFormats} 
+          onSelectItem={(selectedAlbumFormats) =>
+            setLpQuery({ ...lpQuery, albumFormats: selectedAlbumFormats }) 
           }
         />
 

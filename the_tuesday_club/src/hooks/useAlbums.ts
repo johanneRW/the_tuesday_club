@@ -16,7 +16,8 @@ const useAlbums = (lpQuery: LpQuery) =>
     "/api/albums",
     {
       params: {
-        album_units: (lpQuery.albumUnits || []).map((unit) => unit.id),   // Sendes som array direkte
+        album_units: (lpQuery.albumUnits || []).map((unit) => unit.id),  // Sendes som array direkte
+        format_name: (lpQuery.albumFormats || []).map((unit) => unit.id),    
        
       },
     },
