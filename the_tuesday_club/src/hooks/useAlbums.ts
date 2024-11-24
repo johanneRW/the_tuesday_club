@@ -8,14 +8,21 @@ export interface Album {
   album_units: number;
   format_name: string;
   label_name: string;
-  album_price: number; 
+  album_price: number;
 }
 
-const useAlbums = (lpQuery: LpQuery) => {
-  const { data: albums, totalPages, currentPage, error, isLoading } = useData<Album>(
+export interface AlbumsResponse {
+  albums: Album[];
+  current_page: number;
+  total_pages: number;
+}
+
+const useAlbums = (lpQuery: LpQuery, page: number) => {
+  const { data, totalPages, currentPage, error, isLoading } = useData<Album>(
     "/api/albums",
     {
       params: {
+        page,
         album_units: (lpQuery.albumUnits || []).map((unit) => unit.id),
         format_name: (lpQuery.albumFormats || []).map((format) => format.id),
         label_name: (lpQuery.albumLabels || []).map((label) => label.id),
@@ -24,10 +31,17 @@ const useAlbums = (lpQuery: LpQuery) => {
         max_price: lpQuery.priceRange ? lpQuery.priceRange[1] : undefined,
       },
     },
-    [lpQuery]
+    [lpQuery, page],
+    true // Angiv at data er pagineret
   );
 
-  return { albums, totalPages, currentPage, error, isLoading };
+  return {
+    albums: data,
+    currentPage,
+    totalPages,
+    error,
+    isLoading,
+  };
 };
 
 export default useAlbums;

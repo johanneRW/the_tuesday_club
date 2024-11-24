@@ -16,7 +16,8 @@ export interface LpQuery {
   albumFormats: AlbumFormat [];
   albumLabels:AlbumLabel []; 
   albumArtists:AlbumArtist []; 
-  priceRange: [number, number] | undefined; 
+  priceRange: [number, number] | undefined;
+  page: number | undefined
 }
 
 
