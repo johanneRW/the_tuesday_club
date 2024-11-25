@@ -77,47 +77,7 @@ def list_albums(
         "albums": list(page_obj.object_list),
     }
     
-# def create_or_query(field_name: str, values: List[str]) -> Q:
-#     query = Q()
-#     for value in values:
-#         query |= Q(**{f"{field_name}__icontains": value})
-#     return query
-
-# @api.get("/albums", response=List[AlbumSchema])
-# def list_albums(
-#     request,
-#     album_name: Optional[str] = None,
-#     min_price: Optional[Decimal] = None,
-#     max_price: Optional[Decimal] = None,
-# ):
-#     albums = AlbumView.objects.all()
     
-#     # Filtrér baseret på tilgængelige søgeparametre
-#     if album_name:
-#         albums = albums.filter(album_name__icontains=album_name)
-
-#     filter_params = {
-#         'artist_name': request.GET.getlist('artist_name'),
-#         'album_units': request.GET.getlist('album_units'),
-#         'format_name': request.GET.getlist('format_name'),
-#         'label_name': request.GET.getlist('label_name'),
-#     }
-
-#     for field, values in filter_params.items():
-#         if values:
-#             albums = albums.filter(create_or_query(field, values))
-
-#     if min_price:
-#         albums = albums.filter(album_price__gte=min_price)
-
-#     if max_price:
-#         albums = albums.filter(album_price__lte=max_price)
-        
-#     # Sorter albums alfabetisk efter `album_name`
-#     albums = albums.order_by('album_name', 'album_units')
-    
-#     return albums
-
 
 class LabelNameSchema(Schema):
     label_name: str
