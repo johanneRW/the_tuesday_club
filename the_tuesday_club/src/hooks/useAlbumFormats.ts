@@ -1,4 +1,5 @@
-import useData from "./useData";
+import useData from "./reuseableHooks/useData";
+
 
 export interface AlbumFormat {
   id: string;

@@ -1,11 +1,12 @@
 import { SimpleGrid } from "@chakra-ui/react";
-import useAlbums, { Album } from "../hooks/useAlbums";
+
 import LPCard from "./LPCard";
 import LPCardContainer from "./LPCardContainer";
 import LPCardSkeleton from "./LPCardSkeleton";
 import LoadMoreButton from "./LoadMoreButton";
 import { LpQuery } from "../App";
 import { useState, useEffect } from "react";
+import useAlbums, { Album } from "../hooks/useAlbums";
 
 interface Props {
   lpQuery: LpQuery; // De filtre brugeren vælger

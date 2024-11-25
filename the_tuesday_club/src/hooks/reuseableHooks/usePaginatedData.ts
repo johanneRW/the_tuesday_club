@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import apiClient from "../services/api-client";
+import apiClient from "../../services/api-client";
 import { AxiosRequestConfig } from "axios";
 
 type PaginatedResponse<T> = {
   total_pages: number;
   current_page: number;
-  albums: T[];
+  items: T[]; // Generaliseret navn for datafeltet
 };
-
 
 const usePaginatedData = <T>(
   endpoint: string,
+  dataKey: string, // Tilføjet for fleksibilitet
   requestConfig?: AxiosRequestConfig,
-  dependencies: any[] = [],
+  dependencies: any[] = []
 ) => {
   const [data, setData] = useState<T[]>([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -24,14 +24,12 @@ const usePaginatedData = <T>(
     setIsLoading(true);
 
     apiClient
-      .get<PaginatedResponse<T> >(endpoint, { ...requestConfig })
+      .get<PaginatedResponse<T>>(endpoint, { ...requestConfig })
       .then((response) => {
-       
-          const paginatedResponse = response.data as PaginatedResponse<T>;
-          setData(paginatedResponse.albums);
-          setTotalPages(paginatedResponse.total_pages);
-          setCurrentPage(paginatedResponse.current_page);
-        
+        const paginatedResponse = response.data as any;
+        setData(paginatedResponse[dataKey] || []); // Dynamisk hent data baseret på dataKey
+        setTotalPages(paginatedResponse.total_pages || 0);
+        setCurrentPage(paginatedResponse.current_page || 1);
       })
       .catch((error) => setError(error.message))
       .finally(() => setIsLoading(false));

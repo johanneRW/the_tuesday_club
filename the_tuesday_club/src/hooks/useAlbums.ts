@@ -1,5 +1,5 @@
 import { LpQuery } from "../App";
-import usePaginatedData from "./usePaginatedData";
+import usePaginatedData from "./reuseableHooks/usePaginatedData";
 
 export interface Album {
   album_id: string;
@@ -20,6 +20,7 @@ export interface AlbumsResponse {
 const useAlbums = (lpQuery: LpQuery, page: number) => {
   const { data, totalPages, currentPage, error, isLoading } = usePaginatedData<Album>(
     "/api/albums",
+    "albums", // Specificerer dataKey
     {
       params: {
         page,
@@ -31,7 +32,7 @@ const useAlbums = (lpQuery: LpQuery, page: number) => {
         max_price: lpQuery.priceRange ? lpQuery.priceRange[1] : undefined,
       },
     },
-    [lpQuery, page],
+    [lpQuery, page], // Dependencies
   );
 
   return {

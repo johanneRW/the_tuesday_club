@@ -1,4 +1,5 @@
-import useData from "./useData";
+import useData from "./reuseableHooks/useData";
+
 
 // Interface til album_units data
 export interface AlbumUnit {
