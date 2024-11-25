@@ -1,5 +1,4 @@
 import { SimpleGrid } from "@chakra-ui/react";
-
 import LPCard from "./LPCard";
 import LPCardContainer from "./LPCardContainer";
 import LPCardSkeleton from "./LPCardSkeleton";
@@ -18,13 +17,13 @@ const LPGrid = ({ lpQuery }: Props) => {
 
   const { albums, totalPages, isLoading, error } = useAlbums(lpQuery, currentPage);
 
-  // Reset når lpQuery ændres
+  // Reset albums, når lpQuery ændres
   useEffect(() => {
     setAllAlbums([]); // Ryd tidligere albums
     setCurrentPage(1); // Gå tilbage til første side
   }, [lpQuery]);
 
-  // Tilføj nye albums til eksisterende
+  // Tilføj nye albums til listen, når albums fra API ændres
   useEffect(() => {
     if (albums) {
       setAllAlbums((prevAlbums) => [...prevAlbums, ...albums]);
@@ -42,8 +41,10 @@ const LPGrid = ({ lpQuery }: Props) => {
   return (
     <>
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 5 }} spacing={3} padding={10}>
+        {/* Fejlmeddelelse */}
         {error && <p>{error}</p>}
 
+        {/* Vis skeletter, hvis der indlæses på første side */}
         {isLoading && currentPage === 1 &&
           skeletons.map((skeleton) => (
             <LPCardContainer key={skeleton}>
@@ -62,6 +63,7 @@ const LPGrid = ({ lpQuery }: Props) => {
         {!isLoading && allAlbums.length === 0 && <p>No albums found.</p>}
       </SimpleGrid>
       
+      {/* Load More-knap */}
       <LoadMoreButton
         isLoading={isLoading}
         hasMore={currentPage < totalPages}

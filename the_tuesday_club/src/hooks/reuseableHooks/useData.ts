@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import apiClient from "../services/api-client";
 import { AxiosRequestConfig } from "axios";
+import apiClient from "../../services/api-client";
 
 
 type ListResponse<T> = T[];

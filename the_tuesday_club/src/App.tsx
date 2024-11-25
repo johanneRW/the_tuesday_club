@@ -10,6 +10,7 @@ import useAlbumLabels, { AlbumLabel } from './hooks/useAlbumLabels';
 import useAlbumArtists, { AlbumArtist } from './hooks/useAlbumArtists';
 import { usePriceRange } from './hooks/usePriceRange';
 import PriceSlider from './components/PriceSlider';
+import SearchInput from './components/searchBar';
 
 export interface LpQuery {
   albumUnits: AlbumUnit [];
@@ -17,93 +18,97 @@ export interface LpQuery {
   albumLabels:AlbumLabel []; 
   albumArtists:AlbumArtist []; 
   priceRange: [number, number] | undefined;
-  page: number | undefined
+  page: number | undefined;
+  album_name: string;
 }
 
 
 function App() {
-  // Hent albumdata ved at bruge useAlbums-hooket
   const [lpQuery, setLpQuery] = useState<LpQuery>({} as LpQuery);
 
+  const handleSearch = (albumName: string) => {
+    setLpQuery((prev) => ({
+      ...prev,
+      album_name: albumName, // Opdater søgeparameteren
+      page: 1, // Nulstil pagination
+    }));
+  };
 
   return (
     <Grid
       templateAreas={`
-          "banner banner "
-          "nav nav "
-          "aside main "
+          "banner banner"
+          "nav nav"
+          "aside main"
           "footer footer"`}
-      gridTemplateColumns={'190px 1fr'}
+      gridTemplateColumns={"190px 1fr"}
       h="200px"
       gap="1"
       fontWeight="bold"
     >
-      <GridItem area={'banner'}>
+      <GridItem area={"banner"}>
         <Banner />
       </GridItem>
 
-      <GridItem area={'nav'}>
+      <GridItem area={"nav"}>
         <NavBar />
       </GridItem>
 
-      
-      <GridItem area={'main'}>
-
-      <LPGrid lpQuery={lpQuery}/>
-
+      <GridItem area={"main"}>
+       
+        <LPGrid lpQuery={lpQuery} />
       </GridItem>
 
       <GridItem area={"aside"}>
-     
-        
+      <SearchInput onSearch={handleSearch} />
+
         <CustomList
           title="Album Units"
           useDataHook={useAlbumUnits}
-          selectedItems={lpQuery.albumUnits} 
+          selectedItems={lpQuery.albumUnits}
           onSelectItem={(selectedAlbumUnits) =>
-            setLpQuery({ ...lpQuery, albumUnits: selectedAlbumUnits }) 
+            setLpQuery({ ...lpQuery, albumUnits: selectedAlbumUnits })
           }
         />
 
-<CustomList
+        <CustomList
           title="Album Formats"
           useDataHook={useAlbumFormats}
-          selectedItems={lpQuery.albumFormats} 
+          selectedItems={lpQuery.albumFormats}
           onSelectItem={(selectedAlbumFormats) =>
-            setLpQuery({ ...lpQuery, albumFormats: selectedAlbumFormats }) 
+            setLpQuery({ ...lpQuery, albumFormats: selectedAlbumFormats })
           }
         />
 
-<CustomList
+        <CustomList
           title="Album Labels"
           useDataHook={useAlbumLabels}
-          selectedItems={lpQuery.albumLabels} 
+          selectedItems={lpQuery.albumLabels}
           onSelectItem={(selectedAlbumLabels) =>
-            setLpQuery({ ...lpQuery, albumLabels: selectedAlbumLabels }) 
+            setLpQuery({ ...lpQuery, albumLabels: selectedAlbumLabels })
           }
         />
 
-<CustomList
-          title="Album Artist"
+        <CustomList
+          title="Album Artists"
           useDataHook={useAlbumArtists}
-          selectedItems={lpQuery.albumArtists} 
+          selectedItems={lpQuery.albumArtists}
           onSelectItem={(selectedAlbumArtists) =>
-            setLpQuery({ ...lpQuery, albumArtists: selectedAlbumArtists }) 
+            setLpQuery({ ...lpQuery, albumArtists: selectedAlbumArtists })
           }
         />
 
-        
-<PriceSlider
-          title={'Price Range'}
+        <PriceSlider
+          title={"Price Range"}
           useDataHook={usePriceRange}
           selectedRange={lpQuery.priceRange}
-          onSelectRange={(range) => setLpQuery((prev) => ({ ...prev, priceRange: range }))}       />
-
-
+          onSelectRange={(range) =>
+            setLpQuery((prev) => ({ ...prev, priceRange: range }))
+          }
+        />
       </GridItem>
 
-      
-      <GridItem area={'footer'}>{/* Eventuelt indhold i footer */}</GridItem>
+      <GridItem area={"footer"}>{/* Eventuelt indhold i footer */}</GridItem>
     </Grid>
   );
 }

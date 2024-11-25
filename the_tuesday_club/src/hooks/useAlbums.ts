@@ -30,6 +30,7 @@ const useAlbums = (lpQuery: LpQuery, page: number) => {
         artist_name: (lpQuery.albumArtists || []).map((artist) => artist.id),
         min_price: lpQuery.priceRange ? lpQuery.priceRange[0] : undefined,
         max_price: lpQuery.priceRange ? lpQuery.priceRange[1] : undefined,
+        album_name: lpQuery.album_name || undefined, 
       },
     },
     [lpQuery, page], // Dependencies
