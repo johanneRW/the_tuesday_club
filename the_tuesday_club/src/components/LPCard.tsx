@@ -32,14 +32,9 @@ const LPCard = ({ album }: Props) => {
         </CardBody>
         <Divider />
         <CardFooter>
-          <ButtonGroup spacing='2'>
             <Button variant='solid' colorScheme='blue' size='sm'>
-              Add to cart
+              Add to pile
             </Button>
-            <Button variant='ghost' colorScheme='blue' size='sm'>
-              ♥ Add to wishlist
-            </Button>
-          </ButtonGroup>
         </CardFooter>
       </Card>
     );
