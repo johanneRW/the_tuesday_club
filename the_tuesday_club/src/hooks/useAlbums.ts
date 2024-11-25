@@ -1,5 +1,5 @@
 import { LpQuery } from "../App";
-import useData from "./useData";
+import usePaginatedData from "./usePaginatedData";
 
 export interface Album {
   album_id: string;
@@ -18,7 +18,7 @@ export interface AlbumsResponse {
 }
 
 const useAlbums = (lpQuery: LpQuery, page: number) => {
-  const { data, totalPages, currentPage, error, isLoading } = useData<Album>(
+  const { data, totalPages, currentPage, error, isLoading } = usePaginatedData<Album>(
     "/api/albums",
     {
       params: {
@@ -32,7 +32,6 @@ const useAlbums = (lpQuery: LpQuery, page: number) => {
       },
     },
     [lpQuery, page],
-    true // Angiv at data er pagineret
   );
 
   return {
