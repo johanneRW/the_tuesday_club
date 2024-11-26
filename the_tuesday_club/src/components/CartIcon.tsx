@@ -79,7 +79,7 @@ const CartIcon = () => {
                   >
                     <Box>
                       <Text fontWeight="bold">{capitalizeWords(item.album_name)}</Text>
-                      <Text >{item.artist_name}</Text>
+                      <Text >{capitalizeWords(item.artist_name)}</Text>
                       <Text fontSize="sm" color="gray.500">
                         {count} × {item.album_price.toLocaleString("da-DK")} kr
                       </Text>
