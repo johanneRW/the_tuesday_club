@@ -12,6 +12,7 @@ import {
   Button,
   VStack,
   Text,
+  HStack,
 } from "@chakra-ui/react";
 import { HiSquare3Stack3D } from "react-icons/hi2";
 import { useCart } from "./CartContext";
@@ -19,7 +20,13 @@ import { useCart } from "./CartContext";
 
 const CartIcon = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { cart, removeFromCart } = useCart(); // Tilføj removeFromCart fra CartContext
+  const { cart, removeFromCart } = useCart();
+
+  // Beregn totalpris
+  const totalPrice = cart.reduce(
+    (sum, { item, count }) => sum + item.album_price * count,
+    0
+  );
 
   // Åben og luk dialog
   const openCart = () => setIsOpen(true);
@@ -27,9 +34,9 @@ const CartIcon = () => {
 
   return (
     <Box position="relative">
-      {/* bunke-ikon */}
+      {/* Kurv-ikon */}
       <IconButton
-        icon={<HiSquare3Stack3D/>}
+        icon={<HiSquare3Stack3D />}
         aria-label="View cart"
         onClick={openCart}
       />
@@ -43,7 +50,7 @@ const CartIcon = () => {
           borderRadius="full"
           px="2"
         >
-          {cart.length}
+          {cart.reduce((sum, { count }) => sum + count, 0)} {/* Total antal */}
         </Badge>
       )}
 
@@ -57,7 +64,7 @@ const CartIcon = () => {
               <Text>Your cart is empty.</Text>
             ) : (
               <VStack spacing="4" align="stretch">
-                {cart.map((item) => (
+                {cart.map(({ item, count }) => (
                   <Box
                     key={item.album_id}
                     p="2"
@@ -70,16 +77,16 @@ const CartIcon = () => {
                     <Box>
                       <Text fontWeight="bold">{item.album_name}</Text>
                       <Text>{item.artist_name}</Text>
-                      <Text color="gray.500" fontSize="sm">
-                        {item.album_price} kr
+                      <Text fontSize="sm" color="gray.500">
+                        {count} × {item.album_price.toLocaleString("da-DK")} kr
                       </Text>
                     </Box>
                     <Button
                       size="sm"
                       colorScheme="red"
-                      onClick={() => removeFromCart(item.album_id)} // Fjern varen fra kurven
+                      onClick={() => removeFromCart(item.album_id)}
                     >
-                      Remove
+                      {count > 1 ? "Remove 1" : "Remove"}
                     </Button>
                   </Box>
                 ))}
@@ -87,6 +94,15 @@ const CartIcon = () => {
             )}
           </ModalBody>
           <ModalFooter>
+            {/* Totalpris */}
+            {cart.length > 0 && (
+              <HStack justifyContent="space-between" w="100%" p="2">
+                <Text fontWeight="bold">Total Price:</Text>
+                <Text fontWeight="bold" color="blue.500">
+                  {totalPrice.toLocaleString("da-DK")} kr
+                </Text>
+              </HStack>
+            )}
             <Button variant="solid" colorScheme="blue" onClick={closeCart}>
               Close
             </Button>
@@ -94,9 +110,7 @@ const CartIcon = () => {
               variant="outline"
               colorScheme="green"
               ml="3"
-              onClick={() => {
-                console.log("Navigate to detailed cart view");
-              }}
+              onClick={() => console.log("Navigate to detailed cart view")}
             >
               To cart
             </Button>
