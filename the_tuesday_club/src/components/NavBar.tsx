@@ -16,6 +16,9 @@ const NavBar = () => {
       <Button variant="ghost" as={Link} to="/signup">
         Signup
       </Button>
+      <Button variant="ghost" as={Link} to="/admindashboard">
+        Admin Dashboard
+      </Button>
 
       <Spacer />
       {/* skal muligvis ikke vises i navbaren da man kan tilgå den via carticon */}

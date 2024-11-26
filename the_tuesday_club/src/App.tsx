@@ -7,6 +7,8 @@ import CartPage from "./pages/CartPage";
 import { CartProvider } from "./components/CartContext";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPages";
+import AdminDashboardPage from "./pages/AdminDashBoardPage";
+
 
 function App() {
   return (
@@ -39,7 +41,8 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/cart" element={<CartPage />} />   
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignupPage />} />      
+              <Route path="/signup" element={<SignupPage />} />  
+              <Route path="/admindashboard" element={<AdminDashboardPage/>} />    
             </Routes>
           </GridItem>
 
