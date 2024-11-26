@@ -69,6 +69,7 @@ const CartIcon = () => {
                   >
                     <Box>
                       <Text fontWeight="bold">{item.album_name}</Text>
+                      <Text>{item.artist_name}</Text>
                       <Text color="gray.500" fontSize="sm">
                         {item.album_price} kr
                       </Text>

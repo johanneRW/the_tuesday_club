@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 import useAlbums, { Album } from "../hooks/useAlbums";
 
 interface Props {
-  lpQuery: LpQuery; // De filtre brugeren vælger
+  lpQuery: LpQuery;
 }
 
 const LPGrid = ({ lpQuery }: Props) => {

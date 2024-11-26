@@ -25,8 +25,8 @@ const LPCard = ({ album }: Props) => {
           <ImagePlaceholder format={album.format_name} />
         </Box>
         <Stack mt="3" spacing="1">
-          <Heading fontSize="xl">{album.album_name}</Heading>
-          <Text fontSize="l">{album.artist_name}</Text>
+          <Heading fontSize="xl">{capitalizeWords(album.album_name)}</Heading>
+          <Text fontSize="l">{capitalizeWords(album.artist_name)}</Text>
           <Text>
             {album.album_units} • {album.format_name}
           </Text>

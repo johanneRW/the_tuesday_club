@@ -5,12 +5,12 @@ import { AxiosRequestConfig } from "axios";
 type PaginatedResponse<T> = {
   total_pages: number;
   current_page: number;
-  items: T[]; // Generaliseret navn for datafeltet
+  items: T[]; 
 };
 
 const usePaginatedData = <T>(
   endpoint: string,
-  dataKey: string, // Tilføjet for fleksibilitet
+  dataKey: string,
   requestConfig?: AxiosRequestConfig,
   dependencies: any[] = []
 ) => {
@@ -27,7 +27,7 @@ const usePaginatedData = <T>(
       .get<PaginatedResponse<T>>(endpoint, { ...requestConfig })
       .then((response) => {
         const paginatedResponse = response.data as any;
-        setData(paginatedResponse[dataKey] || []); // Dynamisk hent data baseret på dataKey
+        setData(paginatedResponse[dataKey] || []); 
         setTotalPages(paginatedResponse.total_pages || 0);
         setCurrentPage(paginatedResponse.current_page || 1);
       })

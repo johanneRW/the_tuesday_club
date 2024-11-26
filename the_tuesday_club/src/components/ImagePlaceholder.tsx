@@ -1,4 +1,3 @@
-// LPPlaceholder.tsx
 import { Box, Image } from "@chakra-ui/react";
 import recordttc from "../assets/recordttc.webp";
 import seveninch from "../assets/seveninch.webp";
@@ -33,7 +32,7 @@ const LPPlaceholder = ({ format }: LPPlaceholderProps) => {
       borderRadius="md"
     >
       <Image
-        src={selectedImage} // Dynamisk valgt billede baseret på format
+        src={selectedImage} // billede baseret på format
         alt="Cover not found"
         objectFit="contain"
         width="90%"

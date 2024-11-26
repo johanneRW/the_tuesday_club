@@ -1,8 +1,4 @@
-import React, { useState } from "react";
 import { Button, Spinner } from "@chakra-ui/react";
-import useAlbums, { Album } from "../hooks/useAlbums";
-import { LpQuery } from "../App";
-
 
 interface LoadMoreButtonProps {
   isLoading: boolean; // Indikerer, om der indlæses

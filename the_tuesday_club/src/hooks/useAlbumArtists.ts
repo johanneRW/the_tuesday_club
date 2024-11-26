@@ -1,7 +1,6 @@
 import useData from "./reuseableHooks/useData";
 
 
-
 export interface AlbumArtist {
   id: string;        
   name: string;       

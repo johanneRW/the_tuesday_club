@@ -1,4 +1,4 @@
-import { Box, HStack, Image} from "@chakra-ui/react";
+import { Box, Image} from "@chakra-ui/react";
 import tirsdagsklubben from "../assets/tirsdagsklubben.jpeg";
 import ColorModeSwitch from "./ColorModeSwitch";
 

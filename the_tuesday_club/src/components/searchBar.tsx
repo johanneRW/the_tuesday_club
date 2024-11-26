@@ -19,7 +19,7 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      handleSearch(); // Udløs søgeforespørgsel ved Enter
+      handleSearch(); 
     }
   };
 
@@ -29,7 +29,7 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
         placeholder="Search by album name..."
         value={value}
         onChange={handleInputChange}
-        onKeyDown={handleKeyDown} // Lyt efter Enter
+        onKeyDown={handleKeyDown} 
       />
       <Button onClick={handleSearch} aria-label="Search">
         <SearchIcon />

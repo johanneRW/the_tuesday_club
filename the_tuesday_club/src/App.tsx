@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Grid, GridItem } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import Banner from './components/Banner';
-import useAlbumUnits, {AlbumUnit} from './hooks/useAlbumUnits';
+import useAlbumUnits, { AlbumUnit } from './hooks/useAlbumUnits';
 import CustomList from './components/reusableComponents/CoustomList';
 import LPGrid from './components/LPGrid';
 import useAlbumFormats, { AlbumFormat } from './hooks/useAlbumFormats';
@@ -14,10 +14,10 @@ import SearchInput from './components/searchBar';
 import { CartProvider } from './components/CartContext';
 
 export interface LpQuery {
-  albumUnits: AlbumUnit [];
-  albumFormats: AlbumFormat [];
-  albumLabels:AlbumLabel []; 
-  albumArtists:AlbumArtist []; 
+  albumUnits: AlbumUnit[];
+  albumFormats: AlbumFormat[];
+  albumLabels: AlbumLabel[];
+  albumArtists: AlbumArtist[];
   priceRange: [number, number] | undefined;
   page: number | undefined;
   album_name: string;
@@ -47,22 +47,22 @@ function App() {
       gap="1"
       fontWeight="bold"
     >
-       <CartProvider>
-      <GridItem area={"banner"}>
-        <Banner />
-      </GridItem>
+      <CartProvider>
+        <GridItem area={"banner"}>
+          <Banner />
+        </GridItem>
 
-      <GridItem area={"nav"}>
-        <NavBar />
-      </GridItem>
-     
-      <GridItem area={"main"}>
-       
-        <LPGrid lpQuery={lpQuery} />
-      </GridItem>
- </CartProvider>
+        <GridItem area={"nav"}>
+          <NavBar />
+        </GridItem>
+
+        <GridItem area={"main"}>
+
+          <LPGrid lpQuery={lpQuery} />
+        </GridItem>
+      </CartProvider>
       <GridItem area={"aside"}>
-      <SearchInput onSearch={handleSearch} />
+        <SearchInput onSearch={handleSearch} />
 
         <CustomList
           title="Album Units"
@@ -109,7 +109,7 @@ function App() {
           }
         />
       </GridItem>
-      
+
 
       <GridItem area={"footer"}>{/* Eventuelt indhold i footer */}</GridItem>
     </Grid>
