@@ -16,11 +16,13 @@ import {
 } from "@chakra-ui/react";
 import { HiSquare3Stack3D } from "react-icons/hi2";
 import { useCart } from "./CartContext";
-
+import { useNavigate } from "react-router-dom";
 
 const CartIcon = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { cart, removeFromCart } = useCart();
+
+  const navigate = useNavigate(); 
 
   // Beregn totalpris
   const totalPrice = cart.reduce(
@@ -76,7 +78,7 @@ const CartIcon = () => {
                   >
                     <Box>
                       <Text fontWeight="bold">{item.album_name}</Text>
-                      <Text>{item.artist_name}</Text>
+                      <Text >{item.artist_name}</Text>
                       <Text fontSize="sm" color="gray.500">
                         {count} × {item.album_price.toLocaleString("da-DK")} kr
                       </Text>
@@ -110,7 +112,10 @@ const CartIcon = () => {
               variant="outline"
               colorScheme="green"
               ml="3"
-              onClick={() => console.log("Navigate to detailed cart view")}
+              onClick={() => {
+                closeCart();
+                navigate("/cart"); // Naviger til cart-siden
+              }}
             >
               To cart
             </Button>
