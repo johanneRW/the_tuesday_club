@@ -11,6 +11,7 @@ import useAlbumArtists, { AlbumArtist } from './hooks/useAlbumArtists';
 import { usePriceRange } from './hooks/usePriceRange';
 import PriceSlider from './components/PriceSlider';
 import SearchInput from './components/searchBar';
+import { CartProvider } from './components/CartContext';
 
 export interface LpQuery {
   albumUnits: AlbumUnit [];
@@ -46,6 +47,7 @@ function App() {
       gap="1"
       fontWeight="bold"
     >
+       <CartProvider>
       <GridItem area={"banner"}>
         <Banner />
       </GridItem>
@@ -53,12 +55,12 @@ function App() {
       <GridItem area={"nav"}>
         <NavBar />
       </GridItem>
-
+     
       <GridItem area={"main"}>
        
         <LPGrid lpQuery={lpQuery} />
       </GridItem>
-
+ </CartProvider>
       <GridItem area={"aside"}>
       <SearchInput onSearch={handleSearch} />
 
@@ -107,6 +109,7 @@ function App() {
           }
         />
       </GridItem>
+      
 
       <GridItem area={"footer"}>{/* Eventuelt indhold i footer */}</GridItem>
     </Grid>
