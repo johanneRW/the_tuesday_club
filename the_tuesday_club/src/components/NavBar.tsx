@@ -9,13 +9,19 @@ const NavBar = () => {
       <Button variant="ghost" as={Link} to="/">
         Home
       </Button>
-       {/* skal muligvis ikke vises i navbaren da man kan tilgå den via carticon */}
-      <Button variant="ghost" as={Link} to="/cart">
-        Cart
+       
+      <Button variant="ghost" as={Link} to="/login">
+        Login
+      </Button>
+      <Button variant="ghost" as={Link} to="/signup">
+        Signup
       </Button>
 
       <Spacer />
-
+      {/* skal muligvis ikke vises i navbaren da man kan tilgå den via carticon */}
+      <Button variant="ghost" as={Link} to="/cart">
+        Cart
+      </Button>
       {/* Cart-ikon med visning af antal i kurven/bunken */}
       <CartIcon />
     </HStack>
