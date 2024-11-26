@@ -1,4 +1,4 @@
-import { LpQuery } from "../App";
+import { LpQuery } from "../pages/HomePage";
 import usePaginatedData from "./reuseableHooks/usePaginatedData";
 
 export interface Album {

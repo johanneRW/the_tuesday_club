@@ -2,18 +2,12 @@ import { Button, Card, CardBody, CardFooter, Divider, Heading, Stack, Text, Box 
 import ImagePlaceholder from "./ImagePlaceholder";
 import { useCart } from "./CartContext"; 
 import { Album } from "../hooks/useAlbums";
+import { capitalizeWords } from "../services/capitalizeWords";
 
 interface Props {
   album: Album;
 }
 
-function capitalizeWords(text: string) {
-  return text
-    .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
 
 const LPCard = ({ album }: Props) => {
   const { addToCart } = useCart();

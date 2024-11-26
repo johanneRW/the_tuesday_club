@@ -2,8 +2,8 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./components/NavBar";
 import Banner from "./components/Banner";
-import HomePage from "./pages/HomePage"; // Importér din nye HomePage
-import CartPage from "./pages/CartPage"; // Importér evt. CartPage eller andre sider
+import HomePage from "./pages/HomePage"; 
+import CartPage from "./pages/CartPage"; 
 import { CartProvider } from "./components/CartContext";
 
 function App() {

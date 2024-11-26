@@ -3,9 +3,10 @@ import LPCard from "./LPCard";
 import LPCardContainer from "./LPCardContainer";
 import LPCardSkeleton from "./LPCardSkeleton";
 import LoadMoreButton from "./LoadMoreButton";
-import { LpQuery } from "../App";
+
 import { useState, useEffect } from "react";
 import useAlbums, { Album } from "../hooks/useAlbums";
+import { LpQuery } from "../pages/HomePage";
 
 interface Props {
   lpQuery: LpQuery;

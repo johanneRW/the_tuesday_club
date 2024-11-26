@@ -1,4 +1,3 @@
-import React from "react";
 import { HStack, Spacer, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import CartIcon from "./CartIcon"; // Cart-ikon med badge
@@ -6,17 +5,18 @@ import CartIcon from "./CartIcon"; // Cart-ikon med badge
 const NavBar = () => {
   return (
     <HStack padding="4">
-      {/* Links til forskellige sider */}
+      {/* skal muligvis hedde noget andet? */}
       <Button variant="ghost" as={Link} to="/">
         Home
       </Button>
+       {/* skal muligvis ikke vises i navbaren da man kan tilgå den via carticon */}
       <Button variant="ghost" as={Link} to="/cart">
-        Cart Page
+        Cart
       </Button>
 
       <Spacer />
 
-      {/* Cart-ikon til visning af antal */}
+      {/* Cart-ikon med visning af antal i kurven/bunken */}
       <CartIcon />
     </HStack>
   );
