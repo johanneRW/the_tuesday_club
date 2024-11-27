@@ -20,6 +20,7 @@ from ninja import NinjaAPI
 from backend.api.csv import router as csv_router
 from backend.api.albums import router as albums_router
 from backend.api.filters import router as filters_router
+from backend.api.users import router as users_router
 
 
 
@@ -29,6 +30,7 @@ api = NinjaAPI()
 api.add_router("/csv", csv_router)  
 api.add_router("/albums", albums_router)  
 api.add_router("/filters", filters_router)
+api.add_router("/users", users_router)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
