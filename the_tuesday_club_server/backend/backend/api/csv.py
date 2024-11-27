@@ -1,3 +1,4 @@
+from typing import List
 from uuid import UUID
 from django.db.models import Min, Max, Q
 from ninja import NinjaAPI, Schema
@@ -9,11 +10,31 @@ from ninja.files import UploadedFile
 from django.http import JsonResponse
 import tempfile
 from myapp.utils.csv_importer import import_csv_to_multiple_tables
+from myapp.models import Label
 
 
 
 
 router = Router()
+
+
+class LabelNameSchema(Schema):
+    label_name: str
+
+
+#endpoint til at hente alle labels uanset om de har albums tilknyttet eller ej
+@router.get("/labels/all", response=List[LabelNameSchema])
+def list_labels(request):
+    labels = (
+        Label.objects.values_list('label_name', flat=True)
+        .distinct()
+        .order_by('label_name')  # Sorter alfabetisk
+    )
+    label_data = [{"label_name": label} for label in labels]
+    return label_data
+
+
+
 
 
 @router.post("/upload_csv")

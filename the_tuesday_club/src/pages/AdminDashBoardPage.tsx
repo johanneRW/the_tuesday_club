@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -11,21 +11,22 @@ import {
   FormControl,
   FormLabel,
 } from "@chakra-ui/react";
+import useAllLabels from "../hooks/useAllLabels";
+import useUploadCsv from "../hooks/useUploadCsv";
+
 
 const AdminDashboard = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [labels, setLabels] = useState<string[]>([]);
   const [selectedLabel, setSelectedLabel] = useState<string>("");
   const [newLabel, setNewLabel] = useState<string>("");
   const toast = useToast();
 
-  // Hent eksisterende labels fra en API eller mock-data
-  useEffect(() => {
-    // Mock-fetch for labels
-    setLabels(["Label1", "Label2", "Label3"]);
-  }, []);
+  // Hent labels med useAllLabels
+  const { data: labels, error: fetchError, isLoading } = useAllLabels();
 
-  // Håndter filvalg
+  // Håndter upload med useUploadCsv
+  const { uploadCsv, isUploading, error: uploadError } = useUploadCsv();
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const uploadedFile = event.target.files[0];
@@ -40,8 +41,7 @@ const AdminDashboard = () => {
     }
   };
 
-  // Håndter upload
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (!file) {
       toast({
         title: "No file selected",
@@ -66,54 +66,63 @@ const AdminDashboard = () => {
 
     const labelToUse = newLabel || selectedLabel;
 
-    // Simuler upload til backend
-    console.log("Uploading file:", file.name);
-    console.log("Using label:", labelToUse);
+    const result = await uploadCsv(file, labelToUse);
 
-    toast({
-      title: "Upload Successful",
-      description: `File uploaded with label: ${labelToUse}`,
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-
-    // Ryd felter efter upload
-    setFile(null);
-    setSelectedLabel("");
-    setNewLabel("");
+    if (result) {
+      toast({
+        title: "Upload Successful",
+        description: result.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      setFile(null);
+      setSelectedLabel("");
+      setNewLabel("");
+    } else {
+      toast({
+        title: "Upload Failed",
+        description: uploadError,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
     <Box maxW="800px" mx="auto" mt="10">
-      {/* Overskrift uden for boksen */}
       <Heading size="lg" mb="6" textAlign="center">
         Admin Dashboard
       </Heading>
 
-      {/* Indlæsningsboks */}
       <Box p="6" border="1px solid #ddd" borderRadius="8px">
         <Heading size="md" mb="4">
           Upload new file
         </Heading>
         <VStack spacing="4" align="stretch">
-          {/* Vælg eller opret label */}
           <FormControl>
             <FormLabel>Select Label</FormLabel>
-            <Select
-              placeholder="Select an existing label"
-              value={selectedLabel}
-              onChange={(e) => {
-                setSelectedLabel(e.target.value);
-                setNewLabel(""); // Ryd ny label, hvis en eksisterende vælges
-              }}
-            >
-              {labels.map((label) => (
-                <option key={label} value={label}>
-                  {label}
-                </option>
-              ))}
-            </Select>
+            {isLoading ? (
+              <Text>Loading labels...</Text>
+            ) : fetchError ? (
+              <Text color="red.500">{fetchError}</Text>
+            ) : (
+              <Select
+                placeholder="Select an existing label"
+                value={selectedLabel}
+                onChange={(e) => {
+                  setSelectedLabel(e.target.value);
+                  setNewLabel("");
+                }}
+              >
+                {labels?.map((label) => (
+                  <option key={label.label_name} value={label.label_name}>
+                    {label.label_name}
+                  </option>
+                ))}
+              </Select>
+            )}
           </FormControl>
           <FormControl>
             <FormLabel>Create New Label</FormLabel>
@@ -122,14 +131,18 @@ const AdminDashboard = () => {
               value={newLabel}
               onChange={(e) => {
                 setNewLabel(e.target.value);
-                setSelectedLabel(""); // Ryd valgt label, hvis en ny indtastes
+                setSelectedLabel("");
               }}
             />
           </FormControl>
 
-          {/* Upload CSV */}
           <Input type="file" accept=".csv" onChange={handleFileChange} />
-          <Button colorScheme="blue" onClick={handleUpload}>
+          <Button
+            colorScheme="blue"
+            onClick={handleUpload}
+            isLoading={isUploading}
+            isDisabled={isUploading}
+          >
             Upload CSV
           </Button>
           {file && (

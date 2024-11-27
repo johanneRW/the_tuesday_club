@@ -49,7 +49,7 @@ def import_csv_to_multiple_tables(csv_file_path, label_name):
             release = get_column_value(row, 'release')
             ean_code = get_column_value(row, 'ean_code')
             upc = get_column_value(row, 'upc')
-            format_value = get_column_value(row, 'format')
+            format_value = get_column_value(row, 'format')  
             units = get_column_value(row, 'units') 
             media = get_column_value(row, 'media')
             additional_info = get_column_value(row, 'additional_info')
