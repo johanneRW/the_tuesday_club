@@ -12,7 +12,7 @@ class Artist(models.Model):
 
 class Label(models.Model):
     label_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
-    label_name = models.CharField(max_length=255)
+    label_name = models.CharField(max_length=255,unique=True)
 
     def __str__(self):
         return self.label_name

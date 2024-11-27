@@ -1,12 +1,26 @@
 from decimal import Decimal
 from typing import Optional, List
 from uuid import UUID
+import uuid
 from django.db.models import Min, Max, Q
 from ninja import NinjaAPI, Schema
 from django.core.paginator import Paginator
-from myapp.models import AlbumView 
+from myapp.models import AlbumView, Label 
+from pydantic import BaseModel
+from django.db import IntegrityError
+from ninja.errors import HttpError
+from ninja import Router, File, Form
+from ninja.files import UploadedFile
+from django.http import JsonResponse
+import tempfile
+from myapp.utils.csv_importer import import_csv_to_multiple_tables
+
+
+
+
 
 api = NinjaAPI()
+router = Router()
 
 # Skema til albumdata
 class AlbumSchema(Schema):
@@ -31,7 +45,7 @@ def create_or_query(field_name: str, values: List[str]) -> Q:
         query |= Q(**{f"{field_name}__icontains": value})
     return query
 
-@api.get("/albums", response=PaginatedAlbumSchema)
+@router.get("/albums", response=PaginatedAlbumSchema)
 def list_albums(
     request,
     album_name: Optional[str] = None,
@@ -82,7 +96,8 @@ def list_albums(
 class LabelNameSchema(Schema):
     label_name: str
 
-@api.get("/labels", response=List[LabelNameSchema])
+#endpoint til at få labels der har plader tilknyttet
+@router.get("/labels", response=List[LabelNameSchema])
 def list_labels(request):
     labels = (
         AlbumView.objects.values_list('label_name', flat=True)
@@ -93,10 +108,41 @@ def list_labels(request):
     return label_data
 
 
+#endpoint til at hente alle labels uanset om de har albums tilknyttet eller ej
+@router.get("/labels/all", response=List[LabelNameSchema])
+def list_labels(request):
+    labels = (
+        Label.objects.values_list('label_name', flat=True)
+        .distinct()
+        .order_by('label_name')  # Sorter alfabetisk
+    )
+    label_data = [{"label_name": label} for label in labels]
+    return label_data
+
+
+# Schema for input-data til oprettelse af et nyt label
+class LabelCreateSchema(Schema):
+    label_name: str
+
+# POST-endpoint til oprettelse af et nyt label
+@router.post("/labels", response=LabelNameSchema)
+def create_label(request, payload: LabelCreateSchema):
+    try:
+        # Opret et nyt Label-objekt, hvis label_name er unikt
+        label = Label.objects.create(label_name=payload.label_name)
+        return {"label_name": label.label_name}
+    except IntegrityError:
+        # Returner en fejl, hvis label_name allerede findes
+        raise HttpError(400, f"Label '{payload.label_name}' already exists.")
+
+
+
+
+
 class FormatNameSchema(Schema):
     format_name: str
 
-@api.get("/formats", response=List[FormatNameSchema])
+@router.get("/formats", response=List[FormatNameSchema])
 def list_formats(request):
     formats = (
         AlbumView.objects.values_list('format_name', flat=True)
@@ -110,7 +156,7 @@ def list_formats(request):
 class AlbumUnitsSchema(Schema):
     album_units: str
     
-@api.get("/units", response=List[AlbumUnitsSchema])
+@router.get("/units", response=List[AlbumUnitsSchema])
 def list_units(request):
     units = (
         AlbumView.objects
@@ -126,7 +172,7 @@ def list_units(request):
 class ArtistNameSchema(Schema):
     artist_name: str
     
-@api.get("/artists", response=List[ArtistNameSchema])
+@router.get("/artists", response=List[ArtistNameSchema])
 def list_artists(request):
     artists = (
         AlbumView.objects.values_list('artist_name', flat=True)
@@ -141,10 +187,34 @@ class PriceRangeSchema(Schema):
     min_price: float
     max_price: float
 
-@api.get("/price-range", response=PriceRangeSchema)
+@router.get("/price-range", response=PriceRangeSchema)
 def price_range(request):
     price_data = AlbumView.objects.aggregate(
         min_price=Min('album_price'), 
         max_price=Max('album_price')
     )
     return price_data
+
+
+@router.post("/upload_csv")
+def upload_csv(
+    request,
+    file: UploadedFile = File(...),
+    label_name: str = Form(...)
+):
+    """Uploader og indlæser en CSV-fil."""
+    try:
+        # Gem CSV-filen midlertidigt
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            for chunk in file.chunks():
+                temp_file.write(chunk)
+
+        # Kald den opdaterede importeringsfunktion med label_name
+        import_csv_to_multiple_tables(temp_file.name, label_name)
+
+        return {"message": "Filen er indlæst og behandlet korrekt."}
+    except ValueError as ve:
+        return JsonResponse({"error": str(ve)}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+

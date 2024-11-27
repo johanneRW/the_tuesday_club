@@ -12,18 +12,34 @@ from .helpers import get_column_value, parse_date
     month, day, year = value.split("/")
     return date(year=int(year), month=int(month), day=int(day)) """
 
-def import_csv_to_multiple_tables(csv_file_path, start_row=0):
-    # Find eller opret en fast Label til test
-    test_label, created = Label.objects.get_or_create(
-        label_name='Test Label2', 
+def import_csv_to_multiple_tables(csv_file_path, label_name):
+    # Find eller opret det specifikke Label baseret på label_name
+    label, created = Label.objects.get_or_create(
+        label_name=label_name,
         defaults={'label_id': uuid.uuid4()}
     )
     if created:
-        print("Oprettet fast test-label: Test Label")
+        print(f"Oprettet nyt label: {label_name}")
+    else:
+        print(f"Bruger eksisterende label: {label_name}")
 
+    # Åbn CSV-filen og find startlinjen baseret på "artist"-kolonnen
     with open(csv_file_path, mode='r') as file:
-        csv_reader = csv.DictReader(list(file)[start_row:])
-        
+        lines = file.readlines()
+        start_row = None
+
+        for i, line in enumerate(lines):
+            if "artist" in line.lower():
+                start_row = i
+                break
+
+        if start_row is None:
+            raise ValueError("Kunne ikke finde kolonnen 'artist' i CSV-filen.")
+
+        print(f"Starter importering fra linje: {start_row + 1}")
+
+        # Indlæs filen fra startlinjen
+        csv_reader = csv.DictReader(lines[start_row:])
         for row in csv_reader:
             row = {k.lower(): v for k, v in row.items()}  # Konverter alle kolonnenavne til små bogstaver
 
@@ -34,7 +50,7 @@ def import_csv_to_multiple_tables(csv_file_path, start_row=0):
             ean_code = get_column_value(row, 'ean_code')
             upc = get_column_value(row, 'upc')
             format_value = get_column_value(row, 'format')
-            units = get_column_value(row, 'units')
+            units = get_column_value(row, 'units') 
             media = get_column_value(row, 'media')
             additional_info = get_column_value(row, 'additional_info')
             price_value = get_column_value(row, 'price')
@@ -54,8 +70,8 @@ def import_csv_to_multiple_tables(csv_file_path, start_row=0):
             else:
                 print(f"Fundet eksisterende Artist: {artist}")
 
-            # Brug det faste test-label for alle albums
-            label = test_label
+            # Brug det angivne label for albummet
+            album_label = label
 
             # Tjek for eksisterende album baseret på EAN eller UPC
             album = None
@@ -72,7 +88,7 @@ def import_csv_to_multiple_tables(csv_file_path, start_row=0):
                 if current_price is not None:
                     latest_price_entry = AlbumPrice.objects.filter(album_id=album).order_by('-price_start_date').first()
 
-                    if latest_price_entry is None or latest_price_entry.album_price != current_price or latest_price_entry.price_start_date != date.today():
+                    if latest_price_entry is None or latest_price_entry.album_price != current_price:
                         AlbumPrice.objects.create(
                             album_id=album,
                             album_price=current_price,
