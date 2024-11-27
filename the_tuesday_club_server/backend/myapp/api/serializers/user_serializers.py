@@ -1,5 +1,6 @@
 from ninja import Schema
 from pydantic import EmailStr, field_validator
+from ..serializers.address_serializers import AddressResponseSchema
 
 class UserCreateSchema(Schema):
     username: str
@@ -23,26 +24,6 @@ class UserCreateSchema(Schema):
         return self.dict()
 
 
-class AddressCreateSchema(Schema):
-    street: str
-    city: str
-    postal_code: int
-    country: str
-    
-    def to_dict(self):
-        return self.dict()
-
-
-class AddressResponseSchema(Schema):
-    street: str
-    city: str
-    postal_code: int
-    country: str
-
-    class Config:
-        orm_mode = True
-
-
 class UserResponseSchema(Schema):
     username: str
     email: str
@@ -54,6 +35,4 @@ class UserResponseSchema(Schema):
         orm_mode = True
   
         
-class LoginSchema(Schema):
-    username: str
-    password: str
+

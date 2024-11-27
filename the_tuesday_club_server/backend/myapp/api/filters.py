@@ -1,19 +1,17 @@
-from decimal import Decimal
-from typing import Optional, List
-from uuid import UUID
-import uuid
-from django.db.models import Min, Max, Q
-from ninja import NinjaAPI, Schema
+from typing import List
+from django.db.models import Min, Max
+from ninja import Router
 from myapp.models import AlbumView
-from ninja import Router, File, Form
-
+from .serializers.filter_serializers import (
+    LabelNameSchema,
+    FormatNameSchema,
+    AlbumUnitsSchema,
+    ArtistNameSchema,
+    PriceRangeSchema,
+)
 
 router = Router()
 
-class LabelNameSchema(Schema):
-    label_name: str
-
-#endpoint til at få labels der har plader tilknyttet
 @router.get("/labels", response=List[LabelNameSchema])
 def list_labels(request):
     labels = (
@@ -23,10 +21,6 @@ def list_labels(request):
     )
     label_data = [{"label_name": label} for label in labels]
     return label_data
-
-
-class FormatNameSchema(Schema):
-    format_name: str
 
 @router.get("/formats", response=List[FormatNameSchema])
 def list_formats(request):
@@ -38,10 +32,6 @@ def list_formats(request):
     format_data = [{"format_name": fmt} for fmt in formats]
     return format_data
 
-
-class AlbumUnitsSchema(Schema):
-    album_units: str
-    
 @router.get("/units", response=List[AlbumUnitsSchema])
 def list_units(request):
     units = (
@@ -54,10 +44,6 @@ def list_units(request):
     unit_data = [{"album_units": unit} for unit in units]
     return unit_data
 
-
-class ArtistNameSchema(Schema):
-    artist_name: str
-    
 @router.get("/artists", response=List[ArtistNameSchema])
 def list_artists(request):
     artists = (
@@ -68,11 +54,6 @@ def list_artists(request):
     artist_data = [{"artist_name": artist} for artist in artists]
     return artist_data
 
-
-class PriceRangeSchema(Schema):
-    min_price: float
-    max_price: float
-
 @router.get("/price-range", response=PriceRangeSchema)
 def price_range(request):
     price_data = AlbumView.objects.aggregate(
@@ -80,4 +61,3 @@ def price_range(request):
         max_price=Max('album_price')
     )
     return price_data
-

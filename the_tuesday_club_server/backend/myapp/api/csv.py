@@ -1,25 +1,14 @@
 from typing import List
-from uuid import UUID
-from django.db.models import Min, Max, Q
-from ninja import NinjaAPI, Schema
-from pydantic import BaseModel
-from django.db import IntegrityError
-from ninja.errors import HttpError
 from ninja import Router, File, Form
 from ninja.files import UploadedFile
 from django.http import JsonResponse
 import tempfile
 from myapp.utils.csv_importer import import_csv_to_multiple_tables
 from myapp.models import Label
-
-
+from .serializers.filter_serializers import (LabelNameSchema)
 
 
 router = Router()
-
-
-class LabelNameSchema(Schema):
-    label_name: str
 
 
 #endpoint til at hente alle labels uanset om de har albums tilknyttet eller ej
@@ -32,7 +21,6 @@ def list_labels(request):
     )
     label_data = [{"label_name": label} for label in labels]
     return label_data
-
 
 
 

@@ -2,15 +2,22 @@ from ninja import Router
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from ..signals import address_created
+from .serializers.address_serializers import (AddressCreateSchema)
+from .serializers.login_serializers import (LoginSchema)
 from .serializers.user_serializers import (
     UserCreateSchema,
-    AddressCreateSchema,
     UserResponseSchema,
-    LoginSchema,
 )
 
 
+
 router = Router()
+
+@router.get("/users/{user_id}", response=UserResponseSchema)
+def get_user(request, user_id: int):
+    user = User.objects.select_related("address").get(id=user_id)  # Hent user og adresse
+    return UserResponseSchema.from_orm(user)
+
 
 # Sign-up endpoint
 @router.post("/sign_up", response=UserResponseSchema)
