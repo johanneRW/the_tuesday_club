@@ -17,10 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
-from backend.api.csv import router as csv_router
-from backend.api.albums import router as albums_router
-from backend.api.filters import router as filters_router
-from backend.api.users import router as users_router
+from myapp.api.csv import router as csv_router
+from myapp.api.albums import router as albums_router
+from myapp.api.filters import router as filters_router
+from myapp.api.users import router as users_router
 
 
 

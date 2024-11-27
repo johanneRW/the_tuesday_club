@@ -86,7 +86,7 @@ class AlbumPrice(models.Model):
 
 
 class Address(models.Model):
-    user_id= models.OneToOneField(User, on_delete=models.CASCADE, related_name="addresses")
+    user_id= models.OneToOneField(User, on_delete=models.CASCADE, related_name="address")
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     postal_code = models.IntegerField()

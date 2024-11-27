@@ -17,3 +17,5 @@ packaging==24.2
 uvicorn==0.32.0
 django-cors-headers==4.6.0
 python-dotenv==1.0.1
+dnspython==2.7.0 
+email-validator==2.2.0
