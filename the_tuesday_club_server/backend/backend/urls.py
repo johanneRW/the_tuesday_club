@@ -17,7 +17,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
-from backend.api.labels import router as labels_router
 from backend.api.csv import router as csv_router
 from backend.api.albums import router as albums_router
 from backend.api.filters import router as filters_router
@@ -26,8 +25,7 @@ from backend.api.filters import router as filters_router
 
 api = NinjaAPI()
 
-#api.add_router("/", router)
-api.add_router("/labels", labels_router)  # Alle labels-endpoints under /api/labels
+
 api.add_router("/csv", csv_router)  
 api.add_router("/albums", albums_router)  
 api.add_router("/filters", filters_router)
