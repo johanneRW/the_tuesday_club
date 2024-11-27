@@ -7,7 +7,7 @@ export interface AlbumLabel {
 }
 
 const useAlbumLabels = () => {
-  const { data, error, isLoading } = useData<{ label_name: string }>('/api/labels');
+  const { data, error, isLoading } = useData<{ label_name: string }>('/api/filters/labels');
 
   const albumLabels = data.map((item) => ({
     id: item.label_name,    // Sæt id til og navn til at være det samme da det er en liste af unikke værdier

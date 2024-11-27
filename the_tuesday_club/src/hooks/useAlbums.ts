@@ -19,7 +19,7 @@ export interface AlbumsResponse {
 
 const useAlbums = (lpQuery: LpQuery, page: number) => {
   const { data, totalPages, currentPage, error, isLoading } = usePaginatedData<Album>(
-    "/api/albums",
+    "/api/albums/albums",
     "albums", // Specificerer dataKey
     {
       params: {

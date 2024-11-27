@@ -9,7 +9,7 @@ export interface AlbumUnit {
 
 const useAlbumUnits = () => {
   // Brug `useData` til at hente en liste af `{ album_units: string }` objekter
-  const { data, error, isLoading } = useData<{ album_units: string }>('/api/units');
+  const { data, error, isLoading } = useData<{ album_units: string }>('/api/filters/units');
 
   // Transformér data til en liste af AlbumUnit-objekter med `id` og `name` felter
   const albumUnits = data.map((item) => ({

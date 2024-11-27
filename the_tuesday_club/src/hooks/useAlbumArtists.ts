@@ -7,7 +7,7 @@ export interface AlbumArtist {
 }
 
 const useAlbumArtists = () => {
-  const { data, error, isLoading } = useData<{ artist_name: string }>('/api/artists');
+  const { data, error, isLoading } = useData<{ artist_name: string }>('/api/filters/artists');
 
   const albumArtists = data.map((item) => ({
     id: item.artist_name,

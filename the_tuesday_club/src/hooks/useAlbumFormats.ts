@@ -7,7 +7,7 @@ export interface AlbumFormat {
 }
 
 const useAlbumFormats = () => {
-  const { data, error, isLoading } = useData<{ format_name: string }>('/api/formats');
+  const { data, error, isLoading } = useData<{ format_name: string }>('/api/filters/formats');
 
   const albumFormats = data.map((item) => ({
     id: item.format_name,    // Sæt id og navn til at være det samme

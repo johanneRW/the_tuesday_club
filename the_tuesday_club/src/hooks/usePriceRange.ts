@@ -11,7 +11,7 @@ export const usePriceRange = () => {
     setIsLoading(true);
 
     apiClient
-      .get("/api/price-range")
+      .get("/api/filters/price-range")
       .then((response) => {
         console.log("Price range response:", response.data); 
         setMinPrice(response.data.min_price ?? 0); 
