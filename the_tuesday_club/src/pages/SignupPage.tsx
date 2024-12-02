@@ -47,11 +47,11 @@ const SignupPage = () => {
 
   const handleSignup = async () => {
     if (!isFormValid()) {
+      console.error("Validation failed.");
       return; // Stop, hvis formularen ikke er gyldig
     }
   
-  
-    await signup({
+    const signupError = await signup({
       user_data: {
         username,
         password,
@@ -67,19 +67,19 @@ const SignupPage = () => {
       },
     });
   
-    // Hvis der er fejl, vis en fejl-toast og stop processen
-    if (error) {
+    console.log("handleSignup received error:", signupError); // Log fejl
+  
+    if (signupError) {
       toast({
         title: "Signup failed.",
-        description: error.map((e) => e.msg).join(" | "), // Brug fejlbeskeder fra hooken
+        description: signupError.map((e) => e.msg).join(" | "),
         status: "error",
         duration: 5000,
         isClosable: true,
       });
-      return; // Stop, hvis der er en fejl
+      return; // Stop her, hvis der er fejl
     }
   
-    // Hvis der ikke er fejl, vis en succes-toast og naviger til login
     toast({
       title: "Account created.",
       description: "You can now log in with your credentials.",
@@ -89,6 +89,7 @@ const SignupPage = () => {
     });
     navigate("/login");
   };
+  
   
   
   

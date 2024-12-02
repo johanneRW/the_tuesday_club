@@ -1,4 +1,5 @@
-import usePostData from "./reuseableHooks/userPostData";
+import usePostData, { ErrorDetail } from "./reuseableHooks/usePostData";
+
 
 
 type SignupPayload = {
@@ -21,20 +22,17 @@ type SignupResponse = {
   message: string;
 };
 
-const useSubmitSignup = () => {
+const useSignup = () => {
   const { execute, error, isLoading, data } = usePostData<SignupResponse>("/api/users/sign_up");
 
-  // Log fejl for at bekræfte deres format
-  if (error) {
-    console.error("Signup error:", error);
-  }
-
-  const signup = async (payload: SignupPayload) => {
-    await execute(payload);
+  const signup = async (payload: SignupPayload): Promise<ErrorDetail[] | null> => {
+    const signupError = await execute(payload);
+    console.log("useSignup received error:", signupError); // Log fejl
+    return signupError; // Returnér fejl til handleSignup
   };
 
   return { signup, error, isLoading, data };
 };
 
+export default useSignup;
 
-export default useSubmitSignup;

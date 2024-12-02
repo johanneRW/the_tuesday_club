@@ -1,22 +1,18 @@
 import { useState } from "react";
 import apiClient from "../../services/api-client";
 
-type ErrorDetail = {
+export type ErrorDetail = {
   type: string;
   loc: string[];
   msg: string;
   ctx?: Record<string, any>;
 };
 
-type Error = {
-  detail: ErrorDetail[];
-};
-
-type UsePostDataResponse<T> = {
+export type UsePostDataResponse<T> = {
   data: T | null;
   error: ErrorDetail[] | null;
   isLoading: boolean;
-  execute: (payload: any) => Promise<void>;
+  execute: (payload: any) => Promise<ErrorDetail[] | null>; // Opdateret
 };
 
 const usePostData = <T>(endpoint: string): UsePostDataResponse<T> => {
@@ -24,20 +20,21 @@ const usePostData = <T>(endpoint: string): UsePostDataResponse<T> => {
   const [error, setError] = useState<ErrorDetail[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const execute = async (payload: any) => {
+  const execute = async (payload: any): Promise<ErrorDetail[] | null> => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await apiClient.post<T>(endpoint, payload);
       setData(response.data);
-    } catch (error: any) {
-      // Tjek om fejlformatet indeholder 'detail' og gem det
-      const backendErrors = error.response?.data?.detail || [];
-      if (Array.isArray(backendErrors)) {
-        setError(backendErrors); // Sæt alle fejl
-      } else {
-        setError([{ type: "unknown_error", loc: [], msg: "An unexpected error occurred." }]);
-      }
+      return null; // Ingen fejl
+    } catch (err: any) {
+      console.error("usePostData error:", err.response?.data || err.message);
+      const backendErrors = err.response?.data?.detail || [];
+      const formattedErrors = Array.isArray(backendErrors)
+        ? backendErrors
+        : [{ msg: "An unexpected error occurred." }];
+      setError(formattedErrors);
+      return formattedErrors; // Returnér fejl
     } finally {
       setIsLoading(false);
     }
