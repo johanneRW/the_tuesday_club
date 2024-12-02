@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -9,9 +9,10 @@ import {
   Text,
   Heading,
   useToast,
+  Link,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useSubmitLogin";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -75,7 +76,12 @@ const LoginPage = () => {
         >
           Login
         </Button>
-        
+        <Text textAlign="center">
+          Don't have an account yet?{" "}
+          <Link as={RouterLink} to="/signup" color="blue.500">
+            Signup
+          </Link>
+        </Text>
       </VStack>
     </Box>
   );
