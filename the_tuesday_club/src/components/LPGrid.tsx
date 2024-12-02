@@ -1,4 +1,4 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, SimpleGrid } from "@chakra-ui/react";
 import LPCard from "./LPCard";
 import LPCardContainer from "./LPCardContainer";
 import LPCardSkeleton from "./LPCardSkeleton";
@@ -7,6 +7,7 @@ import LoadMoreButton from "./LoadMoreButton";
 import { useState, useEffect } from "react";
 import useAlbums, { Album } from "../hooks/useAlbums";
 import { LpQuery } from "../pages/HomePage";
+import { useAuth } from "./AuthContext";
 
 interface Props {
   lpQuery: LpQuery;
@@ -15,7 +16,7 @@ interface Props {
 const LPGrid = ({ lpQuery }: Props) => {
   const [currentPage, setCurrentPage] = useState(1); // Holder styr på den aktuelle side
   const [allAlbums, setAllAlbums] = useState<Album[]>([]); // Gemmer alle hentede albums
-
+  const { user } = useAuth();
   const { albums, totalPages, isLoading, error } = useAlbums(lpQuery, currentPage);
 
   // Reset albums, når lpQuery ændres
@@ -40,7 +41,15 @@ const LPGrid = ({ lpQuery }: Props) => {
   const skeletons = [...Array(20).keys()]; 
 
   return (
-    <>
+    <Box>
+    {/* Vis besked, hvis brugeren ikke er logget ind */}
+    {!user?.isAuthenticated && (
+      <Alert status="info" mb="4" borderRadius="md">
+        <AlertIcon />
+        Log in to be able to add to your lp-pile.
+      </Alert>
+    )}
+    
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 5 }} spacing={3} padding={10}>
         {/* Fejlmeddelelse */}
         {error && <p>{error}</p>}
@@ -70,7 +79,7 @@ const LPGrid = ({ lpQuery }: Props) => {
         hasMore={currentPage < totalPages}
         onLoadMore={handleLoadMore}
       />
-    </>
+    </Box>
   );
 };
 

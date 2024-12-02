@@ -1,16 +1,17 @@
-import { Button, Card, CardBody, CardFooter, Divider, Heading, Stack, Text, Box } from "@chakra-ui/react";
+import { Card, CardBody, CardFooter, Divider, Heading, Stack, Text, Box, Button } from "@chakra-ui/react";
 import ImagePlaceholder from "./ImagePlaceholder";
 import { useCart } from "./CartContext"; 
 import { Album } from "../hooks/useAlbums";
+import { useAuth } from "./AuthContext"; // Tilføj for at tjekke brugerens loginstatus
 import { capitalizeWords } from "../services/capitalizeWords";
 
 interface Props {
   album: Album;
 }
 
-
 const LPCard = ({ album }: Props) => {
   const { addToCart } = useCart();
+  const { user } = useAuth(); // Hent loginstatus fra AuthContext
 
   return (
     <Card maxW="100%" h="460px">
@@ -34,14 +35,16 @@ const LPCard = ({ album }: Props) => {
       </CardBody>
       <Divider />
       <CardFooter>
-        <Button
-          variant="solid"
-          colorScheme="blue"
-          size="sm"
-          onClick={() => addToCart(album)} 
-        >
-          Add to cart
-        </Button>
+        {user?.isAuthenticated && ( // Skjul knappen, hvis brugeren ikke er logget ind
+          <Button
+            variant="solid"
+            colorScheme="blue"
+            size="sm"
+            onClick={() => addToCart(album)}
+          >
+            Add to cart
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );
