@@ -1,6 +1,7 @@
 import { HStack, Spacer, Button } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import CartIcon from "./CartIcon"; // Cart-ikon med badge
+import LogoutButton from "./logoutButton";
 
 const NavBar = () => {
   return (
@@ -19,6 +20,7 @@ const NavBar = () => {
       <Button variant="ghost" as={Link} to="/admindashboard">
         Admin Dashboard
       </Button>
+      <LogoutButton/>
 
       <Spacer />
       {/* skal muligvis ikke vises i navbaren da man kan tilgå den via carticon */}

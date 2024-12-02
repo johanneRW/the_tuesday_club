@@ -1,5 +1,5 @@
 from ninja import Router
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import User
 from ..signals import address_created
 from .serializers.address_serializers import (AddressCreateSchema)
@@ -53,3 +53,15 @@ def user_login(request, credentials: LoginSchema):
         {"detail": "Invalid username or password."},
         status=401
     )
+
+@router.post("/logout", response=dict)
+def user_logout(request):
+    if not request.user.is_authenticated:
+        # Hvis brugeren ikke er logget ind
+        return 401, {"error": "You are not logged in."}
+    
+    try:
+        logout(request)
+        return {"message": "Logout successful!"}
+    except Exception as e:
+        return 500, {"error": "An error occurred during logout. Please try again."}
