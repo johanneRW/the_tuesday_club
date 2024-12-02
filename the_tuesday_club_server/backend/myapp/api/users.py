@@ -8,6 +8,7 @@ from .serializers.user_serializers import (
     UserCreateSchema,
     UserResponseSchema,
 )
+from django.http import JsonResponse
 
 
 
@@ -39,10 +40,16 @@ def sign_up(request, user_data: UserCreateSchema, address_data: AddressCreateSch
     
 
 # Login endpoint
+
 @router.post("/login", response=dict)
 def user_login(request, credentials: LoginSchema):
     user = authenticate(username=credentials.username, password=credentials.password)
     if user is not None:
         login(request, user)
         return {"message": "Login successful!"}
-    return {"error": "Invalid username or password."}
+
+    # Returnér en struktureret fejl med 401 statuskode
+    return JsonResponse(
+        {"detail": "Invalid username or password."},
+        status=401
+    )
