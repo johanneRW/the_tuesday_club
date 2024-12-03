@@ -11,3 +11,7 @@ class UserSchema(Schema):
     username: str
     isAuthenticated: bool
     isSuperuser: bool
+
+
+class ErrorSchema(Schema):
+    error: str

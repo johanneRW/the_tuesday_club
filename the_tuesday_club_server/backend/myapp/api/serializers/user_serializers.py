@@ -34,5 +34,3 @@ class UserResponseSchema(Schema):
     class Config:
         orm_mode = True
   
-        
-

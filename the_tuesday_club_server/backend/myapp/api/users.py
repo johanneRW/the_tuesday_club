@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import User
 from ..signals import address_created
 from .serializers.address_serializers import (AddressCreateSchema)
-from .serializers.login_serializers import (LoginSchema, UserSchema)
+from .serializers.login_serializers import (LoginSchema, UserSchema, ErrorSchema)
 from .serializers.user_serializers import (
     UserCreateSchema,
     UserResponseSchema,
@@ -84,9 +84,7 @@ def get_current_user(request):
 
 """
 
-
-@router.get("/me")
-def get_current_user_manual(request):
+def get_user_from_session_key(request) -> User | None:
     session_key = request.session.session_key
     print("Session key:", session_key)
 
@@ -96,12 +94,12 @@ def get_current_user_manual(request):
         session_data = session.get_decoded()
         print("Decoded session data:", session_data)
     except Session.DoesNotExist:
-        return JsonResponse({"detail": "Session not found"}, status=401)
-
+        return None
+    
     # Hent user_id fra session-data
     user_id = session_data.get('user_id')  # Bemærk ændringen fra '_auth_user_id'
     if not user_id:
-        return JsonResponse({"detail": "No user_id in session"}, status=401)
+        return None
 
     # Find brugeren i databasen
     try:
@@ -110,20 +108,77 @@ def get_current_user_manual(request):
         user = User.objects.get(id=user_id)
         print("User found:", user)
     except User.DoesNotExist:
-        return JsonResponse({"detail": "User not found"}, status=401)
+        return None
+    else:
+        return user
 
-    # Returnér brugerens data
-    return JsonResponse({
-        "username": user.username,
+
+@router.get("/me")
+def get_current_user_manual(request):
+    user_or_none = get_user_from_session_key(request)
+    if user_or_none is None:
+        return JsonResponse({"detail": "Session not found"}, status=401)
+    else:
+        return JsonResponse({
+        "username": user_or_none.username,
         "isAuthenticated": True,
-        "isSuperuser": user.is_superuser,
+        "isSuperuser": user_or_none.is_superuser,
     })
+    
+    # session_key = request.session.session_key
+    # print("Session key:", session_key)
+
+    # # Hent sessionen fra databasen
+    # try:
+    #     session = Session.objects.get(session_key=session_key)
+    #     session_data = session.get_decoded()
+    #     print("Decoded session data:", session_data)
+    # except Session.DoesNotExist:
+    #     return JsonResponse({"detail": "Session not found"}, status=401)
+
+    # # Hent user_id fra session-data
+    # user_id = session_data.get('user_id')  # Bemærk ændringen fra '_auth_user_id'
+    # if not user_id:
+    #     return JsonResponse({"detail": "No user_id in session"}, status=401)
+
+    # # Find brugeren i databasen
+    # try:
+    #     from django.contrib.auth import get_user_model
+    #     User = get_user_model()
+    #     user = User.objects.get(id=user_id)
+    #     print("User found:", user)
+    # except User.DoesNotExist:
+    #     return JsonResponse({"detail": "User not found"}, status=401)
+
+    # # Returnér brugerens data
+    # return JsonResponse({
+    #     "username": user.username,
+    #     "isAuthenticated": True,
+    #     "isSuperuser": user.is_superuser,
+    # })
 
 
+@router.post("/logout", response={200: UserSchema, 401: ErrorSchema})
+def user_logout(request):
+    user_or_none = get_user_from_session_key(request)
+    if user_or_none is None:
+        # Returnér 401, hvis brugeren ikke er logget ind
+        return 401, {"error": "You are not logged in."}
+    
+    try:
+        logout(request)
+        print("Logged out", user_or_none)
+        
+        # Fjern session-cookien
+        response = JsonResponse({"message": "Logout successful!"})
+        response.delete_cookie("sessionid")
+        return response
 
+    except Exception as e:
+        return 500, {"error": "An error occurred during logout. Please try again."}
 
-
-@router.post("/logout", response=dict)
+"""
+@router.post("/logout", response={200: UserSchema, 401: ErrorSchema})
 def user_logout(request):
     if not request.user.is_authenticated:
         # Returnér 401, hvis brugeren ikke er logget ind
@@ -139,3 +194,4 @@ def user_logout(request):
 
     except Exception as e:
         return 500, {"error": "An error occurred during logout. Please try again."}
+"""

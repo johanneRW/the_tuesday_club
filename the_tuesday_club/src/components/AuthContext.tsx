@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLogoutError(null);
 
     try {
-      await apiClient.post("/api/users/logout", {});
+      await privatApiClient.post("/api/users/logout", {});
       setUser(null);
       return null;
     } catch (error: any) {
