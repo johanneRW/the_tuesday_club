@@ -56,7 +56,8 @@ def user_login(request, credentials: LoginSchema):
             secure=True,  # Sæt til True i produktion
             samesite='None',  # Tillader cross-site cookies
         )
-        response.headers['Set-Cookie'] += '; Partitioned'
+        # Pt. ikke understøttet i Django
+        # response.headers['Set-Cookie'] += '; Partitioned'
         return response
 
     # Returnér en fejl med 401 statuskode, hvis login fejler
