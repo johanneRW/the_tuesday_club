@@ -53,9 +53,10 @@ def user_login(request, credentials: LoginSchema):
             key="sessionid",  # Brug det samme navn som i settings.py
             value=request.session.session_key,
             httponly=True,
-            secure=False,  # Sæt til True i produktion
+            secure=True,  # Sæt til True i produktion
             samesite='None',  # Tillader cross-site cookies
         )
+        response.headers['Set-Cookie'] += '; Partitioned'
         return response
 
     # Returnér en fejl med 401 statuskode, hvis login fejler
