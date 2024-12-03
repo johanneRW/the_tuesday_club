@@ -154,7 +154,7 @@ if DEBUG:
     SESSION_COOKIE_AGE = 60 * 60 * 24 * 30  # 30 dage
     CORS_ALLOW_ALL_ORIGINS = True
 else:
-    SESSION_COOKIE_SAMESITE = 'Lax'  # For cross-origin
+    SESSION_COOKIE_SAMESITE = 'None'  # For cross-origin
     SESSION_COOKIE_AGE = 60 * 60  # 1 time
     CORS_ALLOWED_ORIGINS = ast.literal_eval(os.environ.get("CORS_ALLOWED_ORIGINS"))
 
