@@ -6,6 +6,7 @@ import tempfile
 from myapp.utils.csv_importer import import_csv_to_multiple_tables
 from myapp.models import Label
 from .serializers.filter_serializers import (LabelNameSchema)
+from django.contrib.auth.decorators import login_required
 
 
 router = Router()
@@ -26,6 +27,7 @@ def list_labels(request):
 
 
 @router.post("/upload_csv")
+@login_required
 def upload_csv(
     request,
     file: UploadedFile = File(...),

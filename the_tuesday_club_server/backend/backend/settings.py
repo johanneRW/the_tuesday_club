@@ -53,15 +53,13 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+"django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # For CORS
+    "django.contrib.sessions.middleware.SessionMiddleware",  # Session håndtering
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",  # CSRF-beskyttelse
+    "django.contrib.auth.middleware.AuthenticationMiddleware",  # Bruger autentifikation
+    "django.contrib.messages.middleware.MessageMiddleware",
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -144,4 +142,25 @@ if not DEBUG:    # Tell Django to copy static assets into a path called `staticf
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = ast.literal_eval(os.environ.get("CORS_ALLOWED_ORIGINS"))
+
+SESSION_ENGINE = "django.contrib.sessions.backends.db" 
+SESSION_COOKIE_NAME = "sessionid"
+SESSION_COOKIE_SECURE = 'secure'    # Påkrævet for HTTPS
+
+CORS_ALLOW_CREDENTIALS = True  # Tillader cookies
+
+if DEBUG:
+    SESSION_COOKIE_SAMESITE = 'None'  # For cross-origin
+    SESSION_COOKIE_AGE = 60 * 60 * 24 * 30  # 30 dage
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    SESSION_COOKIE_SAMESITE = 'Lax'  # For cross-origin
+    SESSION_COOKIE_AGE = 60 * 60  # 1 time
+    CORS_ALLOWED_ORIGINS = ast.literal_eval(os.environ.get("CORS_ALLOWED_ORIGINS"))
+
+""" CORS_ALLOW_HEADERS = [
+    "Authorization",
+    "Content-Type",
+    "X-CSRFToken",
+    "Set-Cookie",
+] """
