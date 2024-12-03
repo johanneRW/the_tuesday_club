@@ -1,5 +1,6 @@
 import { useState } from "react";
-import apiClient from "../services/api-client";
+import privatApiClient from "../services/private-api-client";
+
 
 
 interface UploadResponse {
@@ -19,7 +20,7 @@ const useUploadCsv = () => {
     formData.append("label_name", label);
 
     try {
-      const response = await apiClient.post<UploadResponse>("/api/csv/upload_csv", formData, {
+      const response = await privatApiClient.post<UploadResponse>("/api/csv/upload_csv", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

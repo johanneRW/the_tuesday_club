@@ -9,6 +9,8 @@ import { usePriceRange } from "../hooks/usePriceRange";
 import PriceSlider from "../components/PriceSlider";
 import SearchInput from "../components/searchBar";
 import { useState } from "react";
+import { useAuth } from "../components/AuthContext";
+
 
 export interface LpQuery {
   albumUnits: AlbumUnit[];
@@ -21,6 +23,7 @@ export interface LpQuery {
 }
 
 const HomePage = () => {
+  useAuth();
   const [lpQuery, setLpQuery] = useState<LpQuery>({} as LpQuery);
 
   const handleSearch = (albumName: string) => {

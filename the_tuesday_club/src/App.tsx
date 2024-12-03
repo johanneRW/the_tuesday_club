@@ -8,14 +8,15 @@ import { CartProvider } from "./components/CartContext";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPages";
 import AdminDashboardPage from "./pages/AdminDashBoardPage";
-import { AuthProvider } from "./components/AuthContext";
 import ProtectedRoute from "./components/ProtectedRout";
+import { AuthProvider } from "./components/AuthContext";
+
 
 
 function App() {
   return (
+    <AuthProvider>
     <CartProvider>
-      <AuthProvider>
         <Router>
           <Grid
             templateAreas={`
@@ -72,8 +73,9 @@ function App() {
             <GridItem area={"footer"}></GridItem>
           </Grid>
         </Router>
-      </AuthProvider>
+     
     </CartProvider>
+    </AuthProvider>
   );
 }
 

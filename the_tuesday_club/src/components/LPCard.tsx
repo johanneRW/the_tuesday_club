@@ -2,8 +2,8 @@ import { Card, CardBody, CardFooter, Divider, Heading, Stack, Text, Box, Button 
 import ImagePlaceholder from "./ImagePlaceholder";
 import { useCart } from "./CartContext"; 
 import { Album } from "../hooks/useAlbums";
-import { useAuth } from "./AuthContext"; // Tilføj for at tjekke brugerens loginstatus
 import { capitalizeWords } from "../services/capitalizeWords";
+import { useAuth } from "./AuthContext";
 
 interface Props {
   album: Album;
@@ -11,8 +11,8 @@ interface Props {
 
 const LPCard = ({ album }: Props) => {
   const { addToCart } = useCart();
-  const { user } = useAuth(); // Hent loginstatus fra AuthContext
-
+  const { user } = useAuth();
+  
   return (
     <Card maxW="100%" h="460px">
       <CardBody>

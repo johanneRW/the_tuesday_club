@@ -9,11 +9,14 @@ import useAlbums, { Album } from "../hooks/useAlbums";
 import { LpQuery } from "../pages/HomePage";
 import { useAuth } from "./AuthContext";
 
+
+
 interface Props {
   lpQuery: LpQuery;
 }
 
 const LPGrid = ({ lpQuery }: Props) => {
+ 
   const [currentPage, setCurrentPage] = useState(1); // Holder styr på den aktuelle side
   const [allAlbums, setAllAlbums] = useState<Album[]>([]); // Gemmer alle hentede albums
   const { user } = useAuth();

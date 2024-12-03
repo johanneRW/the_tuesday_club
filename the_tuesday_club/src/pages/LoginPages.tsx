@@ -11,37 +11,37 @@ import {
   useToast,
   Link,
 } from "@chakra-ui/react";
-import useLogin from "../hooks/useSubmitLogin";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../components/AuthContext";
+import { ErrorDetail } from "../hooks/reuseableHooks/usePostData";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, error, isLoading, data } = useLogin();
+  const { login, isLoginLoading, loginError } = useAuth(); // Hent login-funktion fra AuthContext
   const toast = useToast();
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    const loginError = await login({ username, password });
-
-    if (loginError) {
+    const error = await login({ username, password }); // Brug login fra AuthContext
+  
+    if (error) {
+      const errorMessage = Array.isArray(error)
+        ? error.map((e) => e.message).join(" | ")
+        : typeof error === "string"
+        ? error
+        : "An unknown error occurred";
+    
       toast({
-        title: "login failed.",
-        description: loginError.map((e) => e.msg).join(" | "),
+        title: "Login failed.",
+        description: errorMessage,
         status: "error",
         duration: 5000,
         isClosable: true,
       });
-      return; // Stop her, hvis der er fejl
+      return;
     }
-  
-    toast({
-      title: "Login successful!",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-    navigate("/");
+    
   };
 
   return (
@@ -71,11 +71,16 @@ const LoginPage = () => {
         <Button
           colorScheme="blue"
           onClick={handleLogin}
-          isLoading={isLoading}
+          isLoading={isLoginLoading}
           isDisabled={!username || !password}
         >
           Login
         </Button>
+        {loginError && (
+          <Text color="red.500" textAlign="center">
+            {loginError[0]?.message}
+          </Text>
+        )}
         <Text textAlign="center">
           Don't have an account yet?{" "}
           <Link as={RouterLink} to="/signup" color="blue.500">

@@ -72,7 +72,7 @@ const SignupPage = () => {
     if (signupError) {
       toast({
         title: "Signup failed.",
-        description: signupError.map((e) => e.msg).join(" | "),
+        description: signupError.map((e) => e.message).join(" | "),
         status: "error",
         duration: 5000,
         isClosable: true,

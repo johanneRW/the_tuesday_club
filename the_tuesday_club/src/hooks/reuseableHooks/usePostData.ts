@@ -1,75 +1,34 @@
 import { useState } from "react";
-import apiClient from "../../services/api-client";
+import privatApiClient from "../../services/private-api-client";
 
-export type ErrorDetail = {
-  type?: string;
-  loc?: string[];
-  msg: string | string[]; // Tillad både enkeltbesked og liste af beskeder
-  ctx?: Record<string, any>;
-};
 
-export type UsePostDataResponse<T> = {
-  data: T | null;
-  error: ErrorDetail[] | null;
-  isLoading: boolean;
-  execute: (payload: any) => Promise<ErrorDetail[] | null>; // Opdateret
-};
+export type ErrorDetail = { field: string; message: string };
 
-const usePostData = <T>(endpoint: string): UsePostDataResponse<T> => {
-  const [data, setData] = useState<T | null>(null);
+const usePostData = <T>(url: string) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ErrorDetail[] | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [data, setData] = useState<T | null>(null);
 
-  const execute = async (payload: any): Promise<ErrorDetail[] | null> => {
+  const execute = async (payload: any, config = {}) => {
     setIsLoading(true);
-    setError(null); // Nulstil fejl før ny anmodning
+    setError(null);
     try {
-      const response = await apiClient.post<T>(endpoint, payload);
+      const response = await privatApiClient.post<T>(url, payload, {
+        ...config, // Tillad yderligere konfiguration
+      });
       setData(response.data);
       return null; // Ingen fejl
     } catch (err: any) {
-      console.error("usePostData error:", err.response?.data || err.message);
-
-      const backendError = err.response?.data;
-
-      if (backendError?.detail) {
-        let formattedMsg;
-        if (Array.isArray(backendError.detail)) {
-          // Hvis `detail` er en liste af fejl (som i useSignup)
-          formattedMsg = backendError.detail.map((detail: any) => detail.msg).flat();
-        } else {
-          // Hvis `detail` er en simpel streng
-          formattedMsg = [backendError.detail];
-        }
-
-        const formattedError: ErrorDetail = {
-          type: "backend_error",
-          loc: ["body"], // Standard lokation
-          msg: formattedMsg,
-          ctx: {},
-        };
-        setError([formattedError]);
-        return [formattedError];
+      if (err.response?.data) {
+        setError(err.response.data.errors || [{ field: "general", message: "Something went wrong" }]);
       }
-
-      // Standard fallback for andre fejl
-      const fallbackError: ErrorDetail = {
-        type: "unknown_error",
-        loc: [],
-        msg: ["An unexpected error occurred."],
-        ctx: {},
-      };
-      setError([fallbackError]);
-      return [fallbackError];
+      return err.response?.data.errors || [{ field: "general", message: "Something went wrong" }];
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { data, error, isLoading, execute };
+  return { execute, isLoading, error, data };
 };
-
-
-
 
 export default usePostData;
