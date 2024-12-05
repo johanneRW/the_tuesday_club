@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import apiClient from "../services/api-client";
-import privatApiClient from "../services/private-api-client";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import apiClientWhitCredentials from "../services/api-client-whit-credentials";
 
 
 type User = {
@@ -21,7 +20,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState<any>(null);
@@ -32,7 +31,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await privatApiClient.get("/api/users/me");
+        const response = await apiClientWhitCredentials.get("/api/users/me");
         setUser(response.data);
       } catch {
         setUser(null);
@@ -47,9 +46,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLoginError(null);
 
     try {
-      const response = await privatApiClient.post("/api/users/login", credentials);
+      const response = await apiClientWhitCredentials.post("/api/users/login", credentials);
       // Efter login, hent brugerdata
-      const userResponse = await privatApiClient.get("/api/users/me");
+      const userResponse = await apiClientWhitCredentials.get("/api/users/me");
       setUser(userResponse.data);
       return null;
     } catch (error: any) {
@@ -65,7 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setLogoutError(null);
 
     try {
-      await privatApiClient.post("/api/users/logout", {});
+      await apiClientWhitCredentials.post("/api/users/logout", {});
       setUser(null);
       return null;
     } catch (error: any) {

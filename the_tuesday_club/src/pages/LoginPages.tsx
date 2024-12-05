@@ -13,7 +13,6 @@ import {
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext";
-import { ErrorDetail } from "../hooks/reuseableHooks/usePostData";
 import { formatErrorMessage } from "../services/formatErrorMessage";
 import useToastHandler from "../hooks/reuseableHooks/UseToastHandler";
 

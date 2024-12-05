@@ -1,7 +1,5 @@
-import React from "react";
 import { Box, Button, HStack, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
-
 import { useAuth } from "./AuthContext";
 import LogoutButton from "./logoutButton";
 import CartIcon from "./CartIcon";
@@ -13,7 +11,7 @@ const NavBar = () => {
     <Box as="nav" p="4" display="flex" justifyContent="space-between" alignItems="center">
       <HStack spacing="4">
         <Link as={RouterLink} to="/">
-          Home
+          Albums
         </Link>
         {user?.isAuthenticated && (
           <Link as={RouterLink} to="/cart">

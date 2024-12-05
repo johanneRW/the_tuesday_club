@@ -1,5 +1,5 @@
 import { useState } from "react";
-import privatApiClient from "../services/private-api-client";
+import apiClientWhitCredentials from "../services/api-client-whit-credentials";
 import { formatErrorMessage } from "../services/formatErrorMessage";
 import useToastHandler from "./reuseableHooks/UseToastHandler";
 
@@ -22,7 +22,7 @@ const useUploadCsv = () => {
     formData.append("label_name", label);
 
     try {
-      const response = await privatApiClient.post<UploadResponse>("/api/csv/upload_csv", formData, {
+      const response = await apiClientWhitCredentials.post<UploadResponse>("/api/csv/upload_csv", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

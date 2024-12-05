@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef, ChangeEvent, FC } from "react";
 import {
   Box,
   Heading,
@@ -21,7 +21,7 @@ type FileUploadProps = {
   onRefresh: () => void;
 };
 
-const FileUploadComponent: React.FC<FileUploadProps> = ({
+const FileUploadComponent: FC<FileUploadProps> = ({
   labels,
   isLoading,
   fetchError,
@@ -35,7 +35,7 @@ const FileUploadComponent: React.FC<FileUploadProps> = ({
   const { uploadCsv, isUploading, error: uploadError } = useUploadCsv();
   const { showToast } = useToastHandler();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const uploadedFile = event.target.files[0];
       setFile(uploadedFile);

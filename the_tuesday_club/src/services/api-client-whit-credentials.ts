@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const privatApiClient = axios.create({
+const apiClientWhitCredentials = axios.create({
   baseURL: import.meta.env.VITE_APT_URL,
   headers: {
     "Content-Type": "application/json",
@@ -12,7 +12,7 @@ const privatApiClient = axios.create({
 });
 
 // Fejlinterceptor for debugging
-privatApiClient.interceptors.response.use(
+apiClientWhitCredentials.interceptors.response.use(
   (response) => response, // Send svaret videre, hvis det er succesfuldt
   (error) => {
     // Log hele fejlen for debugging
@@ -23,4 +23,4 @@ privatApiClient.interceptors.response.use(
 );
 
 console.log("Base URL hentet");
-export default privatApiClient;
+export default apiClientWhitCredentials;

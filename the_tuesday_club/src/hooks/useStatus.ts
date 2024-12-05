@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import privatApiClient from "../services/private-api-client";
+import apiClientWhitCredentials from "../services/api-client-whit-credentials";
 
 
 type User = {
@@ -25,7 +25,7 @@ export const useStatusHook = (): UseStatusHook => {
 
     try {
       const sessionId = localStorage.getItem("session_id");
-      const response = await privatApiClient.get("/api/users/auth/status", {"params": {"session_id": sessionId}});
+      const response = await apiClientWhitCredentials.get("/api/users/auth/status", {"params": {"session_id": sessionId}});
 
       setUser(response.data); // Axios returnerer data direkte i response.data
     } catch (err: any) {

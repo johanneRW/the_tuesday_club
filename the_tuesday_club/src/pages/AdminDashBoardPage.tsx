@@ -1,14 +1,6 @@
 import {
   Box,
-  Button,
-  Input,
-  VStack,
-  Text,
   Heading,
-  Select,
-  useToast,
-  FormControl,
-  FormLabel,
 } from "@chakra-ui/react";
 import useAllLabels from "../hooks/useAllLabels";
 import FileUploadComponent from "../components/FileUpload";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import privatApiClient from "../../services/private-api-client";
+import apiClientWhitCredentials from "../../services/api-client-whit-credentials";
 
 
 export type ErrorDetail = { field: string; message: string };
@@ -13,7 +13,7 @@ const usePostData = <T>(url: string) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await privatApiClient.post<T>(url, payload, {
+      const response = await apiClientWhitCredentials.post<T>(url, payload, {
         ...config, // Tillad yderligere konfiguration
       });
       setData(response.data);

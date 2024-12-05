@@ -1,15 +1,14 @@
-import React from "react";
+import { FC, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 
-
 type ProtectedRouteProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   requireSuperuser?: boolean;
 };
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireSuperuser = false }) => {
+const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, requireSuperuser = false }) => {
   const { user } = useAuth();
 
   if (!user || !user.isAuthenticated) {
@@ -22,7 +21,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireSuperu
     return <Navigate to="/" />;
   }
 
-  // Hvis adgang er tilladt, vis børnene
+  // Hvis adgang er tilladt, vis chilsdresn
   return <>{children}</>;
 };
 
