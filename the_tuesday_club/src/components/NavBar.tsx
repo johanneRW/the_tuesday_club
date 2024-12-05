@@ -4,6 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 import { useAuth } from "./AuthContext";
 import LogoutButton from "./logoutButton";
+import CartIcon from "./CartIcon";
 
 const NavBar = () => {
   const { user } = useAuth();
@@ -19,6 +20,8 @@ const NavBar = () => {
             Cart
           </Link>
         )}
+         {user?.isAuthenticated && (
+        <CartIcon/>)}
         {user?.isAuthenticated && user.isSuperuser && (
           <Link as={RouterLink} to="/admindashboard">
             Admin Dashboard
