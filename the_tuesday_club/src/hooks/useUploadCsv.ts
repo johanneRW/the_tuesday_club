@@ -1,6 +1,7 @@
 import { useState } from "react";
 import privatApiClient from "../services/private-api-client";
-
+import { formatErrorMessage } from "../services/formatErrorMessage";
+import useToastHandler from "./reuseableHooks/UseToastHandler";
 
 
 interface UploadResponse {
@@ -10,6 +11,7 @@ interface UploadResponse {
 const useUploadCsv = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { showToast } = useToastHandler(); // Hent showToast fra toast hook
 
   const uploadCsv = async (file: File, label: string): Promise<UploadResponse | null> => {
     setIsUploading(true);
@@ -25,9 +27,26 @@ const useUploadCsv = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+
+      showToast({
+        title: "Upload Successful",
+        description: response.data.message,
+        status: "success",
+        duration: 3000,
+      });
+
       return response.data;
     } catch (err: any) {
-      setError(err.response?.data?.error || "An error occurred while uploading the file.");
+      const errorMessage = formatErrorMessage(err.response?.data?.error || "An error occurred.");
+      setError(errorMessage);
+
+      showToast({
+        title: "Upload Failed",
+        description: errorMessage,
+        status: "error",
+        duration: 5000,
+      });
+
       return null;
     } finally {
       setIsUploading(false);

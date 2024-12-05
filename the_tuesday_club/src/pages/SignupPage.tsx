@@ -6,12 +6,13 @@ import {
   Text,
   Link,
   Heading,
-  useToast,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useSubmitSignup from "../hooks/useSubmitSignup";
 import UserForm from "../components/UserForm";
 import AddressForm from "../components/AddressForm";
+import useToastHandler from "../hooks/reuseableHooks/UseToastHandler";
+import { formatErrorMessage } from "../services/formatErrorMessage";
 
 
 const SignupPage = () => {
@@ -31,10 +32,9 @@ const SignupPage = () => {
   // Fejltilstande
   const [postalCodeError, setPostalCodeError] = useState(false);
 
-  const toast = useToast();
-  const navigate = useNavigate();
-
   const { signup, error, isLoading } = useSubmitSignup();
+  const { showToast } = useToastHandler(); // Brug det nye toast handler
+  const navigate = useNavigate();
 
   const handlePostalCodeChange = (value: string) => {
     if (/^\d{0,4}$/.test(value)) {
@@ -50,7 +50,7 @@ const SignupPage = () => {
       console.error("Validation failed.");
       return; // Stop, hvis formularen ikke er gyldig
     }
-  
+
     const signupError = await signup({
       user_data: {
         username,
@@ -66,33 +66,29 @@ const SignupPage = () => {
         country,
       },
     });
-  
-    console.log("handleSignup received error:", signupError); // Log fejl
-  
+
     if (signupError) {
-      toast({
+      // Brug fejlformattering og toast handler
+      const errorMessage = formatErrorMessage(signupError);
+      showToast({
         title: "Signup failed.",
-        description: signupError.map((e) => e.message).join(" | "),
+        description: errorMessage,
         status: "error",
         duration: 5000,
-        isClosable: true,
       });
-      return; // Stop her, hvis der er fejl
+      return;
     }
-  
-    toast({
+
+    // Succesbesked
+    showToast({
       title: "Account created.",
       description: "You can now log in with your credentials.",
       status: "success",
       duration: 3000,
-      isClosable: true,
     });
     navigate("/login");
   };
-  
-  
-  
-  
+
   const isFormValid = () => {
     return (
       username &&
@@ -108,7 +104,14 @@ const SignupPage = () => {
   };
 
   return (
-    <Box maxW="400px" mx="auto" mt="10" p="6" border="1px solid #ddd" borderRadius="8px">
+    <Box
+      maxW="400px"
+      mx="auto"
+      mt="10"
+      p="6"
+      border="1px solid #ddd"
+      borderRadius="8px"
+    >
       <Heading size="lg" mb="4">
         Sign Up
       </Heading>

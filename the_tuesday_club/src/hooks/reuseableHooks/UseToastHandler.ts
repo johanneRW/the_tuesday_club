@@ -9,25 +9,25 @@ type ToastOptions = {
 };
 
 const useToastHandler = () => {
-  const toast = useToast();
-
-  const showToast = ({
-    title,
-    description = "",
-    status,
-    duration = 3000,
-    isClosable = true,
-  }: ToastOptions) => {
-    toast({
+    const toast = useToast();
+  
+    const showToast = ({
       title,
       description,
       status,
-      duration,
-      isClosable,
-    });
+      duration = 3000,
+      isClosable = true,
+    }: ToastOptions) => {
+      toast({
+        title,
+        description,
+        status,
+        duration,
+        isClosable,
+      });
+    };
+  
+    return { showToast };
   };
-
-  return { showToast };
-};
-
+  
 export default useToastHandler;

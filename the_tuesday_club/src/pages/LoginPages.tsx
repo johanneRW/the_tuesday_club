@@ -14,6 +14,8 @@ import {
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../components/AuthContext";
 import { ErrorDetail } from "../hooks/reuseableHooks/usePostData";
+import { formatErrorMessage } from "../services/formatErrorMessage";
+import useToastHandler from "../hooks/reuseableHooks/UseToastHandler";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -21,27 +23,30 @@ const LoginPage = () => {
   const { login, isLoginLoading, loginError } = useAuth(); // Hent login-funktion fra AuthContext
   const toast = useToast();
   const navigate = useNavigate();
+  const { showToast } = useToastHandler(); 
 
   const handleLogin = async () => {
     const error = await login({ username, password }); // Brug login fra AuthContext
   
     if (error) {
-      const errorMessage = Array.isArray(error)
-        ? error.map((e) => e.message).join(" | ")
-        : typeof error === "string"
-        ? error
-        : "An unknown error occurred";
-    
-      toast({
+      const errorMessage = formatErrorMessage(error); // Brug helper til at formatere fejl
+      showToast({
         title: "Login failed.",
         description: errorMessage,
         status: "error",
         duration: 5000,
-        isClosable: true,
       });
       return;
     }
-    return navigate('/')
+
+    showToast({
+      title: "Login successful",
+      description: "Welcome!",
+      status: "success",
+      duration: 3000,
+    });
+
+    navigate("/"); 
   };
 
   return (

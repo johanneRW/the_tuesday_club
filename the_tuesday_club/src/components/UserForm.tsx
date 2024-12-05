@@ -1,8 +1,13 @@
-// UserForm.tsx
-import React from "react";
-import { FormControl, FormLabel, Input, VStack } from "@chakra-ui/react";
+import React, { FC } from "react";
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  FormHelperText,
+  FormErrorMessage,
+} from "@chakra-ui/react";
 
-type UserFormProps = {
+interface UserFormProps {
   username: string;
   setUsername: (value: string) => void;
   email: string;
@@ -13,9 +18,9 @@ type UserFormProps = {
   setLastName: (value: string) => void;
   password: string;
   setPassword: (value: string) => void;
-};
+}
 
-const UserForm = ({
+const UserForm: FC<UserFormProps> = ({
   username,
   setUsername,
   email,
@@ -26,54 +31,55 @@ const UserForm = ({
   setLastName,
   password,
   setPassword,
-}: UserFormProps) => (
-  <VStack spacing="4" align="stretch">
-    <FormControl>
-      <FormLabel>Username</FormLabel>
-      <Input
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Enter your username"
-      />
-    </FormControl>
-    <FormControl>
-      <FormLabel>Email</FormLabel>
-      <Input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Enter your email"
-      />
-    </FormControl>
-    <FormControl>
-      <FormLabel>First Name</FormLabel>
-      <Input
-        type="text"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        placeholder="Enter your first name"
-      />
-    </FormControl>
-    <FormControl>
-      <FormLabel>Last Name</FormLabel>
-      <Input
-        type="text"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        placeholder="Enter your last name"
-      />
-    </FormControl>
-    <FormControl>
-      <FormLabel>Password</FormLabel>
-      <Input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Create a password"
-      />
-    </FormControl>
-  </VStack>
-);
+}) => {
+  const isPasswordValid = password.length >= 8; // Validér password
+
+  return (
+    <div>
+      <FormControl id="username" mb="4" isRequired>
+        <FormLabel>Username</FormLabel>
+        <Input
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+      </FormControl>
+      <FormControl id="email" mb="4" isRequired>
+        <FormLabel>Email</FormLabel>
+        <Input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </FormControl>
+      <FormControl id="first-name" mb="4" isRequired>
+        <FormLabel>First Name</FormLabel>
+        <Input
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+      </FormControl>
+      <FormControl id="last-name" mb="4" isRequired>
+        <FormLabel>Last Name</FormLabel>
+        <Input
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
+      </FormControl>
+      <FormControl id="password" mb="4" isRequired isInvalid={!isPasswordValid}>
+        <FormLabel>Password</FormLabel>
+        <Input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {!isPasswordValid ? (
+          <FormErrorMessage>Password must be at least 8 characters long.</FormErrorMessage>
+        ) : (
+          <FormHelperText>Your password looks good!</FormHelperText>
+        )}
+      </FormControl>
+    </div>
+  );
+};
 
 export default UserForm;
