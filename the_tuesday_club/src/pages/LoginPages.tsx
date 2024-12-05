@@ -41,7 +41,7 @@ const LoginPage = () => {
       });
       return;
     }
-    
+    return navigate('/')
   };
 
   return (
