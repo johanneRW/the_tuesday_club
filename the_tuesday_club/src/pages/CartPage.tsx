@@ -11,6 +11,7 @@ import {
   } from "@chakra-ui/react";
   import { useCart } from "../components/CartContext";
 import { capitalizeWords } from "../services/capitalizeWords";
+import AddToPileButton from "../components/AddToPileButton";
   
   const CartPage = () => {
     const { cart, removeFromCart, clearCart, increaseCount, decreaseCount } = useCart();
@@ -93,9 +94,7 @@ import { capitalizeWords } from "../services/capitalizeWords";
               <Button variant="outline" colorScheme="red" onClick={clearCart}>
                 Clear Cart
               </Button>
-              <Button variant="solid" colorScheme="blue">
-                Proceed to Checkout
-              </Button>
+              <AddToPileButton/>
             </HStack>
           </VStack>
         )}

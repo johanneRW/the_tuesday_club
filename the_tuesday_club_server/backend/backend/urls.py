@@ -21,6 +21,7 @@ from myapp.api.csv import router as csv_router
 from myapp.api.albums import router as albums_router
 from myapp.api.filters import router as filters_router
 from myapp.api.users import router as users_router
+from myapp.api.piles import router as pile_router
 
 
 
@@ -31,6 +32,7 @@ api.add_router("/csv", csv_router)
 api.add_router("/albums", albums_router)  
 api.add_router("/filters", filters_router)
 api.add_router("/users", users_router)
+api.add_router("/piles", pile_router)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

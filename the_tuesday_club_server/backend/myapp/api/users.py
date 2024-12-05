@@ -84,7 +84,7 @@ def get_current_user(request):
     return JsonResponse({"detail": "Unauthorized"}, status=401)
 
 """
-
+#flyt denne til hjælpe funktion
 def get_user_from_session_key(request) -> User | None:
     session_key = request.session.session_key
     print("Session key:", session_key)
