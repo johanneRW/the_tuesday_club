@@ -1,13 +1,13 @@
-import React from "react";
-import useAddToPile from "../hooks/useAddToPile";
+import { FC } from "react";
+import useAddToPile, { AlbumQuantity } from "../hooks/useAddToPile";
 import { useCart } from "./CartContext";
 import { Button } from "@chakra-ui/react";
 import useToastHandler from "../hooks/reuseableHooks/UseToastHandler";
 
-const AddToPileButton: React.FC = () => {
+const AddToPileButton: FC = () => {
   const { cart, clearCart } = useCart(); // Få adgang til cart og clearCart fra konteksten
-  const { addToPile, isLoading } = useAddToPile(); // Hook til at kalde API'et
-  const { showToast } = useToastHandler(); // Toast handler
+  const { addToPile, isLoading } = useAddToPile(); 
+  const { showToast } = useToastHandler(); 
 
   const handleAddToPile = async () => {
     if (cart.length === 0) {
@@ -19,15 +19,21 @@ const AddToPileButton: React.FC = () => {
       return;
     }
 
-    // Ekstraher album_ids fra cart
-    const albumIds = cart.map((cartItem) => cartItem.item.album_id);
+    // Konverter cart til AlbumQuantity format
+    const albums: AlbumQuantity[] = cart.map((cartItem) => ({
+      album_id: cartItem.item.album_id,
+      quantity: cartItem.count,
+    }));
 
-    const success = await addToPile(albumIds); // Send API-kald med album_ids
+    // Beregn det samlede antal albummer
+    const totalQuantity = cart.reduce((sum, cartItem) => sum + cartItem.count, 0);
+
+    const success = await addToPile(albums); 
 
     if (success) {
       showToast({
         title: "Success",
-        description: `Successfully added ${cart.length} items to a new pile!`,
+        description: `Successfully added ${totalQuantity} items to your pile!`, 
         status: "success",
       });
       clearCart(); // Tøm kurven efter succes

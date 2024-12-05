@@ -28,16 +28,15 @@ def add_to_pile(request, data: AddToPileRequest):
     )"""
 
 
+
 @router.post("/add-to-pile/")
 def add_to_pile(request, data: AddToPileRequest):
+    # Få brugeren fra session
     user_or_none = get_user_from_session_key(request)
     if user_or_none is None:
-        # Returnér 401, hvis brugeren ikke er logget ind
-        return 401, {"error": "You are not logged in."}
-    
-    print(user_or_none)
+        return JsonResponse({"error": "You are not logged in."}, status=401)
 
-    # Find status for "ikke bestilt" (eller opret den, hvis den ikke eksisterer)
+    # Find status for "ikke bestilt" eller opret den
     pile_status, _ = PileStatus.objects.get_or_create(pile_status_name="Ikke bestilt")
 
     # Opret en ny pile
@@ -47,29 +46,28 @@ def add_to_pile(request, data: AddToPileRequest):
         pile_start_date=now()
     )
 
-    
     added = []
     errors = []
 
-    # Iterer over album_ids fra forespørgslen
-    for album_id in data.album_ids:
+    # Iterer over albums og deres quantity
+    for album_data in data.albums:
         try:
-            album = get_object_or_404(Album, album_id=album_id)
+            album = get_object_or_404(Album, album_id=album_data.album_id)
 
-            # Tilføj albummet som pile-item
+            # Tilføj albummet som pile-item med quantity
             PileItem.objects.create(
                 pile_id=pile,
                 album_id=album,
                 added_to_pile=now(),
-                pile_item_price=album.albumprice_set.order_by("-price_start_date").first().album_price
+                pile_item_price=album.albumprice_set.order_by("-price_start_date").first().album_price,
+                quantity=album_data.quantity
             )
-            added.append(str(album_id))
+            added.append({"album_id": str(album_data.album_id), "quantity": album_data.quantity})
         except Album.DoesNotExist:
-            errors.append({"field": "album_id", "message": f"Album with id {album_id} not found."})
+            errors.append({"field": "album_id", "message": f"Album with id {album_data.album_id} not found."})
         except Exception as e:
             errors.append({"field": "general", "message": str(e)})
 
-    # Returner fejl eller succesrespons
     if errors:
         return JsonResponse({"errors": errors}, status=400)
 

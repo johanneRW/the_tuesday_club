@@ -2,5 +2,9 @@ from ninja import Schema
 from uuid import UUID
 from typing import List
 
+class AlbumQuantity(Schema):
+    album_id: UUID
+    quantity: int  # Antal af det pågældende album
+
 class AddToPileRequest(Schema):
-    album_ids: List[UUID]  # Liste af album_id'er
+    albums: List[AlbumQuantity]  # Liste af albummer med ID og quantity

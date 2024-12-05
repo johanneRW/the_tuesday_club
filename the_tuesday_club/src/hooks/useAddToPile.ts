@@ -1,26 +1,31 @@
 import usePostData from "./reuseableHooks/usePostData";
 
 
-export type AddToPilePayload = {
-  album_ids: string[]; // Liste af album-ID'er
+export type AlbumQuantity = {
+  album_id: string; // Album ID
+  quantity: number; // Mængde af albummer
 };
 
+
+export type AddToPilePayload = {
+  albums: AlbumQuantity[]; 
+};
+
+// Responsen fra API'et
 export type AddToPileResponse = {
-  pile_id: string;
-  added: string[];
+  pile_id: string; 
+  added: AlbumQuantity[]; 
 };
 
 const useAddToPile = () => {
   const { execute, isLoading, error, data } = usePostData<AddToPileResponse>("/api/piles/add-to-pile/");
 
-
-  const addToPile = async (albumIds: string[]): Promise<boolean> => {
-    const payload: AddToPilePayload = { album_ids: albumIds };
+  const addToPile = async (albums: AlbumQuantity[]): Promise<boolean> => {
+    const payload: AddToPilePayload = { albums }; 
 
     const errors = await execute(payload);
 
-   
-    return !errors;
+    return !errors; // Returnér true, hvis der ikke er fejl
   };
 
   return {
