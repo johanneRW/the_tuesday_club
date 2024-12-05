@@ -68,7 +68,8 @@ def user_login(request, credentials: LoginSchema):
 
 
 
-
+#burde funger men dekoder ikke korrekt: mulige årsager, databasen skal startes op fra bunden igen, 
+     # eller det fungere kun over https fobindelse og kan derfor ikke teste lokalt uden tunneling
 """ @router.get("/me", response=UserSchema)
 def get_current_user(request):
     print("Session data:", list(request.session.items()))  # Log sessionen
@@ -97,7 +98,7 @@ def get_user_from_session_key(request) -> User | None:
         return None
     
     # Hent user_id fra session-data
-    user_id = session_data.get('user_id')  # Bemærk ændringen fra '_auth_user_id'
+    user_id = session_data.get('user_id') 
     if not user_id:
         return None
 
@@ -125,37 +126,7 @@ def get_current_user_manual(request):
         "isSuperuser": user_or_none.is_superuser,
     })
     
-    # session_key = request.session.session_key
-    # print("Session key:", session_key)
-
-    # # Hent sessionen fra databasen
-    # try:
-    #     session = Session.objects.get(session_key=session_key)
-    #     session_data = session.get_decoded()
-    #     print("Decoded session data:", session_data)
-    # except Session.DoesNotExist:
-    #     return JsonResponse({"detail": "Session not found"}, status=401)
-
-    # # Hent user_id fra session-data
-    # user_id = session_data.get('user_id')  # Bemærk ændringen fra '_auth_user_id'
-    # if not user_id:
-    #     return JsonResponse({"detail": "No user_id in session"}, status=401)
-
-    # # Find brugeren i databasen
-    # try:
-    #     from django.contrib.auth import get_user_model
-    #     User = get_user_model()
-    #     user = User.objects.get(id=user_id)
-    #     print("User found:", user)
-    # except User.DoesNotExist:
-    #     return JsonResponse({"detail": "User not found"}, status=401)
-
-    # # Returnér brugerens data
-    # return JsonResponse({
-    #     "username": user.username,
-    #     "isAuthenticated": True,
-    #     "isSuperuser": user.is_superuser,
-    # })
+    
 
 
 @router.post("/logout", response={200: UserSchema, 401: ErrorSchema})
@@ -177,6 +148,8 @@ def user_logout(request):
     except Exception as e:
         return 500, {"error": "An error occurred during logout. Please try again."}
 
+#burde funger men dekoder ikke korrekt: mulige årsager, databasen skal startes op fra bunden igen, 
+    # eller det fungere kun over https fobindelse og kan derfor ikke teste lokalt uden tunneling
 """
 @router.post("/logout", response={200: UserSchema, 401: ErrorSchema})
 def user_logout(request):
