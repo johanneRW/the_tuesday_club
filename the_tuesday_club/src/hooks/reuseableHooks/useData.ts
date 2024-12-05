@@ -1,34 +1,37 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { AxiosRequestConfig } from "axios";
 import apiClient from "../../services/api-client";
-
 
 type ListResponse<T> = T[];
 
 const useData = <T>(
   endpoint: string,
   requestConfig?: AxiosRequestConfig,
-  dependencies: any[] = [],
-  
+  dependencies: any[] = []
 ) => {
   const [data, setData] = useState<T[]>([]);
- 
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     setIsLoading(true);
+    setError("");
 
     apiClient
-      .get< ListResponse<T>>(endpoint, { ...requestConfig })
+      .get<ListResponse<T>>(endpoint, { ...requestConfig })
       .then((response) => {
-          setData(response.data as T[]);
+        setData(response.data as T[]);
       })
       .catch((error) => setError(error.message))
       .finally(() => setIsLoading(false));
-  }, dependencies);
+  }, [endpoint, requestConfig, ...dependencies]);
 
-  return { data, error, isLoading };
+  useEffect(() => {
+    fetchData(); // Hent data ved komponent mount eller ved ændring af dependencies
+  }, [fetchData]);
+
+  return { data, error, isLoading, refetch: fetchData }; // Tilføj refetch
 };
 
 export default useData;
+  

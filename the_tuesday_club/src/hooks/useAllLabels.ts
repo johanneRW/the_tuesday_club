@@ -11,4 +11,4 @@ const useAllLabels = () => {
   return useData<Label>("/api/csv/labels/all");
 };
 
-export default useAllLabels;
+export default useAllLabels; 

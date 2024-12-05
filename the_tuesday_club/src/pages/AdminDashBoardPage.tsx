@@ -13,10 +13,11 @@ import {
 } from "@chakra-ui/react";
 import useAllLabels from "../hooks/useAllLabels";
 import useUploadCsv from "../hooks/useUploadCsv";
+import FileUploadComponent from "../components/FileUpload";
 
 
 const AdminDashboard = () => {
-  const [file, setFile] = useState<File | null>(null);
+ /*  const [file, setFile] = useState<File | null>(null);
   const [selectedLabel, setSelectedLabel] = useState<string>("");
   const [newLabel, setNewLabel] = useState<string>("");
   const toast = useToast();
@@ -154,6 +155,23 @@ const AdminDashboard = () => {
       </Box>
     </Box>
   );
-};
+}; */
 
+const { data: labels, error: fetchError, isLoading, refetch } = useAllLabels();
+
+  return (
+    <Box maxW="800px" mx="auto" mt="10">
+      <Heading size="lg" mb="6" textAlign="center">
+        Admin Dashboard
+      </Heading>
+      <FileUploadComponent
+        labels={labels || []}
+        isLoading={isLoading}
+        fetchError={fetchError || null}
+        onRefresh={refetch} // Brug refetch til at genindlæse labels
+      />
+    </Box>
+  );
+};
+ 
 export default AdminDashboard;
