@@ -27,7 +27,7 @@ def list_labels(request):
 
 
 @router.post("/upload_csv")
-@login_required
+#@login_required
 def upload_csv(
     request,
     file: UploadedFile = File(...),
