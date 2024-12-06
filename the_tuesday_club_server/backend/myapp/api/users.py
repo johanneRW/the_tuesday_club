@@ -1,6 +1,7 @@
 from ninja import Router
 from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import User
+from ..utils.helpers import get_user_from_session_key
 from ..signals import address_created
 from .serializers.address_serializers import (AddressCreateSchema)
 from .serializers.login_serializers import (LoginSchema, UserSchema, ErrorSchema)
@@ -10,7 +11,6 @@ from .serializers.user_serializers import (
 )
 from django.http import JsonResponse
 from ninja.security import django_auth
-from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.decorators import login_required
 from django.contrib.sessions.models import Session
 
@@ -84,34 +84,7 @@ def get_current_user(request):
     return JsonResponse({"detail": "Unauthorized"}, status=401)
 
 """
-#flyt denne til hjælpe funktion
-def get_user_from_session_key(request) -> User | None:
-    session_key = request.session.session_key
-    print("Session key:", session_key)
 
-    # Hent sessionen fra databasen
-    try:
-        session = Session.objects.get(session_key=session_key)
-        session_data = session.get_decoded()
-        print("Decoded session data:", session_data)
-    except Session.DoesNotExist:
-        return None
-    
-    # Hent user_id fra session-data
-    user_id = session_data.get('user_id') 
-    if not user_id:
-        return None
-
-    # Find brugeren i databasen
-    try:
-        from django.contrib.auth import get_user_model
-        User = get_user_model()
-        user = User.objects.get(id=user_id)
-        print("User found:", user)
-    except User.DoesNotExist:
-        return None
-    else:
-        return user
 
 
 @router.get("/me")

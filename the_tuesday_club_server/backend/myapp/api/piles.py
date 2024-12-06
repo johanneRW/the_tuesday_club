@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from ninja import Router
 from django.utils.timezone import now
 from django.shortcuts import get_object_or_404
-from .users import get_user_from_session_key
+from ..utils.helpers import get_user_from_session_key
 from .serializers.pile_serializers import AddToPileRequest
 from myapp.models import Pile, PileItem, Album, PileStatus
 
