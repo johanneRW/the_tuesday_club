@@ -2,6 +2,10 @@ from requests import Session
 from .column_aliases import COLUMN_ALIASES
 from datetime import date
 from django.contrib.auth.models import User
+from django.contrib.sessions.models import Session
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpRequest
+from django.contrib.auth import get_user_model
 
 def get_column_value(row, key):
     """
@@ -42,30 +46,29 @@ def parse_date(value):
 
 
 
-def get_user_from_session_key(request) -> User | None:
-    session_key = request.session.session_key
-    print("Session key:", session_key)
 
-    # Hent sessionen fra databasen
+
+def get_user_from_session_key(request: HttpRequest):
+    """
+    Hent en bruger baseret på sessionnøglen fra request-objektet.
+    """
+    session_key = request.session.session_key
+    if not session_key:
+        return None
+
     try:
+        # Hent sessionen fra databasen
         session = Session.objects.get(session_key=session_key)
         session_data = session.get_decoded()
-        print("Decoded session data:", session_data)
-    except Session.DoesNotExist:
+    except (ObjectDoesNotExist, AttributeError):
         return None
-    
-    # Hent user_id fra session-data
-    user_id = session_data.get('user_id') 
+
+    user_id = session_data.get('user_id')
     if not user_id:
         return None
 
-    # Find brugeren i databasen
     try:
-        from django.contrib.auth import get_user_model
         User = get_user_model()
-        user = User.objects.get(id=user_id)
-        print("User found:", user)
+        return User.objects.get(id=user_id)
     except User.DoesNotExist:
         return None
-    else:
-        return user
