@@ -1,7 +1,6 @@
 from ninja import Router
 from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import User
-from ..utils.helpers import get_user_from_session_key
 from ..signals import address_created
 from .serializers.address_serializers import (AddressCreateSchema)
 from .serializers.login_serializers import (LoginSchema, UserSchema, ErrorSchema)
@@ -67,31 +66,35 @@ def user_login(request, credentials: LoginSchema):
 
 
 
-@router.get("/me")
-def get_current_user_manual(request):
-    user_or_none = get_user_from_session_key(request)
-    if user_or_none is None:
-        return JsonResponse({"detail": "Session not found"}, status=401)
-    else:
-        return JsonResponse({
-        "username": user_or_none.username,
-        "isAuthenticated": True,
-        "isSuperuser": user_or_none.is_superuser,
-    })
-    
-    
+#burde funger men dekoder ikke korrekt: mulige årsager, databasen skal startes op fra bunden igen, 
+     # eller det fungere kun over https fobindelse og kan derfor ikke teste lokalt uden tunneling
+@router.get("/me", response=UserSchema)
+def get_current_user(request):
+    print("Session data:", list(request.session.items()))  # Log sessionen
+    print("Authenticated user:", request.user.is_authenticated)  # Log brugerstatus
+    print("User object:", request.user)  # Log brugerobjekt
+    if request.user.is_authenticated:
+        return UserSchema(
+            username=request.user.username,
+            isAuthenticated=True,
+            isSuperuser=request.user.is_superuser,
+        )
+    return JsonResponse({"detail": "Unauthorized"}, status=401)
 
+
+
+
+#burde funger men dekoder ikke korrekt: mulige årsager, databasen skal startes op fra bunden igen, 
+    # eller det fungere kun over https fobindelse og kan derfor ikke teste lokalt uden tunneling
 
 @router.post("/logout", response={200: UserSchema, 401: ErrorSchema})
 def user_logout(request):
-    user_or_none = get_user_from_session_key(request)
-    if user_or_none is None:
+    if not request.user.is_authenticated:
         # Returnér 401, hvis brugeren ikke er logget ind
         return 401, {"error": "You are not logged in."}
     
     try:
         logout(request)
-        print("Logged out", user_or_none)
         
         # Fjern session-cookien
         response = JsonResponse({"message": "Logout successful!"})
