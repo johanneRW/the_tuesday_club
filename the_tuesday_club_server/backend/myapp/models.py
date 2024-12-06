@@ -162,3 +162,20 @@ class AdminAlbumView(models.Model):
     class Meta:
         managed = False  
         db_table = 'admin_album_view'
+
+
+class UnsentPileItem(models.Model):
+    unique_key = models.CharField(max_length=255, primary_key=True)
+    pile_item_id = models.UUIDField()
+    album_id = models.UUIDField()
+    album_name = models.CharField(max_length=255)
+    quantity = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    added_to_pile = models.DateTimeField()
+    pile_id = models.UUIDField()
+    pile_status = models.CharField(max_length=255)
+    user_id = models.IntegerField()
+
+    class Meta:
+        managed = False 
+        db_table = 'unsent_pile_items_view'  
