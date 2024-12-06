@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPages";
 import AdminDashboardPage from "./pages/AdminDashBoardPage";
 import ProtectedRoute from "./components/ProtectedRout";
 import { AuthProvider } from "./components/AuthContext";
+import ProfilePage from "./pages/ProfilePage";
 
 
 
@@ -46,7 +47,6 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
-
                 {/* Protected route for regular users */}
                 <Route
                   path="/cart"
@@ -56,7 +56,9 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-
+                <Route path="/profile" element={<ProtectedRoute>
+                      <ProfilePage />
+                    </ProtectedRoute>}/>
                 {/* Protected route for superusers */}
                 <Route
                   path="/admindashboard"
