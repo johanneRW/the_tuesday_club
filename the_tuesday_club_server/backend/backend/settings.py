@@ -175,6 +175,7 @@ AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',  # Cache kontrol for bedre ydelse
 }
 AWS_LOCATION = 'media/'  # Folder i bucket for mediafiler
+AWS_DEFAULT_ACL = 'public-read'
 
 #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'backend.custom_storages.MediaStorage'
@@ -186,4 +187,4 @@ DEFAULT_FILE_STORAGE = 'backend.custom_storages.MediaStorage'
 #STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/static/'
 
 # Media URL
-MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/'
+MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}'

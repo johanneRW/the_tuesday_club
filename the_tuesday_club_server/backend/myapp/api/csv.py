@@ -58,7 +58,7 @@ def upload_image(
     image: UploadedFile = File(...),
 ):
     """Uploader og indlæser en CSV-fil."""
-    album = Album.objects.first()
+    album = Album.objects.get(album_id="383568e1-3b4c-441b-94c7-ea1d5a7ea230")
     
     try:
         album_image = AlbumImage.objects.create(
@@ -69,4 +69,5 @@ def upload_image(
     except ValueError as ve:
         return JsonResponse({"error": str(ve)}, status=400)
     except Exception as e:
+        raise 
         return JsonResponse({"error": str(e)}, status=500)

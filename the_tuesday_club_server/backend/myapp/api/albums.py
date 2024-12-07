@@ -1,10 +1,12 @@
 from decimal import Decimal
+import os
 from typing import Optional, List
 from django.db.models import  Q
 from django.core.paginator import Paginator
 from ninja import Router
 from myapp.models import AlbumView
 from .serializers.album_serializers import (PaginatedAlbumSchema)
+from django.conf import settings
 
 router = Router()
 
@@ -53,11 +55,18 @@ def list_albums(
     # Paginér resultaterne
     paginator = Paginator(albums, page_size)
     page_obj = paginator.get_page(page)
+    
+    albums = list(page_obj.object_list)
+    for album in albums:
+        if album.album_image:
+            album.image_url = settings.MEDIA_URL + album.album_image
+        else:
+            album.image_url = None
 
     # Returnér paginerede resultater uden gentagelse af variabler
     return {
         "total_pages": paginator.num_pages,
         "current_page": page_obj.number,
-        "albums": list(page_obj.object_list),
+        "albums": albums,
     }
     

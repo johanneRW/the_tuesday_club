@@ -24,7 +24,6 @@ class Label(models.Model):
 
 class AlbumImage(models.Model):
     image_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  
-    image_name = models.CharField(max_length=255)
     album_id = models.OneToOneField(
         'Album', on_delete=models.CASCADE, unique=True, related_name='album_image'
     )
