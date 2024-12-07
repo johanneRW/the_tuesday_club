@@ -2,6 +2,7 @@ import { Box, Heading } from "@chakra-ui/react";
 
 import { useAuth } from "../components/AuthContext";
 import PileList from "../components/PileList";
+import ImageUpload from "../components/imageupload";
 
 const ProfilePage = () => {
   useAuth(); 
@@ -12,6 +13,7 @@ const ProfilePage = () => {
         Profile Page
       </Heading>
       <PileList></PileList>
+      <ImageUpload></ImageUpload>
     </Box>
   );
 };

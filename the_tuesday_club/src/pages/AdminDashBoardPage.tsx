@@ -4,7 +4,6 @@ import {
 } from "@chakra-ui/react";
 import useAllLabels from "../hooks/useAllLabels";
 import FileUploadComponent from "../components/FileUpload";
-import ImageUpload from "../components/imageupload";
 
 
 const AdminDashboard = () => {
@@ -21,7 +20,6 @@ const { data: labels, error: fetchError, isLoading, refetch } = useAllLabels();
         fetchError={fetchError || null}
         onRefresh={refetch} // Brug refetch til at genindlæse labels
       />
-       <ImageUpload></ImageUpload>
     </Box>
    
   );
