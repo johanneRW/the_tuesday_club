@@ -4,7 +4,7 @@ from ninja.files import UploadedFile
 from django.http import JsonResponse
 import tempfile
 from myapp.utils.csv_importer import import_csv_to_multiple_tables
-from myapp.models import Label
+from myapp.models import Album, AlbumImage, Label
 from .serializers.filter_serializers import (LabelNameSchema)
 from django.contrib.auth.decorators import login_required
 
@@ -43,6 +43,28 @@ def upload_csv(
         # Kald den opdaterede importeringsfunktion med label_name
         import_csv_to_multiple_tables(temp_file.name, label_name)
 
+        return {"message": "Filen er indlæst og behandlet korrekt."}
+    except ValueError as ve:
+        return JsonResponse({"error": str(ve)}, status=400)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+    
+    
+    
+@router.post("/upload_image")
+#@login_required
+def upload_image(
+    request,
+    image: UploadedFile = File(...),
+):
+    """Uploader og indlæser en CSV-fil."""
+    album = Album.objects.first()
+    
+    try:
+        album_image = AlbumImage.objects.create(
+            album_id=album,
+            image=image,
+        )
         return {"message": "Filen er indlæst og behandlet korrekt."}
     except ValueError as ve:
         return JsonResponse({"error": str(ve)}, status=400)
