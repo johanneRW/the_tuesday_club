@@ -30,7 +30,7 @@ const PileTable: React.FC = () => {
     return itemDate < earliest ? itemDate : earliest;
   }, new Date());
 
- // Konverter datoer til tidsstempler for at udføre aritmetik
+ // Konverter datoer til tidsstempler for at udføre udregninger
 const daysSinceEarliest = Math.floor(
   (new Date().getTime() - earliestItemDate.getTime()) / (1000 * 60 * 60 * 24)
 );

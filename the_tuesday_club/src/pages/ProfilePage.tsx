@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Box, Heading, Grid, GridItem, Text } from "@chakra-ui/react";
 import { useAuth } from "../components/AuthContext";
 import PileTable from "../components/PileTable";
+import UserProfile from "../components/userProfile";
 
 
 const ProfilePage: React.FC = () => {
@@ -19,10 +20,7 @@ const ProfilePage: React.FC = () => {
         <GridItem>
           <Box p="4" borderWidth="1px" borderRadius="lg" boxShadow="md">
             <Heading size="md" mb="4">Member Information</Heading>
-            <Text>Name:</Text>
-            <Text>Email:</Text>
-            
-            
+            <UserProfile/>
           </Box>
         </GridItem>
         <GridItem>

@@ -1,72 +1,40 @@
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  VStack,
-  FormErrorMessage,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, VStack, FormErrorMessage } from "@chakra-ui/react";
 
-type AddressFormProps = {
-  street: string;
-  setStreet: (value: string) => void;
-  city: string;
-  setCity: (value: string) => void;
-  postalCode: string;
-  setPostalCode: (value: string) => void;
-  postalCodeError: boolean;
-  country: string;
-  setCountry: (value: string) => void;
-};
+interface AddressFormProps {
+  values: { [key: string]: string };
+  errors: { [key: string]: string };
+  handleChange: (field: string, value: string) => void;
+}
 
-const AddressForm = ({
-  street,
-  setStreet,
-  city,
-  setCity,
-  postalCode,
-  setPostalCode,
-  postalCodeError,
-  country,
-  setCountry,
-}: AddressFormProps) => (
+const AddressForm: React.FC<AddressFormProps> = ({ values, errors, handleChange }) => (
   <VStack spacing="4" align="stretch">
     <FormControl>
       <FormLabel>Street</FormLabel>
       <Input
-        type="text"
-        value={street}
-        onChange={(e) => setStreet(e.target.value)}
-        placeholder="Enter your street address"
+        value={values.street}
+        onChange={(e) => handleChange("street", e.target.value)}
       />
     </FormControl>
     <FormControl>
       <FormLabel>City</FormLabel>
       <Input
-        type="text"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        placeholder="Enter your city"
+        value={values.city}
+        onChange={(e) => handleChange("city", e.target.value)}
       />
     </FormControl>
-    <FormControl isInvalid={postalCodeError}>
+    <FormControl isInvalid={!!errors.postalCode}>
       <FormLabel>Postal Code</FormLabel>
       <Input
-        type="text"
-        value={postalCode}
-        onChange={(e) => setPostalCode(e.target.value)}
-        placeholder="Enter your postal code"
+        value={values.postalCode}
+        onChange={(e) => handleChange("postalCode", e.target.value)}
       />
-      {postalCodeError && (
-        <FormErrorMessage>Postal code must be exactly 4 digits.</FormErrorMessage>
-      )}
+      <FormErrorMessage>{errors.postalCode}</FormErrorMessage>
     </FormControl>
     <FormControl>
       <FormLabel>Country</FormLabel>
       <Input
-        type="text"
-        value={country}
-        onChange={(e) => setCountry(e.target.value)}
-        placeholder="Enter your country"
+        value={values.country}
+        onChange={(e) => handleChange("country", e.target.value)}
       />
     </FormControl>
   </VStack>
