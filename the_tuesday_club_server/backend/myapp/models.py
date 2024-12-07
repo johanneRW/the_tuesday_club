@@ -3,6 +3,9 @@ import uuid
 from django.db import models
 from django.core.validators import MinValueValidator
 
+from myapp.managers import PileItemManager
+from backend.custom_storages import MediaStorage
+
 class Artist(models.Model):
     artist_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
     artist_name = models.CharField(max_length=255)
@@ -25,6 +28,7 @@ class AlbumImage(models.Model):
     album_id = models.OneToOneField(
         'Album', on_delete=models.CASCADE, unique=True, related_name='album_image'
     )
+    image = models.ImageField(upload_to='uploads/',storage=MediaStorage(),null=True)  # Filen gemmes i bucket i "media/uploads/"
 
 
 class Album(models.Model):
@@ -122,6 +126,8 @@ class PileItem(models.Model):
     pile_item_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
 
+    # Custom Manager
+    objects = PileItemManager()
     
     class Meta:
         unique_together = ('pile_id','album_id')

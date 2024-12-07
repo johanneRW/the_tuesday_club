@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders'
+    'corsheaders',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -164,3 +165,25 @@ else:
     "X-CSRFToken",
     "Set-Cookie",
 ] """
+
+# Linode Object Storage-konfiguration
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = 'thetuesdayclub'
+AWS_S3_ENDPOINT_URL = 'https://se-sto-1.linodeobjects.com'  # Erstat "your-region"
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',  # Cache kontrol for bedre ydelse
+}
+AWS_LOCATION = 'media/'  # Folder i bucket for mediafiler
+
+#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'backend.custom_storages.MediaStorage'
+
+
+
+# Valgfri: Hvis du også bruger S3 til statiske filer
+#STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+#STATIC_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/static/'
+
+# Media URL
+MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/'
