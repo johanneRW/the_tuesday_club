@@ -12,7 +12,7 @@ import {
 
 interface CustomListProps<T> {
   title: string;
-  useDataHook: () => { data: T[]; error: string; isLoading: boolean };
+  useDataHook: () => { data: T[]; error: string | null; isLoading: boolean };
   selectedItems?: T[]; 
   onSelectItem: (items: T[]) => void; 
 }
