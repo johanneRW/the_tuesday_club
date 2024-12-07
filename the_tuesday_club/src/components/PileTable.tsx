@@ -1,38 +1,30 @@
-import React from "react";
-import { Spinner, Box, Text, TableContainer, Table, Thead, Tr, Th, Tbody, Td, Heading } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import { Table, Tbody, Tr, Td, Thead, Th, Spinner, Box, Text, Button } from "@chakra-ui/react";
 import usePileItems from "../hooks/usePileItems";
+import useClosePile from "../hooks/useClosePile";
 
 
-const PileItemsTable: React.FC = () => {
-  const { data: pileItems, error, isLoading } = usePileItems();
+const PileTable: React.FC = () => {
+  const { data: pileItems, isLoading, error, refetch } = usePileItems();
+  const { closePile, isLoading: isClosing } = useClosePile();
+
+  const handleClosePile = async () => {
+    await closePile();
+    refetch(); // Genindlæs tabellen
+  };
 
   if (isLoading) {
-    return (
-      <Box textAlign="center" mt="6">
-        <Spinner size="lg" />
-        <Text mt="4">Loading pile items...</Text>
-      </Box>
-    );
+    return <Spinner size="lg" />;
   }
 
   if (error) {
-    return (
-      <Box textAlign="center" mt="6">
-        <Text color="red.500">{error}</Text>
-      </Box>
-    );
+    return <Text color="red.500">Failed to load pile items: {error}</Text>;
   }
 
-  if (pileItems.length === 0) {
-    return (
-      <Box textAlign="center" mt="6">
-        <Text>No pile items found.</Text>
-      </Box>
-    );
+  if (!pileItems.length) {
+    return <Text textAlign="center">No items found in the pile.</Text>;
   }
 
-  const totalPrice = pileItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const totalAlbums = pileItems.reduce((sum, item) => sum + item.quantity, 0);
   const earliestItemDate = pileItems.reduce((earliest, item) => {
     const itemDate = new Date(item.added_to_pile);
     return itemDate < earliest ? itemDate : earliest;
@@ -43,21 +35,23 @@ const daysSinceEarliest = Math.floor(
   (new Date().getTime() - earliestItemDate.getTime()) / (1000 * 60 * 60 * 24)
 );
 
+
   return (
     <Box>
-    <Heading size="md" mb="4">Pile</Heading>
       {/* Samlet Statistik */}
-      <Box textAlign="center" mb="6">
-        <Text>Total Price: {totalPrice.toFixed(2)} kr</Text>
-        <Text>Albums:{totalAlbums}</Text>
+      <Box textAlign="center" mb="4">
+        <Text fontSize="lg" fontWeight="bold">
+          Total Price: {pileItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)} kr
+        </Text>
+        <Text>Total Albums: {pileItems.reduce((sum, item) => sum + item.quantity, 0)}</Text>
         <Text>Pile has been open for: {daysSinceEarliest} days</Text>
       </Box>
 
-      <TableContainer>
+      {/* Data Tablen */}
       <Table variant="simple" size="md">
         <Thead>
           <Tr>
-          <Th>Artist Name</Th>
+            <Th>Artist Name</Th>
             <Th>Album Name</Th>
             <Th>Price</Th>
             <Th>Quantity</Th>
@@ -69,16 +63,27 @@ const daysSinceEarliest = Math.floor(
             <Tr key={item.unique_key}>
               <Td>{item.artist_name}</Td>
               <Td>{item.album_name}</Td>
-              <Td >{item.price}</Td>
+              <Td>{item.price}</Td>
               <Td>{item.quantity}</Td>
               <Td>{item.pile_status}</Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
-    </TableContainer>
+
+      {/* Close Button */}
+      <Box textAlign="center" mt="4">
+        <Button
+          colorScheme="blue"
+          onClick={handleClosePile}
+          isLoading={isClosing}
+          isDisabled={isClosing}
+        >
+          request pile closing
+        </Button>
+      </Box>
     </Box>
   );
 };
 
-export default PileItemsTable;
+export default PileTable;

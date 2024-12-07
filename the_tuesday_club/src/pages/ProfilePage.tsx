@@ -1,30 +1,34 @@
-import { Box, Grid, GridItem, Heading } from "@chakra-ui/react";
+import React, { useRef } from "react";
+import { Box, Heading, Grid, GridItem, Text } from "@chakra-ui/react";
 import { useAuth } from "../components/AuthContext";
-import PileItemsTable from "../components/PileTable";
+import PileTable from "../components/PileTable";
 
 
-const ProfilePage = () => {
-  useAuth();
+const ProfilePage: React.FC = () => {
+  const { user } = useAuth();
+
+  // Brug useRef til at holde en reference til refetch-funktionen
+  
 
   return (
     <Box maxW="800px" mx="auto" mt="10">
-      {/* Overskrift */}
       <Heading size="lg" mb="6" textAlign="center">
         Profile Page
       </Heading>
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
-        {/* Medlemsoplysninger */}
         <GridItem>
           <Box p="4" borderWidth="1px" borderRadius="lg" boxShadow="md">
             <Heading size="md" mb="4">Member Information</Heading>
-           
+            <Text>Name:</Text>
+            <Text>Email:</Text>
+            
+            
           </Box>
         </GridItem>
-
-        {/* PileList */}
         <GridItem>
-          <Box p="4" borderWidth="1px" borderRadius="lg" boxShadow="md" textAlign="center">         
-            <PileItemsTable/>
+          <Box p="4" borderWidth="1px" borderRadius="lg" boxShadow="md">
+            <Heading size="md" mb="4">Pile List</Heading>
+            <PileTable/>
           </Box>
         </GridItem>
       </Grid>

@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import F, Value, CharField
+from django.db.models import F,Q, Value, CharField
 from django.db.models.functions import Concat
 
 
@@ -7,7 +7,7 @@ class PileItemManager(models.Manager):
     def unsent_items(self):
         return (
             self.get_queryset()
-            .exclude(pile_id__pile_status_id__pile_status_name='afsendt')  # Exkluder "afsendt"
+            .exclude(Q(pile_id__pile_status_id__pile_status_name='Afsendt') | Q(pile_id__pile_status_id__pile_status_name='Lukket'))
             .select_related('pile_id', 'album_id', 'pile_id__pile_status_id')  # Optimér relationer
             .annotate(
                 unique_key=Concat(

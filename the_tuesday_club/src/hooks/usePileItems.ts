@@ -4,7 +4,7 @@ import useData from "./reuseableHooks/useData";
 export interface PileItem {
   unique_key: string;
   album_name: string;
-  artist_name:string
+  artist_name: string;
   quantity: number;
   pile_status: string;
   price: number;
@@ -13,7 +13,7 @@ export interface PileItem {
 
 const usePileItems = () => {
   // Sørg for, at `useData` ikke genkører unødvendigt
-  const { data, error, isLoading } = useData<PileItem>(
+  const { data, error, isLoading , refetch } = useData<PileItem>(
     "/api/piles/pile-items",
     undefined, // Ingen dynamisk `requestConfig`
     [], // Ingen afhængigheder for at forhindre genkald
@@ -26,7 +26,7 @@ const usePileItems = () => {
     return Array.isArray(data) ? data : [];
   }, [data]); // `pileItems` opdateres kun, hvis `data` ændrer sig
 
-  return { data: pileItems, error, isLoading };
+  return { data: pileItems, error, isLoading , refetch };
 };
 
 export default usePileItems;

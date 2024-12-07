@@ -1,12 +1,11 @@
 from typing import List
 from django.http import JsonResponse
 from ninja import Router
-from ninja.orm import create_schema
 from django.utils.timezone import now
 from django.shortcuts import get_object_or_404
 from ..utils.helpers import get_user_from_session_key
 from .serializers.pile_serializers import AddToPileRequest, UnsentPileItemSchema
-from myapp.models import Pile, PileItem, Album, PileStatus #, UnsentPileItem
+from myapp.models import Pile, PileItem, Album, PileStatus 
 
 router = Router()
 
@@ -18,8 +17,8 @@ def add_to_pile(request, data: AddToPileRequest):
     if user_or_none is None:
         return JsonResponse({"error": "You are not logged in."}, status=401)
 
-    # Find status for "ikke bestilt" eller opret den
-    pile_status, _ = PileStatus.objects.get_or_create(pile_status_name="Ikke bestilt")
+    # Find status for "åben" eller opret den
+    pile_status, _ = PileStatus.objects.get_or_create(pile_status_name="Åben")
 
     # Opret en ny pile
     pile = Pile.objects.create(
@@ -60,19 +59,6 @@ def add_to_pile(request, data: AddToPileRequest):
     
 
 
-# UnsentPileItemSchema = create_schema(UnsentPileItem)  # Ekskluder evt. unødvendige felter
-
-# @router.get("/pile-items", response=List[UnsentPileItemSchema])
-# def get_pile_items(request):
-#     user = get_user_from_session_key(request)
-#     if not user:
-#         return JsonResponse({"error": "You are not logged in."}, status=401)
-
-#     # Hent data fra modellen
-#     pile_items = UnsentPileItem.objects.filter(user_id=user.id)
-#     return pile_items
-
-
 
 @router.get("/pile-items", response=List[UnsentPileItemSchema])
 def get_pile_items(request):
@@ -84,3 +70,24 @@ def get_pile_items(request):
     #pile_items = UnsentPileItem.objects.filter(user_id=user.id)
     pile_items = PileItem.objects.unsent_items().filter(user_id=user.id)
     return pile_items
+
+
+
+
+@router.put("/close-pile/")
+def close_pile(request):
+    # Hent bruger fra session
+    user = get_user_from_session_key(request)
+    if not user:
+        return JsonResponse({"error": "You are not logged in."}, status=401)
+    
+    # Find status "Modtaget"
+    received_status = get_object_or_404(PileStatus, pile_status_name="Modtaget")
+    
+    # Find status "Lukket"
+    closed_status = get_object_or_404(PileStatus, pile_status_name="Lukket")
+    
+    # Opdater alle Piles med status "Modtaget" til "Lukket" for den aktuelle bruger
+    updated_count = Pile.objects.filter(user_id=user.id, pile_status=received_status).update(pile_status=closed_status)
+    
+    return JsonResponse({"message": f"Updated {updated_count} piles to closed."}, status=200)
