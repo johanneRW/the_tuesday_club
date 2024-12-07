@@ -14,7 +14,7 @@ import apiClientWhitCredentials from '../services/api-client-whit-credentials';
 import apiClient from '../services/api-client';
 
 const ImageUpload = () => {
-  const [image, setImage] = useState(null); // Lokalt billede valgt af brugeren
+  const [image, setImage] = useState<File | null>(null); // Tillader både File og null
   const [preview, setPreview] = useState(null); // Forhåndsvisning af billedet
   const [isLoading, setIsLoading] = useState(false); // Indikator for upload-status
   const toast = useToast();
