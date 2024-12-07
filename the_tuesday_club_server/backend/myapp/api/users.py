@@ -2,6 +2,8 @@ from ninja import Router
 from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import User
 
+from myapp.models import Address
+
 from ..utils.helpers import get_user_from_session_key
 from ..signals import address_created
 from .serializers.address_serializers import (AddressCreateSchema)
@@ -9,12 +11,15 @@ from .serializers.login_serializers import (LoginSchema, UserSchema, ErrorSchema
 from .serializers.user_serializers import (
     UserCreateSchema,
     UserResponseSchema,
+    UserUpdateSchema,
 )
 from django.http import JsonResponse
 from ninja.security import django_auth
 from django.contrib.sessions.backends.db import SessionStore
 from django.contrib.auth.decorators import login_required
 from django.contrib.sessions.models import Session
+from ninja.errors import HttpError
+from django.db import transaction
 
 
 
@@ -105,3 +110,65 @@ def user_logout(request):
     except Exception as e:
         return 500, {"error": "An error occurred during logout. Please try again."}
 
+
+@router.get("/profile", response=dict)
+def get_profile(request):
+    user = get_user_from_session_key(request)
+    if not user:
+        raise HttpError(401, "Authentication required.")
+    
+    try:
+        address = Address.objects.get(user_id=user)  
+    except Address.DoesNotExist:
+        raise HttpError(404, "Address not found for the user.")
+
+    return {
+        "username": user.username,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "address": {
+            "street": address.street,
+            "city": address.city,
+            "postal_code": address.postal_code,
+            "country": address.country,
+        },
+    }
+
+
+
+@router.patch("/profile", response=dict)
+def update_profile(request, user_data: UserUpdateSchema, address_data: AddressCreateSchema = None):
+    user = get_user_from_session_key(request)
+    if not user:
+        raise HttpError(401, "Authentication required.")
+    
+    try:
+        address = Address.objects.get(user_id=user) 
+    except Address.DoesNotExist:
+        raise HttpError(404, "Address not found for the user.")
+    
+    # Opdater brugerdata
+    with transaction.atomic():
+        for attr, value in user_data.dict(exclude_none=True).items():
+            setattr(user, attr, value)
+        user.save()
+
+        # Opdater adresse, hvis den er inkluderet
+        if address_data:
+            for attr, value in address_data.dict(exclude_none=True).items():
+                setattr(address, attr, value)
+            address.save()
+
+    return {
+        "username": user.username,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "address": {
+            "street": address.street,
+            "city": address.city,
+            "postal_code": address.postal_code,
+            "country": address.country,
+        },
+    }

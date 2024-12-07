@@ -34,3 +34,8 @@ class UserResponseSchema(Schema):
     class Config:
         orm_mode = True
   
+  
+class UserUpdateSchema(Schema):
+    first_name: str | None
+    last_name: str | None
+    email: EmailStr | None

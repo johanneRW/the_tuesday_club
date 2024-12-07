@@ -1,29 +1,29 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import useData from "./reuseableHooks/useData";
+
+export interface UserProfile {
+  username: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  address: {
+    street: string;
+    city: string;
+    postal_code: string;
+    country: string;
+  };
+}
 
 const useProfile = () => {
-  const [profile, setProfile] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { data, error, isLoading, refetch } = useData<UserProfile>(
+    "/api/users/profile",
+    undefined, // Ingen dynamisk `requestConfig`
+    [],
+    { withCredentials: true, defaultToEmptyArray: false }
+  );
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      setIsLoading(true);
-      setError("");
-      try {
-        const response = await axios.get("/api/profile/", { withCredentials: true });
-        setProfile(response.data);
-      } catch (err: any) {
-        setError(err.message || "Failed to load profile.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const profile = data[0] || null; // Brug første element som objekt
 
-    fetchProfile();
-  }, []);
-
-  return { profile, isLoading, error };
+  return { profile, error, isLoading, refetch };
 };
 
 export default useProfile;
