@@ -5,8 +5,8 @@ from ninja.orm import create_schema
 from django.utils.timezone import now
 from django.shortcuts import get_object_or_404
 from ..utils.helpers import get_user_from_session_key
-from .serializers.pile_serializers import AddToPileRequest
-from myapp.models import Pile, PileItem, Album, PileStatus, UnsentPileItem
+from .serializers.pile_serializers import AddToPileRequest, UnsentPileItemSchema
+from myapp.models import Pile, PileItem, Album, PileStatus #, UnsentPileItem
 
 router = Router()
 
@@ -60,7 +60,19 @@ def add_to_pile(request, data: AddToPileRequest):
     
 
 
-UnsentPileItemSchema = create_schema(UnsentPileItem)  # Ekskluder evt. unødvendige felter
+# UnsentPileItemSchema = create_schema(UnsentPileItem)  # Ekskluder evt. unødvendige felter
+
+# @router.get("/pile-items", response=List[UnsentPileItemSchema])
+# def get_pile_items(request):
+#     user = get_user_from_session_key(request)
+#     if not user:
+#         return JsonResponse({"error": "You are not logged in."}, status=401)
+
+#     # Hent data fra modellen
+#     pile_items = UnsentPileItem.objects.filter(user_id=user.id)
+#     return pile_items
+
+
 
 @router.get("/pile-items", response=List[UnsentPileItemSchema])
 def get_pile_items(request):
@@ -69,5 +81,6 @@ def get_pile_items(request):
         return JsonResponse({"error": "You are not logged in."}, status=401)
 
     # Hent data fra modellen
-    pile_items = UnsentPileItem.objects.filter(user_id=user.id)
+    #pile_items = UnsentPileItem.objects.filter(user_id=user.id)
+    pile_items = PileItem.objects.unsent_items().filter(user_id=user.id)
     return pile_items
