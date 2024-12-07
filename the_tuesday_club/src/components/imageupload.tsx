@@ -9,8 +9,6 @@ import {
   useToast,
   Spinner,
 } from '@chakra-ui/react';
-import axios from 'axios';
-import apiClientWhitCredentials from '../services/api-client-whit-credentials';
 import apiClient from '../services/api-client';
 
 const ImageUpload = () => {

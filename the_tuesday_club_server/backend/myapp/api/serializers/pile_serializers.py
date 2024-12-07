@@ -17,6 +17,7 @@ class UnsentPileItemSchema(Schema):
     pile_item_id: UUID
     album_id: UUID
     album_name: str
+    artist_name:str
     quantity: int
     price: Decimal
     added_to_pile: datetime

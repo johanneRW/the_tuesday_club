@@ -4,6 +4,7 @@ import useData from "./reuseableHooks/useData";
 export interface PileItem {
   unique_key: string;
   album_name: string;
+  artist_name:string
   quantity: number;
   pile_status: string;
   price: number;
