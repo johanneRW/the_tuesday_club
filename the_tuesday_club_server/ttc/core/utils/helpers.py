@@ -1,11 +1,11 @@
 from requests import Session
 from .column_aliases import COLUMN_ALIASES
 from datetime import date
-from django.contrib.auth.models import User
 from django.contrib.sessions.models import Session
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpRequest
 from django.contrib.auth import get_user_model
+
 
 def get_column_value(row, key):
     """

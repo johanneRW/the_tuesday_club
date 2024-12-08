@@ -1,10 +1,5 @@
 import { FC } from "react";
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  FormErrorMessage,
-} from "@chakra-ui/react";
+import { FormControl, FormLabel, Input, FormErrorMessage } from "@chakra-ui/react";
 
 interface UserFormProps {
   values: { [key: string]: string };
@@ -14,29 +9,49 @@ interface UserFormProps {
 
 const UserForm: FC<UserFormProps> = ({ values, errors, handleChange }) => (
   <div>
-    <FormControl id="username" mb="4" isRequired>
+    {/* Username Field */}
+    <FormControl id="username" mb="4" isRequired isInvalid={!!errors.username}>
       <FormLabel>Username</FormLabel>
       <Input
         value={values.username}
         onChange={(e) => handleChange("username", e.target.value)}
+        placeholder="Enter your username"
       />
+      <FormErrorMessage>{errors.username}</FormErrorMessage>
     </FormControl>
-    <FormControl id="email" mb="4" isRequired>
+
+    {/* Email Field */}
+    <FormControl id="email" mb="4" isRequired isInvalid={!!errors.email}>
       <FormLabel>Email</FormLabel>
       <Input
         type="email"
         value={values.email}
         onChange={(e) => handleChange("email", e.target.value)}
+        placeholder="Enter your email"
       />
+      <FormErrorMessage>{errors.email}</FormErrorMessage>
     </FormControl>
-    <FormControl id="password" mb="4" isRequired isInvalid={!!errors.password}>
-      <FormLabel>Password</FormLabel>
+
+    {/* First Name Field */}
+    <FormControl id="first_name" mb="4" isRequired isInvalid={!!errors.firstName}>
+      <FormLabel>First Name</FormLabel>
       <Input
-        type="password"
-        value={values.password}
-        onChange={(e) => handleChange("password", e.target.value)}
+        value={values.firstName}
+        onChange={(e) => handleChange("firstName", e.target.value)}
+        placeholder="Enter your first name"
       />
-      <FormErrorMessage>{errors.password}</FormErrorMessage>
+      <FormErrorMessage>{errors.firstName}</FormErrorMessage>
+    </FormControl>
+
+    {/* Last Name Field */}
+    <FormControl id="last_name" mb="4" isRequired isInvalid={!!errors.lastName}>
+      <FormLabel>Last Name</FormLabel>
+      <Input
+        value={values.lastName}
+        onChange={(e) => handleChange("lastName", e.target.value)}
+        placeholder="Enter your last name"
+      />
+      <FormErrorMessage>{errors.lastName}</FormErrorMessage>
     </FormControl>
   </div>
 );

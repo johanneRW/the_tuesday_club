@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, VStack, Text, Link, Heading } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useForm from "../hooks/forms/useForm";
 import UserForm from "../components/forms/UserForm";
 import AddressForm from "../components/forms/AddressForm";
+import PasswordInput from "../components/forms/PasswordInput";
 import useSubmitSignup from "../hooks/forms/useSubmitSignup";
 import useToastHandler from "../hooks/reuseableHooks/UseToastHandler";
 
@@ -23,6 +24,20 @@ const SignupPage = () => {
   const { signup, isLoading } = useSubmitSignup();
   const { showToast } = useToastHandler();
   const navigate = useNavigate();
+  const [isFormReady, setIsFormReady] = useState(false);
+
+  // Debugging og opdatering af knaptilstand
+  useEffect(() => {
+    const allFieldsFilled = Object.values(values).every((value) => value.trim() !== "");
+    const noErrors = Object.values(errors).every((error) => !error);
+
+    console.log("Values:", values);
+    console.log("Errors:", errors);
+    console.log("All fields filled:", allFieldsFilled);
+    console.log("No errors:", noErrors);
+
+    setIsFormReady(allFieldsFilled && noErrors);
+  }, [values, errors]);
 
   const handleSignup = async () => {
     if (!validateForm()) {
@@ -72,11 +87,29 @@ const SignupPage = () => {
     <Box maxW="400px" mx="auto" mt="10" p="6" border="1px solid #ddd" borderRadius="8px">
       <Heading size="lg" mb="4">Sign Up</Heading>
       <VStack spacing="6" align="stretch">
+        {/* User Details */}
         <UserForm values={values} errors={errors} handleChange={handleChange} />
+
+        {/* Password Field */}
+        <PasswordInput
+          value={values.password}
+          error={errors.password}
+          handleChange={(value) => handleChange("password", value)}
+        />
+
+        {/* Address Details */}
         <AddressForm values={values} errors={errors} handleChange={handleChange} />
-        <Button colorScheme="blue" onClick={handleSignup} isLoading={isLoading}>
+
+        {/* Submit Button */}
+        <Button
+          colorScheme="blue"
+          onClick={handleSignup}
+          isLoading={isLoading}
+          isDisabled={!isFormReady} // Dynamisk opdatering
+        >
           Sign Up
         </Button>
+
         <Text textAlign="center">
           Already have an account?{" "}
           <Link as={RouterLink} to="/login" color="blue.500">Login</Link>
