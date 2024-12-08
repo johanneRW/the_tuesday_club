@@ -22,6 +22,7 @@ from core.api.albums import router as albums_router
 from core.api.filters import router as filters_router
 from core.api.users import router as users_router
 from core.api.piles import router as pile_router
+from core.api.admin import router as admin_router
 
 
 
@@ -33,6 +34,7 @@ api.add_router("/albums", albums_router)
 api.add_router("/filters", filters_router)
 api.add_router("/users", users_router)
 api.add_router("/piles", pile_router)
+api.add_router("/admin", admin_router)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

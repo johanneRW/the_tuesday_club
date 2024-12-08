@@ -4,7 +4,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.contrib.auth.models import AbstractUser
 from simple_history.models import HistoricalRecords
-from core.managers import PileItemManager
+from core.managers import PileItemManager, PileItemOrderManager
 from project.custom_storages import MediaStorage
 
 
@@ -143,6 +143,7 @@ class PileItem(models.Model):
 
     # Custom Manager
     objects = PileItemManager()
+    admin_objects = PileItemOrderManager()
     
     class Meta:
         unique_together = ('pile_id','album_id')

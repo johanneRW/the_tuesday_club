@@ -6,7 +6,6 @@ import tempfile
 from core.utils.csv_importer import import_csv_to_multiple_tables
 from core.models import Album, AlbumImage, Label
 from .serializers.filter_serializers import (LabelNameSchema)
-from django.contrib.auth.decorators import login_required
 
 
 router = Router()
@@ -27,7 +26,6 @@ def list_labels(request):
 
 
 @router.post("/upload_csv")
-#@login_required
 def upload_csv(
     request,
     file: UploadedFile = File(...),
@@ -50,7 +48,7 @@ def upload_csv(
         return JsonResponse({"error": str(e)}, status=500)
     
     
-    
+#skal ikke implemters men dele skal formtlig benyttes senere til at hente og gemme billeder  
 @router.post("/upload_image")
 #@login_required
 def upload_image(
