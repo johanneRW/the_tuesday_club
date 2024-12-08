@@ -1,15 +1,15 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import LPGrid from "../components/LPGrid";
-import useAlbumUnits, { AlbumUnit } from "../hooks/useAlbumUnits";
+import LPGrid from "../components/grid/LPGrid";
+import useAlbumUnits, { AlbumUnit } from "../hooks/filters/useAlbumUnits";
 import CustomList from "../components/reusableComponents/CoustomList";
-import useAlbumFormats, { AlbumFormat } from "../hooks/useAlbumFormats";
-import useAlbumLabels, { AlbumLabel } from "../hooks/useAlbumLabels";
-import useAlbumArtists, { AlbumArtist } from "../hooks/useAlbumArtists";
-import { usePriceRange } from "../hooks/usePriceRange";
-import PriceSlider from "../components/PriceSlider";
-import SearchInput from "../components/searchBar";
+import useAlbumFormats, { AlbumFormat } from "../hooks/filters/useAlbumFormats";
+import useAlbumLabels, { AlbumLabel } from "../hooks/filters/useAlbumLabels";
+import useAlbumArtists, { AlbumArtist } from "../hooks/filters/useAlbumArtists";
+import { usePriceRange } from "../hooks/filters/usePriceRange";
+import PriceSlider from "../components/filters/PriceSlider";
+import SearchInput from "../components/filters/searchBar";
 import { useState } from "react";
-import { useAuth } from "../components/AuthContext";
+import { useAuth } from "../components/context/AuthContext";
 
 
 export interface LpQuery {

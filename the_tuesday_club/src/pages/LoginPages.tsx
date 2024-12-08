@@ -12,8 +12,8 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../components/AuthContext";
-import { formatErrorMessage } from "../services/formatErrorMessage";
+import { useAuth } from "../components/context/AuthContext";
+import { formatErrorMessage } from "../services/utils/formatErrorMessage";
 import useToastHandler from "../hooks/reuseableHooks/UseToastHandler";
 
 const LoginPage = () => {

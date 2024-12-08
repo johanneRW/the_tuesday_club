@@ -1,10 +1,10 @@
 import React from "react";
 import { Box, Button, VStack, Text, Link, Heading } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import useForm from "../hooks/useForm";
-import UserForm from "../components/UserForm";
-import AddressForm from "../components/AddressForm";
-import useSubmitSignup from "../hooks/useSubmitSignup";
+import useForm from "../hooks/forms/useForm";
+import UserForm from "../components/forms/UserForm";
+import AddressForm from "../components/forms/AddressForm";
+import useSubmitSignup from "../hooks/forms/useSubmitSignup";
 import useToastHandler from "../hooks/reuseableHooks/UseToastHandler";
 
 const SignupPage = () => {

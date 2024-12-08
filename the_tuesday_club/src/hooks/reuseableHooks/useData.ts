@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { AxiosRequestConfig } from "axios";
-import apiClient from "../../services/api-client";
-import apiClientWithCredentials from "../../services/api-client-whit-credentials";
+import apiClient from "../../services/api/apiClient";
+import apiClientWithCredentials from "../../services/api/apiClientWhitCredentials";
 
 type ListResponse<T> = T[];
 

@@ -2,8 +2,8 @@ import {
   Box,
   Heading,
 } from "@chakra-ui/react";
-import useAllLabels from "../hooks/useAllLabels";
-import FileUploadComponent from "../components/FileUpload";
+import useAllLabels from "../hooks/admin/useAllLabels";
+import FileUploadComponent from "../components/admin/FileUpload";
 
 
 const AdminDashboard = () => {

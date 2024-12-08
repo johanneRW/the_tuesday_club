@@ -1,15 +1,15 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import Banner from "./components/Banner";
+import NavBar from "./components/NavBar/NavBar";
+import Banner from "./components/common/Banner";
 import HomePage from "./pages/HomePage"; 
 import CartPage from "./pages/CartPage"; 
-import { CartProvider } from "./components/CartContext";
+import { CartProvider } from "./components/context/CartContext";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPages";
 import AdminDashboardPage from "./pages/AdminDashBoardPage";
-import ProtectedRoute from "./components/ProtectedRout";
-import { AuthProvider } from "./components/AuthContext";
+import ProtectedRoute from "./components/NavBar/ProtectedRout";
+import { AuthProvider } from "./components/context/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
 
 

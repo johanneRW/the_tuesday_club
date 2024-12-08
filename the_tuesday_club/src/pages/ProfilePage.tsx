@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { Box, Heading, Grid, GridItem, Text } from "@chakra-ui/react";
-import { useAuth } from "../components/AuthContext";
-import PileTable from "../components/PileTable";
-import UserProfile from "../components/userProfile";
+import { useAuth } from "../components/context/AuthContext";
+import PileTable from "../components/pile/PileTable";
+import UserProfile from "../components/profile/userProfile";
 
 
 const ProfilePage: React.FC = () => {

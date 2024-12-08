@@ -1,5 +1,5 @@
 import { useState } from "react";
-import apiClientWhitCredentials from "../../services/api-client-whit-credentials";
+import apiClientWhitCredentials from "../../services/api/apiClientWhitCredentials";
 
 
 export type ErrorDetail = { field: string; message: string };
