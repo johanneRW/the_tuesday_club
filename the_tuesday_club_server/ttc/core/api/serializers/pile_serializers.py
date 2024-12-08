@@ -25,4 +25,4 @@ class UnsentPileItemSchema(Schema):
     added_to_pile: datetime
     pile_id: UUID
     pile_status: str
-    user_id: int
+    user_id: str
