@@ -50,17 +50,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'storages'
+    'storages',
+    'simple_history',
 ]
 
 MIDDLEWARE = [
-"django.middleware.security.SecurityMiddleware",
+    "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",  # For CORS
     "django.contrib.sessions.middleware.SessionMiddleware",  # Session håndtering
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",  # CSRF-beskyttelse
     "django.contrib.auth.middleware.AuthenticationMiddleware",  # Bruger autentifikation
     "django.contrib.messages.middleware.MessageMiddleware",
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'

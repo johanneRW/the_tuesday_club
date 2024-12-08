@@ -2,9 +2,14 @@ from django.contrib.auth.models import User
 import uuid
 from django.db import models
 from django.core.validators import MinValueValidator
-
+from simple_history import register
+from simple_history.models import HistoricalRecords
 from core.managers import PileItemManager
 from project.custom_storages import MediaStorage
+
+
+# Historik på Djangos User-model
+register(User, app=__package__)
 
 
 class Artist(models.Model):
@@ -79,7 +84,6 @@ class AlbumGenre(models.Model):
     album_id = models.ForeignKey(Album, on_delete=models.CASCADE, db_column='album_id')
     genre_id = models.ForeignKey(Genre, on_delete=models.CASCADE, db_column='genre_id')
 
-       
 
 class AlbumPrice(models.Model):
     album_id = models.ForeignKey(Album, on_delete=models.CASCADE, db_column='album_id')
@@ -96,6 +100,7 @@ class Address(models.Model):
     city = models.CharField(max_length=100)
     postal_code = models.IntegerField()
     country = models.CharField(max_length=100)
+    history = HistoricalRecords()
 
     def __str__(self):
         return f"{self.street}, {self.city}, {self.postal_code}, {self.country}"
@@ -114,6 +119,7 @@ class Pile(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
     pile_status = models.CharField(choices=PileStatus)
     pile_start_date = models.DateTimeField()
+    history = HistoricalRecords()
 
     class Meta:
         unique_together = ('pile_id', 'user_id')
@@ -126,14 +132,14 @@ class PileItem(models.Model):
     added_to_pile = models.DateTimeField()
     pile_item_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
+    history = HistoricalRecords()
 
     # Custom Manager
     objects = PileItemManager()
     
     class Meta:
         unique_together = ('pile_id','album_id')
-        
-    
+
 
 class AlbumView(models.Model):
     album_id = models.UUIDField(primary_key=True)
@@ -150,7 +156,6 @@ class AlbumView(models.Model):
     class Meta:
         managed = False  # Django administrerer ikke viewet
         db_table = 'album_view'  # Navn på viewet i databasen
-
 
 
 class AdminAlbumView(models.Model):

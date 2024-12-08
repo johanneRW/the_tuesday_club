@@ -22,3 +22,4 @@ email-validator==2.2.0
 requests==2.25.1
 boto3==1.35.76
 django-storages==1.14.4
+django-simple-history==3.7.0
