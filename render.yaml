@@ -1,6 +1,6 @@
 databases:
   - name: ttcdb
-    plan: free
+    plan: starter
     databaseName: mydatabase
     user: myuser
 
