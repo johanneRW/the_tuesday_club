@@ -1,11 +1,10 @@
 from django.contrib import admin
 
-from .models import AlbumAdditionalInfo, AlbumEANcode, AlbumFormat, AlbumGenre, AlbumReleaseYear, AlbumUPC, AlbumUnitFormat, Artist, Genre, Label, AlbumImage, Album, AlbumPrice, PileStatus, Pile, PileItem, Address
+from .models import AlbumAdditionalInfo, AlbumEANcode, AlbumFormat, AlbumGenre, AlbumReleaseYear, AlbumUPC, AlbumUnitFormat, Artist, Genre, Label, AlbumImage, Album, AlbumPrice, Pile, PileItem, Address
 admin.site.register(Artist)
 admin.site.register(Label)
 admin.site.register(AlbumImage)
 admin.site.register(AlbumPrice)
-admin.site.register(PileStatus)
 admin.site.register(Pile)
 admin.site.register(PileItem)
 admin.site.register(Address)

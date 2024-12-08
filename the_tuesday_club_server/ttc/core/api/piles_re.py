@@ -16,10 +16,8 @@ def add_to_pile(request, data: AddToPileRequest):
     
     user = request.user
 
-    # Find status for "ikke bestilt" (eller opret den, hvis den ikke eksisterer)
-    pile_status, _ = PileStatus.objects.get_or_create(pile_status_name="Ikke bestilt")
+    pile_status = PileStatus.OPEN
 
-    
     pile, created = Pile.objects.create(
         user_id=user,
         pile_status=pile_status,

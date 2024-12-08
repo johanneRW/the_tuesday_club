@@ -2,7 +2,9 @@ from datetime import datetime
 from decimal import Decimal
 from ninja import Schema
 from uuid import UUID
-from typing import List
+from typing import List, Optional
+
+from core.models import PileItem
 
 class AlbumQuantity(Schema):
     album_id: UUID
@@ -17,7 +19,7 @@ class UnsentPileItemSchema(Schema):
     pile_item_id: UUID
     album_id: UUID
     album_name: str
-    artist_name:str
+    artist_name: str
     quantity: int
     price: Decimal
     added_to_pile: datetime

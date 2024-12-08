@@ -5,9 +5,11 @@ from django.db.models.functions import Concat
 
 class PileItemManager(models.Manager):
     def unsent_items(self):
+        from core.models import PileStatus
+        
         return (
             self.get_queryset()
-            .exclude(Q(pile_id__pile_status_id__pile_status_name='Afsendt') | Q(pile_id__pile_status_id__pile_status_name='Lukket'))
+            .exclude(Q(pile_id__pile_status=PileStatus.SENT) | Q(pile_id__pile_status=PileStatus.CLOSED))
             .select_related('pile_id', 'album_id', 'pile_id__pile_status_id')  # Optimér relationer
             .annotate(
                 unique_key=Concat(
@@ -17,7 +19,7 @@ class PileItemManager(models.Manager):
                 album_name=F('album_id__album_name'),
                 artist_name=F('album_id__artist_id__artist_name'),
                 price=F('pile_item_price'),
-                pile_status=F('pile_id__pile_status__pile_status_name'),
+                pile_status=F('pile_id__pile_status'),
                 user_id=F('pile_id__user_id'),
             )
             .values(

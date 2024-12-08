@@ -99,19 +99,20 @@ class Address(models.Model):
 
     def __str__(self):
         return f"{self.street}, {self.city}, {self.postal_code}, {self.country}"
+    
 
-
-class PileStatus(models.Model):
-    pile_status_name = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.pile_status_name
+class PileStatus(models.TextChoices):
+    OPEN = ("open", "Åben")
+    CLOSED = ("closed", "Lukket")
+    ORDERED = ("ordered", "Bestilt")
+    RECEIVED = ("received", "Modtaget")
+    SENT = ("sent", "Afsendt")
 
 
 class Pile(models.Model):
     pile_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
-    pile_status = models.ForeignKey(PileStatus, on_delete=models.CASCADE, db_column='pile_status_id')
+    pile_status = models.CharField(choices=PileStatus)
     pile_start_date = models.DateTimeField()
 
     class Meta:

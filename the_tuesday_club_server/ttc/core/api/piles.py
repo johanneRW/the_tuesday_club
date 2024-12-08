@@ -17,8 +17,7 @@ def add_to_pile(request, data: AddToPileRequest):
     if user_or_none is None:
         return JsonResponse({"error": "You are not logged in."}, status=401)
 
-    # Find status for "åben" eller opret den
-    pile_status, _ = PileStatus.objects.get_or_create(pile_status_name="Åben")
+    pile_status = PileStatus.OPEN
 
     # Opret en ny pile
     pile = Pile.objects.create(
@@ -67,7 +66,6 @@ def get_pile_items(request):
         return JsonResponse({"error": "You are not logged in."}, status=401)
 
     # Hent data fra modellen
-    #pile_items = UnsentPileItem.objects.filter(user_id=user.id)
     pile_items = PileItem.objects.unsent_items().filter(user_id=user.id)
     return pile_items
 
@@ -81,11 +79,8 @@ def close_pile(request):
     if not user:
         return JsonResponse({"error": "You are not logged in."}, status=401)
     
-    # Find status "Modtaget"
-    received_status = get_object_or_404(PileStatus, pile_status_name="Modtaget")
-    
-    # Find status "Lukket"
-    closed_status = get_object_or_404(PileStatus, pile_status_name="Lukket")
+    received_status = PileStatus.RECEIVED
+    closed_status = PileStatus.CLOSED
     
     # Opdater alle Piles med status "Modtaget" til "Lukket" for den aktuelle bruger
     updated_count = Pile.objects.filter(user_id=user.id, pile_status=received_status).update(pile_status=closed_status)
