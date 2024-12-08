@@ -1,15 +1,21 @@
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 import uuid
 from django.db import models
+from django.conf import settings
 from django.core.validators import MinValueValidator
-from simple_history import register
+from django.contrib.auth.models import AbstractUser
 from simple_history.models import HistoricalRecords
 from core.managers import PileItemManager
 from project.custom_storages import MediaStorage
 
 
-# Historik på Djangos User-model
-register(User, app=__package__)
+def uuid_str():
+    return str(uuid.uuid4())
+
+
+class User(AbstractUser):
+    id = models.CharField(primary_key=True, default=uuid_str)
+    history = HistoricalRecords()
 
 
 class Artist(models.Model):
@@ -95,7 +101,9 @@ class AlbumPrice(models.Model):
 
 
 class Address(models.Model):
-    user_id= models.OneToOneField(User, on_delete=models.CASCADE, related_name="address")
+    user_id= models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="address"
+    )
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=100)
     postal_code = models.IntegerField()
@@ -116,7 +124,7 @@ class PileStatus(models.TextChoices):
 
 class Pile(models.Model):
     pile_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='user_id')
     pile_status = models.CharField(choices=PileStatus)
     pile_start_date = models.DateTimeField()
     history = HistoricalRecords()

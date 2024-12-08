@@ -40,7 +40,7 @@ def sign_up(request, user_data: UserCreateSchema, address_data: AddressCreateSch
         sender=User,
         user=user,
         address_data=address_data_dict,
-)
+    )
     return UserResponseSchema.from_orm(user)
 
     
@@ -95,8 +95,7 @@ def get_current_user_manual(request):
 def user_logout(request):
     user_or_none = get_user_from_session_key(request)
     if user_or_none is None:
-        # Returnér 401, hvis brugeren ikke er logget ind
-        return 401, {"error": "You are not logged in."}
+        return JsonResponse({"detail": "You are not logged in."}, status=401)
     
     try:
         logout(request)
@@ -108,7 +107,8 @@ def user_logout(request):
         return response
 
     except Exception as e:
-        return 500, {"error": "An error occurred during logout. Please try again."}
+        return JsonResponse({"detail": "You are not logged in."}, status=500)
+        #return 500, {"error": "An error occurred during logout. Please try again."}
 
 
 @router.get("/profile", response=dict)
