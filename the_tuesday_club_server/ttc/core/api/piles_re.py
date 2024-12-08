@@ -3,7 +3,7 @@ from ninja import Router
 from django.utils.timezone import now
 from django.shortcuts import get_object_or_404
 from .serializers.pile_serializers import AddToPileRequest
-from myapp.models import Pile, PileItem, Album, PileStatus
+from core.models import Pile, PileItem, Album, PileStatus
 
 router = Router()
 

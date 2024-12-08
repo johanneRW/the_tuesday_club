@@ -1,7 +1,7 @@
 from typing import List
 from django.db.models import Min, Max
 from ninja import Router
-from myapp.models import AlbumView
+from core.models import AlbumView
 from .serializers.filter_serializers import (
     LabelNameSchema,
     FormatNameSchema,

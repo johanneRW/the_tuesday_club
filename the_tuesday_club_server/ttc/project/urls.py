@@ -1,5 +1,5 @@
 """
-URL configuration for backend project.
+URL configuration for ttc project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
@@ -17,11 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
-from myapp.api.csv import router as csv_router
-from myapp.api.albums import router as albums_router
-from myapp.api.filters import router as filters_router
-from myapp.api.users import router as users_router
-from myapp.api.piles import router as pile_router
+from core.api.csv import router as csv_router
+from core.api.albums import router as albums_router
+from core.api.filters import router as filters_router
+from core.api.users import router as users_router
+from core.api.piles import router as pile_router
 
 
 

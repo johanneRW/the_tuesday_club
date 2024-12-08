@@ -4,7 +4,7 @@ from typing import Optional, List
 from django.db.models import  Q
 from django.core.paginator import Paginator
 from ninja import Router
-from myapp.models import AlbumView
+from core.models import AlbumView
 from .serializers.album_serializers import (PaginatedAlbumSchema)
 from django.conf import settings
 

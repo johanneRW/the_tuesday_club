@@ -3,8 +3,9 @@ import uuid
 from django.db import models
 from django.core.validators import MinValueValidator
 
-from myapp.managers import PileItemManager
-from backend.custom_storages import MediaStorage
+from core.managers import PileItemManager
+from project.custom_storages import MediaStorage
+
 
 class Artist(models.Model):
     artist_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False) 
@@ -12,7 +13,7 @@ class Artist(models.Model):
 
     def __str__(self):
         return self.artist_name
-
+    
 
 class Label(models.Model):
     label_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  

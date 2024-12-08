@@ -2,7 +2,7 @@
 # Exit on error
 set -o errexit
 
-cd the_tuesday_club_server/backend/
+cd the_tuesday_club_server/ttc/
 
 # Modify this line as needed for your package manager (pip, poetry, etc.)
 pip install -r requirements.txt

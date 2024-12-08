@@ -1,6 +1,6 @@
 from django.dispatch import Signal, receiver
 from django.contrib.auth.models import User
-from myapp.models import Address
+from core.models import Address
 
 address_created = Signal()
 

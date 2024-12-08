@@ -3,8 +3,8 @@ from ninja import Router, File, Form
 from ninja.files import UploadedFile
 from django.http import JsonResponse
 import tempfile
-from myapp.utils.csv_importer import import_csv_to_multiple_tables
-from myapp.models import Album, AlbumImage, Label
+from core.utils.csv_importer import import_csv_to_multiple_tables
+from core.models import Album, AlbumImage, Label
 from .serializers.filter_serializers import (LabelNameSchema)
 from django.contrib.auth.decorators import login_required
 

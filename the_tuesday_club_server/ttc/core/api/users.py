@@ -2,7 +2,7 @@ from ninja import Router
 from django.contrib.auth import authenticate, login , logout
 from django.contrib.auth.models import User
 
-from myapp.models import Address
+from core.models import Address
 
 from ..utils.helpers import get_user_from_session_key
 from ..signals import address_created
