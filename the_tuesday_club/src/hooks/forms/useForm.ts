@@ -6,8 +6,6 @@ const useForm = (initialValues: { [key: string]: string }) => {
 
   const handleChange = (field: string, value: string) => {
     setValues((prev) => ({ ...prev, [field]: value }));
-
-    // Valider feltet direkte efter ændring
     validateField(field, value);
   };
 
@@ -20,8 +18,6 @@ const useForm = (initialValues: { [key: string]: string }) => {
       error = "Invalid email format.";
     } else if (field === "postalCode" && !/^\d{4}$/.test(value)) {
       error = "Postal code must be exactly 4 digits.";
-    } else if (field === "password" && value.length < 8) {
-      error = "Password must be at least 8 characters long.";
     }
 
     setErrors((prev) => ({ ...prev, [field]: error }));
@@ -42,7 +38,12 @@ const useForm = (initialValues: { [key: string]: string }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  return { values, errors, handleChange, validateForm };
+  const resetForm = (newValues: { [key: string]: string }) => {
+    setValues(newValues);
+    setErrors({}); // Nulstil fejl
+  };
+
+  return { values, errors, handleChange, validateForm, setValues, resetForm };
 };
 
 export default useForm;

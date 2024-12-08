@@ -1,10 +1,11 @@
 import React from "react";
-import { Box, Heading, Text, VStack, Spinner, Alert, AlertIcon } from "@chakra-ui/react";
+import { Box, Heading, Text, VStack, Spinner, Alert, AlertIcon, Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import useProfile from "../../hooks/forms/useProfile";
-
 
 const UserProfile: React.FC = () => {
   const { profile, isLoading, error } = useProfile();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -37,7 +38,7 @@ const UserProfile: React.FC = () => {
   return (
     <Box maxW="600px" mx="auto" mt="10" p="6" border="1px solid #ddd" borderRadius="8px">
       <Heading size="lg" mb="4">Profile</Heading>
-      <VStack align="start" spacing="4">
+      <VStack align="start" spacing="4" mb="4">
         <Text>
           <strong>Username:</strong> {profile.username}
         </Text>
@@ -63,6 +64,9 @@ const UserProfile: React.FC = () => {
           <strong>Country:</strong> {profile.address.country}
         </Text>
       </VStack>
+      <Button colorScheme="blue" onClick={() => navigate("/edit-profile")}>
+        Edit Profile
+      </Button>
     </Box>
   );
 };

@@ -11,6 +11,7 @@ import AdminDashboardPage from "./pages/AdminDashBoardPage";
 import ProtectedRoute from "./components/NavBar/ProtectedRout";
 import { AuthProvider } from "./components/context/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
+import EditProfilePage from "./pages/EditProfilePage";
 
 
 
@@ -58,6 +59,9 @@ function App() {
                 />
                 <Route path="/profile" element={<ProtectedRoute>
                       <ProfilePage />
+                    </ProtectedRoute>}/>
+                    <Route path="/edit-profile" element={<ProtectedRoute>
+                      <EditProfilePage/>
                     </ProtectedRoute>}/>
                 {/* Protected route for superusers */}
                 <Route
