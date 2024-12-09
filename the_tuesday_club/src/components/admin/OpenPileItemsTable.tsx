@@ -8,21 +8,23 @@ import {
   Td,
   Checkbox,
   Box,
-  Button,
-  Heading,
   Spinner,
   Text,
+  Button,
 } from "@chakra-ui/react";
 import useOpenPileItems, { OpenPileItem } from "../../hooks/admin/useOpenPileItems";
 
-interface OpenPileItemsTableProps {
-  onSelectionChange: (selectedItems: OpenPileItem[]) => void; // Callback til udvalgte items
+export interface OpenPileItemsTableProps {
+  onSelectionChange: (items: OpenPileItem[]) => void;
 }
+
+
 
 const OpenPileItemsTable: React.FC<OpenPileItemsTableProps> = ({
   onSelectionChange,
+
 }) => {
-  const { data: openPileItems, isLoading, error, refetch } = useOpenPileItems(); // Brug hooket
+  const { data: openPileItems, isLoading, error } = useOpenPileItems();
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
 
   const handleCheckboxChange = (album_id: string, checked: boolean) => {
@@ -34,11 +36,10 @@ const OpenPileItemsTable: React.FC<OpenPileItemsTableProps> = ({
     }
     setSelectedItems(updatedSelectedItems);
 
-    // Send de udvalgte items til callback
-    const selected = openPileItems.filter((item) =>
+    const selected = openPileItems?.filter((item) =>
       updatedSelectedItems.has(item.album_id)
     );
-    onSelectionChange(selected);
+    onSelectionChange(selected || []);
   };
 
   if (isLoading) {
@@ -53,10 +54,7 @@ const OpenPileItemsTable: React.FC<OpenPileItemsTableProps> = ({
   if (error) {
     return (
       <Box textAlign="center" mt="10">
-        <Text color="red.500">Error: {error}</Text>
-        <Button colorScheme="red" mt="4" onClick={refetch}>
-          Retry
-        </Button>
+        <Text color="red.500">Error loading data</Text>
       </Box>
     );
   }
@@ -68,12 +66,8 @@ const OpenPileItemsTable: React.FC<OpenPileItemsTableProps> = ({
       </Box>
     );
   }
-
   return (
     <Box maxW="800px" mx="auto" mt="10" overflowX="auto">
-      <Heading size="md" mb="4">
-        Open Pile Items
-      </Heading>
       <Table variant="striped" size="sm" minWidth="700px">
         <Thead>
           <Tr>
@@ -109,16 +103,6 @@ const OpenPileItemsTable: React.FC<OpenPileItemsTableProps> = ({
           ))}
         </Tbody>
       </Table>
-      <Box mt="4" textAlign="right">
-        <Button
-          colorScheme="blue"
-          onClick={() =>
-            console.log("Selected items:", Array.from(selectedItems))
-          }
-        >
-          Confirm Selection
-        </Button>
-      </Box>
     </Box>
   );
 };

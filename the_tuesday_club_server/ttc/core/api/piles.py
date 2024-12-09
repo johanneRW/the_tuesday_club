@@ -22,7 +22,6 @@ def add_to_pile(request, data: AddToPileRequest):
     # Opret en ny pile
     pile = Pile.objects.create(
         user_id=user_or_none,
-        pile_status=pile_status,
         pile_start_date=now()
     )
 
@@ -40,7 +39,8 @@ def add_to_pile(request, data: AddToPileRequest):
                 album_id=album,
                 added_to_pile=now(),
                 pile_item_price=album.albumprice_set.order_by("-price_start_date").first().album_price,
-                quantity=album_data.quantity
+                quantity=album_data.quantity,
+                pile_status=pile_status,
             )
             added.append({"album_id": str(album_data.album_id), "quantity": album_data.quantity})
         except Album.DoesNotExist:

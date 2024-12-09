@@ -124,7 +124,6 @@ class PileStatus(models.TextChoices):
 class Pile(models.Model):
     pile_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='user_id')
-    pile_status = models.CharField(choices=PileStatus)
     pile_start_date = models.DateTimeField()
     history = HistoricalRecords()
 
@@ -136,6 +135,7 @@ class PileItem(models.Model):
     pile_item_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     pile_id = models.ForeignKey(Pile, on_delete=models.CASCADE, db_column='pile_id')
     album_id= models.ForeignKey(Album, on_delete=models.CASCADE, db_column='album_id')
+    pile_status = models.CharField(choices=PileStatus)
     added_to_pile = models.DateTimeField()
     pile_item_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField(validators=[MinValueValidator(1)])

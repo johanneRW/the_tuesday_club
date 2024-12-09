@@ -1,22 +1,40 @@
 import React, { useState } from "react";
-import { OpenPileItem } from "../../hooks/admin/useOpenPileItems";
 import OpenPileItemsTable from "./OpenPileItemsTable";
+import UpdatePileItemsButton from "./UpdatePileItemsButton";
+import { OpenPileItem } from "../../hooks/admin/useOpenPileItems";
+import useUpdatePileItemsStatus from "../../hooks/admin/useUpdatePileItemsStatus";
 
-
-const ManageOpenPileItems = () => {
+const ManageOpenPileItems: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<OpenPileItem[]>([]);
+  const [tableKey, setTableKey] = useState(0); // Key til at force re-render
+  const { updateStatus, isLoading } = useUpdatePileItemsStatus();
 
   const handleSelectionChange = (items: OpenPileItem[]) => {
     setSelectedItems(items);
   };
 
+  const handleUpdateStatus = async () => {
+    try {
+      // Opdater status for valgte items
+      await updateStatus(selectedItems.map((item) => ({ album_id: item.album_id })));
+      console.log("Status updated successfully.");
+      setTableKey((prevKey) => prevKey + 1); // Force re-render af tabellen
+    } catch (error) {
+      console.error("Failed to update status:", error);
+    }
+  };
+
   return (
     <div>
-      <OpenPileItemsTable onSelectionChange={handleSelectionChange} />
-      <div>
-        <h2>Selected Items:</h2>
-        <pre>{JSON.stringify(selectedItems, null, 2)}</pre>
-      </div>
+      <UpdatePileItemsButton
+        selectedItems={selectedItems}
+        onClick={handleUpdateStatus}
+        isLoading={isLoading}
+      />
+      <OpenPileItemsTable
+        key={tableKey} // Brug key til at tvinge re-render
+        onSelectionChange={handleSelectionChange}
+      />
     </div>
   );
 };

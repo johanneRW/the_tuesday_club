@@ -23,6 +23,16 @@ class UnsentPileItemSchema(Schema):
     quantity: int
     price: Decimal
     added_to_pile: datetime
-    pile_id: UUID
     pile_status: str
     user_id: str
+    
+class PileItemUpdateResponse(Schema):
+    album_id: str
+    label_name: str
+    album_name: str
+    artist_name: str
+    identifier: int
+    identifier_type: str
+    format_name: str
+    pile_ids: List[str]
+    total_quantity: int
