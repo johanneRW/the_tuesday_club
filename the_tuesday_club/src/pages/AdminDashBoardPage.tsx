@@ -1,9 +1,10 @@
-import { Box, Heading, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Heading, Grid, GridItem, Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 import useAllLabels from "../hooks/admin/useAllLabels";
 import FileUploadComponent from "../components/admin/FileUpload";
-import ManageOpenPileItems from "../components/admin/ManageOpenPileItems";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const { data: labels, error: fetchError, isLoading, refetch } = useAllLabels();
 
   return (
@@ -24,17 +25,21 @@ const AdminDashboard = () => {
           </Box>
         </GridItem>
 
-        {/* Manage Open Pile Items Box */}
+        {/* Manage Open Pile Items Button */}
         <GridItem>
           <Box
             p="4"
             borderWidth="1px"
             borderRadius="lg"
             boxShadow="md"
-            maxH="500px" // Maksimal højde for boksen
-            overflowY="auto" // Aktiver rullefunktion for overskydende indhold
+            textAlign="center"
           >
-            <ManageOpenPileItems />
+            <Button
+              colorScheme="teal"
+              onClick={() => navigate("/manage-open-pile-items")}
+            >
+              Manage Open Pile Items
+            </Button>
           </Box>
         </GridItem>
       </Grid>

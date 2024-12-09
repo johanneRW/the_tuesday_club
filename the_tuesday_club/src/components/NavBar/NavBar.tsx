@@ -2,7 +2,7 @@ import { Box, Button, HStack, Link } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import LogoutButton from "./logoutButton";
-import CartIcon from "../cart/CartIcon";
+import CartIcon from "../cart/CartIconModal";
 import ProfilePage from "../../pages/ProfilePage";
 
 const NavBar = () => {
@@ -27,7 +27,7 @@ const NavBar = () => {
           </Link>
         )}
         {user?.isAuthenticated && user.isSuperuser && (
-          <Link as={RouterLink} to="/admindashboard">
+          <Link as={RouterLink} to="/admin-dashboard">
             Admin Dashboard
           </Link>
         )}

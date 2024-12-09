@@ -13,8 +13,8 @@ import {
 interface CustomListProps<T> {
   title: string;
   useDataHook: () => { data: T[]; error: string | null; isLoading: boolean };
-  selectedItems?: T[]; 
-  onSelectItem: (items: T[]) => void; 
+  selectedItems?: T[];
+  onSelectItem: (items: T[]) => void;
 }
 
 const CustomList = <
@@ -22,14 +22,10 @@ const CustomList = <
 >({
   title,
   useDataHook,
-  selectedItems = [], 
+  selectedItems = [],
   onSelectItem,
 }: CustomListProps<T>) => {
-  const [isExpanded, setIsExpanded] = useState(false);
   const { data: items, error, isLoading } = useDataHook();
-
-  // Viser kun de første 5 elementer, medmindre isExpanded er true
-  const displayedItems = isExpanded ? items : items.slice(0, 5);
 
   const handleSelectItem = (item: T) => {
     const isAlreadySelected = selectedItems.some(
@@ -54,29 +50,31 @@ const CustomList = <
   return (
     <Box padding={4}>
       <Heading size="xs">{title}</Heading>
-      <List>
-        {displayedItems.map((item) => (
-          <ListItem key={item.id} paddingY="5px">
-            <HStack>
-              {/* Afkrydsningsboks for hvert element */}
-              <Checkbox
-                isChecked={selectedItems.some(
-                  (selectedItem) => selectedItem.id === item.id
-                )}
-                onChange={() => handleSelectItem(item)}
-              >
-                {item.name}
-              </Checkbox>
-            </HStack>
-          </ListItem>
-        ))}
-        {/* Vis kun knappen "Show More" hvis der er flere end 5 elementer */}
-        {items.length > 5 && (
-          <Button onClick={() => setIsExpanded(!isExpanded)} mt={2}>
-            {isExpanded ? "Show less" : "Show more"}
-          </Button>
-        )}
-      </List>
+      {/* Tilføj scrollbar-containeren */}
+      <Box
+        maxHeight="250px" // Begræns højden på boksen
+        overflowY={items.length > 15 ? "auto" : "visible"} // Scrollbar kun hvis > 15 elementer
+        border={items.length > 15 ? "1px solid #e2e8f0" : "none"} // Tilføj evt. kant for at fremhæve
+        borderRadius="md"
+        padding="2"
+      >
+        <List>
+          {items.map((item) => (
+            <ListItem key={item.id} paddingY="5px">
+              <HStack>
+                <Checkbox
+                  isChecked={selectedItems.some(
+                    (selectedItem) => selectedItem.id === item.id
+                  )}
+                  onChange={() => handleSelectItem(item)}
+                >
+                  {item.name}
+                </Checkbox>
+              </HStack>
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </Box>
   );
 };

@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/NavBar/ProtectedRout";
 import { AuthProvider } from "./components/context/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
 import EditProfilePage from "./pages/EditProfilePage";
+import ManageOpenPileItemsPage from "./pages/ManageOpenPileItemsPage";
 
 
 
@@ -64,11 +65,20 @@ function App() {
                       <EditProfilePage/>
                     </ProtectedRoute>}/>
                 {/* Protected route for superusers */}
-                <Route
-                  path="/admindashboard"
+               
+                 <Route
+                  path="/admin-dashboard"
                   element={
                     <ProtectedRoute requireSuperuser>
                       <AdminDashboardPage />
+                    </ProtectedRoute>
+                  }
+                />
+                 <Route
+                  path="/manage-open-pile-items"
+                  element={
+                    <ProtectedRoute requireSuperuser>
+                      <ManageOpenPileItemsPage />
                     </ProtectedRoute>
                   }
                 />
