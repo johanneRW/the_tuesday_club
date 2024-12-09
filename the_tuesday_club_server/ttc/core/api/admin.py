@@ -1,4 +1,4 @@
-from typing import List
+from typing import Dict, List
 from ninja import Router
 from django.http import JsonResponse
 from core.utils.csv_importer import import_csv_to_multiple_tables
@@ -37,10 +37,42 @@ def get_open_pile_items(request):
 
 @router.get("/closed-pile-items-summary/", response=List[UserSummarySchema])
 def get_closed_pile_items_summary(request):
+    user = get_user_from_session_key(request)
+    if not user:
+        return JsonResponse({"error": "You are not logged in."}, status=401)
+    
     order_summery= PileItem.admin_adresses_objects.closed_items_grouped_by_user()
     
     return list(order_summery)
 
+
+@router.patch("/update-pile-items-to-sent/")
+def update_pile_items_to_sent(request, user_ids: List[Dict[str, str]]):
+    user = get_user_from_session_key(request)
+    if not user:
+        return JsonResponse({"error": "You are not logged in."}, status=401)
+    
+    user_id_set = {item["user_ids"] for item in user_ids}
+    
+    # Hent grupperede data fra admin_adresses_objects
+    grouped_data = PileItem.admin_adresses_objects.closed_items_grouped_by_user()
+
+    # Filtrér de relevante user_ids fra gruppen
+    relevant_users = [user for user in grouped_data if user["user_id"] in user_id_set]
+
+    # Find de user_ids at opdatere
+    user_ids_to_update = [user["user_id"] for user in relevant_users]
+
+    # Opdater PileItems for disse user_ids
+    updated_count = (
+        PileItem.objects.filter(
+            pile_id__user_id__in=user_ids_to_update,  # Match user IDs
+            pile_status=PileStatus.CLOSED  # Kun items med status "CLOSED"
+        )
+        .update(pile_status=PileStatus.SENT)  # Sæt status til "SENT"
+    )
+    
+    return {"message": f"{updated_count} pile items updated to 'SENT'"}
 
 
 

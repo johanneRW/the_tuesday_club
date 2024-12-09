@@ -136,6 +136,7 @@ class PileItemClosedOrderManager(models.Manager):
             user_id = item['pile_id__user_id']
             if user_id not in grouped_data:
                 grouped_data[user_id] = {
+                    'user_id': user_id,
                     'first_name': item['pile_id__user_id__first_name'],
                     'last_name': item['pile_id__user_id__last_name'],
                     'address': f"{item['pile_id__user_id__address__street']}, "

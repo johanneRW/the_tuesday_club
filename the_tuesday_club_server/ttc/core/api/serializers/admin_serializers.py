@@ -30,6 +30,7 @@ class AlbumItemSchema(Schema):
     price: float
 
 class UserSummarySchema(Schema):
+    user_id:str
     first_name: str
     last_name: str
     address: str

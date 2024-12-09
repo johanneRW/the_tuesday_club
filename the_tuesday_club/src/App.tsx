@@ -15,6 +15,7 @@ import ManageOpenPileItemsPage from "./pages/admin/ManageOpenPileItemsPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import NotFoundPage from "./pages/NotFoundPage"; // Importér din NotFoundPage
 import ManageOrderdPileItemsPage from "./pages/admin/ManageOrderdPileItemsPage";
+import ManageOrderSendingPage from "./pages/admin/ManageOrderSendingPage";
 
 function App() {
   return (
@@ -99,6 +100,15 @@ function App() {
                   element={
                     <ProtectedRoute requireSuperuser>
                       <ManageOrderdPileItemsPage />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/manage-order-sending"
+                  element={
+                    <ProtectedRoute requireSuperuser>
+                      <ManageOrderSendingPage />
                     </ProtectedRoute>
                   }
                 />
