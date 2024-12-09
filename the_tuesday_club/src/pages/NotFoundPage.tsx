@@ -1,11 +1,18 @@
-import { Link } from "react-router-dom";
+import { Box, Heading, Button } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const NotFoundPage = () => {
+  const navigate = useNavigate();
+
   return (
-    <div>
-      <h1>404 - Page Not Found</h1>
-      <Link to="/">Go back to Albums</Link>
-    </div>
+    <Box textAlign="center" mt="10">
+      <Heading size="lg" mb="6">
+        404 - Page Not Found
+      </Heading>
+      <Button colorScheme="teal" onClick={() => navigate("/")}>
+        Go to Homepage
+      </Button>
+    </Box>
   );
 };
 

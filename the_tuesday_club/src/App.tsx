@@ -13,13 +13,12 @@ import { AuthProvider } from "./components/context/AuthContext";
 import EditProfilePage from "./pages/profile/EditProfilePage";
 import ManageOpenPileItemsPage from "./pages/admin/ManageOpenPileItemsPage";
 import ProfilePage from "./pages/profile/ProfilePage";
-
-
+import NotFoundPage from "./pages/NotFoundPage"; // Importér din NotFoundPage
 
 function App() {
   return (
     <AuthProvider>
-    <CartProvider>
+      <CartProvider>
         <Router>
           <Grid
             templateAreas={`
@@ -49,7 +48,8 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
-                {/* Protected route for regular users */}
+                
+                {/* Protected routes for regular users */}
                 <Route
                   path="/cart"
                   element={
@@ -58,15 +58,25 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route path="/profile" element={<ProtectedRoute>
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
                       <ProfilePage />
-                    </ProtectedRoute>}/>
-                    <Route path="/edit-profile" element={<ProtectedRoute>
-                      <EditProfilePage/>
-                    </ProtectedRoute>}/>
-                {/* Protected route for superusers */}
-               
-                 <Route
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/edit-profile"
+                  element={
+                    <ProtectedRoute>
+                      <EditProfilePage />
+                    </ProtectedRoute>
+                  }
+                />
+                
+                {/* Protected routes for superusers */}
+                <Route
                   path="/admin-dashboard"
                   element={
                     <ProtectedRoute requireSuperuser>
@@ -74,7 +84,7 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                 <Route
+                <Route
                   path="/manage-open-pile-items"
                   element={
                     <ProtectedRoute requireSuperuser>
@@ -82,6 +92,9 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+
+                {/* Fallback route */}
+                <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </GridItem>
 
@@ -89,8 +102,7 @@ function App() {
             <GridItem area={"footer"}></GridItem>
           </Grid>
         </Router>
-     
-    </CartProvider>
+      </CartProvider>
     </AuthProvider>
   );
 }
