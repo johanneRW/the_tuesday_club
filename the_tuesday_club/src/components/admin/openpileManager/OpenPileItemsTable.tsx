@@ -12,7 +12,7 @@ import {
   Text,
   Button,
 } from "@chakra-ui/react";
-import useOpenPileItems, { OpenPileItem } from "../../hooks/admin/useOpenPileItems";
+import useOpenPileItems, { OpenPileItem } from "../../../hooks/admin/useOpenPileItems";
 
 export interface OpenPileItemsTableProps {
   onSelectionChange: (items: OpenPileItem[]) => void;

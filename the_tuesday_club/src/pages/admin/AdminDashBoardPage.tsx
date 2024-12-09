@@ -41,6 +41,21 @@ const AdminDashboard = () => {
               Manage Open Pile Items
             </Button>
           </Box>
+
+          <Box
+            p="4"
+            borderWidth="1px"
+            borderRadius="lg"
+            boxShadow="md"
+            textAlign="center"
+          >
+            <Button
+              colorScheme="teal"
+              onClick={() => navigate("/manage-orderd-pile-items")}
+            >
+              Manage Orderd Pile Items
+            </Button>
+          </Box>
         </GridItem>
       </Grid>
     </Box>

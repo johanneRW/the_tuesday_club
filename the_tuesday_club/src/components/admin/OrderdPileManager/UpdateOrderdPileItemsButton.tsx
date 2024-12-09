@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@chakra-ui/react";
-import { OpenPileItem } from "../../hooks/admin/useOpenPileItems";
+import { OpenPileItem } from "../../../hooks/admin/useOpenPileItems";
 
 interface UpdatePileItemsButtonProps {
   selectedItems: OpenPileItem[];

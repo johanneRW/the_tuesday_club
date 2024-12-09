@@ -3,7 +3,7 @@ from uuid import UUID
 from ninja import Schema
 
 
-class OpenPileItemSchema(Schema):
+class PileItemSchema(Schema):
     album_id: UUID
     pile_ids: List[UUID]
     label_name: str

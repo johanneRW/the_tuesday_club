@@ -14,6 +14,7 @@ import EditProfilePage from "./pages/profile/EditProfilePage";
 import ManageOpenPileItemsPage from "./pages/admin/ManageOpenPileItemsPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import NotFoundPage from "./pages/NotFoundPage"; // Importér din NotFoundPage
+import ManageOrderdPileItemsPage from "./pages/admin/ManageOrderdPileItemsPage";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
+               
                 
                 {/* Protected routes for regular users */}
                 <Route
@@ -92,6 +94,15 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route
+                  path="/manage-orderd-pile-items"
+                  element={
+                    <ProtectedRoute requireSuperuser>
+                      <ManageOrderdPileItemsPage />
+                    </ProtectedRoute>
+                  }
+                />
+
 
                 {/* Fallback route */}
                 <Route path="*" element={<NotFoundPage />} />
