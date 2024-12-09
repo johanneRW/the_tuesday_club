@@ -1,4 +1,5 @@
 import usePostData from "../reuseableHooks/usePostData";
+import useSendData from "../reuseableHooks/useSendData";
 
 
 export type AlbumQuantity = {
@@ -18,7 +19,7 @@ export type AddToPileResponse = {
 };
 
 const useAddToPile = () => {
-  const { execute, isLoading, error, data } = usePostData<AddToPileResponse>("/api/piles/add-to-pile/");
+  const { execute, isLoading, error, data } = useSendData<AddToPileResponse>("/api/piles/add-to-pile/");
 
   const addToPile = async (albums: AlbumQuantity[]): Promise<boolean> => {
     const payload: AddToPilePayload = { albums }; 

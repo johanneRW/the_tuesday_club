@@ -1,4 +1,5 @@
 import usePostData, { ErrorDetail } from "../reuseableHooks/usePostData";
+import useSendData from "../reuseableHooks/useSendData";
 
 
 
@@ -23,7 +24,7 @@ type SignupResponse = {
 };
 
 const useSignup = () => {
-  const { execute, error, isLoading, data } = usePostData<SignupResponse>("/api/users/sign_up");
+  const { execute, error, isLoading, data } = useSendData<SignupResponse>("/api/users/sign_up");
 
   const signup = async (payload: SignupPayload): Promise<ErrorDetail[] | null> => {
     const signupError = await execute(payload);

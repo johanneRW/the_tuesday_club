@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import useData from "../reuseableHooks/useData";
+import React from "react";
 
 
 export interface OpenPileItem {
@@ -22,13 +23,11 @@ const useOpenPileItems = () => {
     { withCredentials: true },  // options
   );
 
-  // Memoiserede pileItems, så de ikke ændrer sig mellem renders
-  const openPileItems= useMemo(() => {
-    // Fallback til tom liste, hvis data er `null` eller `undefined`
-    return Array.isArray(data) ? data : [];
-  }, [data]); // `pileItems` opdateres kun, hvis `data` ændrer sig
+  React.useEffect(() => {
+    console.log("Data updated:", data); // Log data, når det opdateres
+  }, [data]);
 
-  return { data: openPileItems, error, isLoading , refetch };
+  return { data, error, isLoading, refetch };
 };
 
 export default useOpenPileItems;

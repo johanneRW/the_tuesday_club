@@ -1,13 +1,14 @@
 import usePutData from "../reuseableHooks/usePutData";
+import useSendData from "../reuseableHooks/useSendData";
 import useToastHandler from "../reuseableHooks/UseToastHandler";
 
 
 const useClosePile = () => {
   const { showToast } = useToastHandler();
-  const { execute, isLoading, error } = usePutData("/api/piles/close-pile/");
+  const { execute, isLoading, error } = useSendData("/api/piles/close-pile/", "PATCH");
 
   const closePile = async () => {
-    const result = await execute({}, { withCredentials: true });
+    const result = await execute({});
     if (result === null) {
       // Hvis der ikke er fejl
       showToast({

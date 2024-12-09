@@ -1,4 +1,5 @@
 import usePatchData from "../reuseableHooks/usePatchData";
+import useSendData from "../reuseableHooks/useSendData";
 
 
 type UserProfileUpdatePayload = {
@@ -17,7 +18,7 @@ type UserProfileUpdatePayload = {
 };
 
 const useUpdateProfile = () => {
-  const { execute, isLoading, error, data } = usePatchData<UserProfileUpdatePayload>("/api/users/profile");
+  const { execute, isLoading, error, data } = useSendData<UserProfileUpdatePayload>("/api/users/profile", "PATCH");
 
   const updateProfile = async (payload: UserProfileUpdatePayload) => {
     const errors = await execute(payload);
