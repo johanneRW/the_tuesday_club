@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from ..utils.helpers import get_user_from_session_key
 from .serializers.pile_serializers import AddToPileRequest, UnsentPileItemSchema
 from core.models import Pile, PileItem, Album, PileStatus 
+from django.db.models import Q, Count
 
 router = Router()
 
@@ -72,7 +73,7 @@ def get_pile_items(request):
 
 
 
-@router.put("/close-pile/")
+""" @router.patch("/close-pile/")
 def close_pile(request):
     # Hent bruger fra session
     user = get_user_from_session_key(request)
@@ -85,4 +86,39 @@ def close_pile(request):
     # Opdater alle Piles med status "Modtaget" til "Lukket" for den aktuelle bruger
     updated_count = Pile.objects.filter(user_id=user.id, pile_status=received_status).update(pile_status=closed_status)
     
-    return JsonResponse({"message": f"Updated {updated_count} piles to closed."}, status=200)
+    return JsonResponse({"message": f"Updated {updated_count} piles to closed."}, status=200) """
+
+
+@router.patch("/close-pile/")
+def close_pile(request):
+    # Hent bruger fra session
+    user = get_user_from_session_key(request)
+    if not user:
+        return JsonResponse({"error": "You are not logged in."}, status=401)
+
+    received_status = PileStatus.RECEIVED
+    closed_status = PileStatus.CLOSED
+
+    # Find og opdater alle pile-items for brugeren, der har status "received"
+    pile_items_to_update = PileItem.objects.filter(
+        pile_id__user_id=user.id,
+        pile_status=received_status
+    )
+
+    updated_count = pile_items_to_update.update(pile_status=closed_status)
+
+    # Find alle piles, hvor alle items nu er "closed"
+    piles_with_all_closed_items = (
+        Pile.objects.annotate(
+            open_items_count=Count(
+                'pileitem',
+                filter=~Q(pileitem__pile_status=closed_status)  # Items, der ikke er "closed"
+            )
+        )
+        .filter(user_id=user.id, open_items_count=0)  # Kun piles uden åbne items
+    )
+
+    return JsonResponse({
+        "message": f"Updated {updated_count} pile items with status 'received' to 'closed'.",
+        "closed_piles": piles_with_all_closed_items.count()
+    }, status=200)

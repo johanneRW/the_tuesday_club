@@ -36,3 +36,4 @@ class PileItemUpdateResponse(Schema):
     format_name: str
     pile_ids: List[str]
     total_quantity: int
+    pile_status: str
