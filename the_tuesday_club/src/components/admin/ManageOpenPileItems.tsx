@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import OpenPileItemsTable from "./OpenPileItemsTable";
 import UpdatePileItemsButton from "./UpdatePileItemsButton";
 import { OpenPileItem } from "../../hooks/admin/useOpenPileItems";
-import useUpdatePileItemsStatus from "../../hooks/admin/useUpdatePileItemsStatus";
+import useUpdatePileItemsStatusOrderd from "../../hooks/admin/useUpdatePileItemsStatus";
 
 const ManageOpenPileItems: React.FC = () => {
   const [selectedItems, setSelectedItems] = useState<OpenPileItem[]>([]);
   const [tableKey, setTableKey] = useState(0); // Key til at force re-render
-  const { updateStatus, isLoading } = useUpdatePileItemsStatus();
+  const { updateStatus, isLoading } = useUpdatePileItemsStatusOrderd();
 
   const handleSelectionChange = (items: OpenPileItem[]) => {
     setSelectedItems(items);

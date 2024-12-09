@@ -19,17 +19,17 @@ def get_open_pile_items(request):
         return JsonResponse({"error": "You are not logged in."}, status=401)
 
     
-    open_pile_items = PileItem.admin_objects.open_pile_items_by_album()
+    open_pile_items = PileItem.admin_objects.pile_items_by_album(PileStatus.OPEN)
     
     return list(open_pile_items)
 
 
 
 
-@router.patch("/update-pile-items-status", response=UpdateStatusResponse)
+@router.patch("/update-pile-items-status-orderd", response=UpdateStatusResponse)
 def update_pile_items_status(request, items: List[PileItemUpdateSchema]):
     # Hent listen af åbne pile items
-    open_pile_items = PileItem.admin_objects.open_pile_items_by_album()
+    open_pile_items = PileItem.admin_objects.pile_items_by_album(PileStatus.OPEN)
 
     # Ekstraher album_id fra de åbne pile items
     valid_album_ids = {item["album_id"] for item in open_pile_items}

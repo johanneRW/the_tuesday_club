@@ -41,12 +41,15 @@ class PileItemManager(models.Manager):
 
 
 class PileItemOrderManager(models.Manager):
-    def open_pile_items_by_album_queryset(self):
-        from core.models import PileStatus
+    def pile_items_by_album_queryset(self, pile_status):
+        """
+        Henter pile items filtreret efter pile_status.
+        """
+        from core.models import PileStatus  # Importer PileStatus her, hvis det er nødvendigt
 
         return (
             self.get_queryset()
-            .filter(pile_status=PileStatus.OPEN)  # Filtrer kun "open" pile
+            .filter(pile_status=pile_status)  # Filtrer efter den specifikke pile_status
             .select_related(
                 'album_id',
                 'album_id__artist_id',
@@ -74,8 +77,11 @@ class PileItemOrderManager(models.Manager):
             )
         )
 
-    def open_pile_items_by_album(self):
-        return self.open_pile_items_by_album_queryset().values(
+    def pile_items_by_album(self, pile_status):
+        """
+        Returnerer pile items baseret på pile_status, grupperet og annoteret.
+        """
+        return self.pile_items_by_album_queryset(pile_status).values(
             'album_id',  # Gruppér efter album
             'label_name',
             'album_name',
@@ -87,3 +93,4 @@ class PileItemOrderManager(models.Manager):
         ).annotate(
             total_quantity=Sum('quantity')  # Summer mængden for hvert album
         ).order_by('label_name', 'album_name')  # Sorter efter label og album
+

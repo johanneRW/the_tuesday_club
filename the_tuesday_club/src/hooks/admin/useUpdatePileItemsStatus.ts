@@ -9,9 +9,9 @@ interface UpdateStatusResponse {
   updated_count: number;
 }
 
-const useUpdatePileItemsStatus = () => {
+const useUpdatePileItemsStatusOrderd = () => {
   const { execute, isLoading, error, data } = useSendData<UpdateStatusResponse>(
-    "/api/admin/update-pile-items-status","PATCH"
+    "/api/admin/update-pile-items-status-orderd","PATCH"
   );
 
   const updateStatus = async (items: PileItemUpdate[]) => {
@@ -36,4 +36,4 @@ const useUpdatePileItemsStatus = () => {
   };
 };
 
-export default useUpdatePileItemsStatus;
+export default useUpdatePileItemsStatusOrderd;
