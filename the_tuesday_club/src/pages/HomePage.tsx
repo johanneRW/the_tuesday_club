@@ -16,17 +16,17 @@ export interface LpQuery {
   albumArtists: AlbumArtist[];
   priceRange: [number, number] | undefined;
   page: number | undefined;
-  album_name: string;
+  search_string: string;
 }
 
 const HomePage = () => {
   useAuth();
   const [lpQuery, setLpQuery] = useState<LpQuery>({} as LpQuery);
 
-  const handleSearch = (albumName: string) => {
+  const handleSearch = (searchString: string) => {
     setLpQuery((prev) => ({
       ...prev,
-      album_name: albumName, // Opdater søgeparameteren
+      search_string: searchString, // Opdater søgeparameteren
       page: 1, // Nulstil pagination
     }));
   };

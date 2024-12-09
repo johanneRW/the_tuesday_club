@@ -19,7 +19,7 @@ interface AsideProps {
     priceRange: [number, number] | undefined;
   };
   setLpQuery: React.Dispatch<React.SetStateAction<any>>;
-  handleSearch: (albumName: string) => void;
+  handleSearch: (searchString: string) => void;
 }
 
 const Aside = ({ lpQuery, setLpQuery, handleSearch }: AsideProps) => {

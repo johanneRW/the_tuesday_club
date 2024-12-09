@@ -20,7 +20,7 @@ def create_or_query(field_name: str, values: List[str]) -> Q:
 @router.get("/albums", response=PaginatedAlbumSchema)
 def list_albums(
     request,
-    album_name: Optional[str] = None,
+    search_string: Optional[str] = None,
     min_price: Optional[Decimal] = None,
     max_price: Optional[Decimal] = None,
     page: int = 1,
@@ -29,8 +29,8 @@ def list_albums(
     albums = AlbumView.objects.all()
     
     # Filtrér baseret på tilgængelige søgeparametre
-    if album_name:
-        albums = albums.filter(album_name__icontains=album_name)
+    if search_string:
+        albums = albums.filter(Q(album_name__icontains=search_string)|Q(artist_name__icontains=search_string))
 
     filter_params = {
         'artist_name': request.GET.getlist('artist_name'),

@@ -3,7 +3,7 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { ChangeEvent, useState ,KeyboardEvent} from "react";
 
 interface SearchInputProps {
-  onSearch: (albumName: string) => void; // Callback for at sende søgeforespørgsel
+  onSearch: (searchString: string) => void; // Callback for at sende søgeforespørgsel
 }
 
 const SearchInput = ({ onSearch }: SearchInputProps) => {
@@ -26,7 +26,7 @@ const SearchInput = ({ onSearch }: SearchInputProps) => {
   return (
     <HStack>
       <Input
-        placeholder="Search by album name..."
+        placeholder="Search by album or artist..."
         value={value}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown} 
