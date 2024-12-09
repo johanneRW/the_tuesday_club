@@ -3,7 +3,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import LogoutButton from "./logoutButton";
 import CartIcon from "../cart/CartIconModal";
-import ProfilePage from "../../pages/ProfilePage";
+
 
 const NavBar = () => {
   const { user } = useAuth();

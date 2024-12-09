@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
 import { Box, Heading, Grid, GridItem, Text } from "@chakra-ui/react";
-import { useAuth } from "../components/context/AuthContext";
-import PileTable from "../components/pile/PileTable";
-import UserProfile from "../components/profile/userProfile";
-import EditProfile from "../components/profile/EditUserProfile";
-import EditUserProfile from "../components/profile/EditUserProfile";
+import { useAuth } from "../../components/context/AuthContext";
+import PileTable from "../../components/pile/PileTable";
+import UserProfile from "../../components/profile/userProfile";
+import EditProfile from "../../components/profile/EditUserProfile";
+import EditUserProfile from "../../components/profile/EditUserProfile";
 
 
 const EditProfilePage: React.FC = () => {

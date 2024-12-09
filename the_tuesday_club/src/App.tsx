@@ -7,12 +7,12 @@ import CartPage from "./pages/CartPage";
 import { CartProvider } from "./components/context/CartContext";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPages";
-import AdminDashboardPage from "./pages/AdminDashBoardPage";
+import AdminDashboardPage from "./pages/admin/AdminDashBoardPage";
 import ProtectedRoute from "./components/NavBar/ProtectedRout";
 import { AuthProvider } from "./components/context/AuthContext";
-import ProfilePage from "./pages/ProfilePage";
-import EditProfilePage from "./pages/EditProfilePage";
-import ManageOpenPileItemsPage from "./pages/ManageOpenPileItemsPage";
+import EditProfilePage from "./pages/profile/EditProfilePage";
+import ManageOpenPileItemsPage from "./pages/admin/ManageOpenPileItemsPage";
+import ProfilePage from "./pages/profile/ProfilePage";
 
 
 

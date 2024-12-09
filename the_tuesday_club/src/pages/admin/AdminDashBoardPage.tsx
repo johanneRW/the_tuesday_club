@@ -1,7 +1,7 @@
 import { Box, Heading, Grid, GridItem, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import useAllLabels from "../hooks/admin/useAllLabels";
-import FileUploadComponent from "../components/admin/FileUpload";
+import useAllLabels from "../../hooks/admin/useAllLabels";
+import FileUploadComponent from "../../components/admin/FileUpload";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
