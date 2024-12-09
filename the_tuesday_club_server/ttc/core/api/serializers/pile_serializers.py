@@ -27,7 +27,7 @@ class UnsentPileItemSchema(Schema):
     user_id: str
     
 class PileItemUpdateResponse(Schema):
-    album_id: str
+    album_id: UUID
     label_name: str
     album_name: str
     artist_name: str
@@ -37,3 +37,13 @@ class PileItemUpdateResponse(Schema):
     pile_ids: List[str]
     total_quantity: int
     pile_status: str
+    
+
+class PileItemSchema(Schema):
+    pile_item_id: UUID
+    pile_id: UUID
+    album_id: UUID
+    quantity: int
+    pile_item_price: float
+    
+

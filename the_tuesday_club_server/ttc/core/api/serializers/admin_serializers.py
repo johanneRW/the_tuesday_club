@@ -20,3 +20,19 @@ class PileItemUpdateSchema(Schema):
 
 class UpdateStatusResponse(Schema):
     updated_count: int
+
+
+class AlbumItemSchema(Schema):
+    album_name: str
+    artist_name: str
+    format: str
+    quantity: int
+    price: float
+
+class UserSummarySchema(Schema):
+    first_name: str
+    last_name: str
+    address: str
+    total_quantity: int
+    total_price: float
+    items: List[AlbumItemSchema]

@@ -72,23 +72,6 @@ def get_pile_items(request):
 
 
 
-
-""" @router.patch("/close-pile/")
-def close_pile(request):
-    # Hent bruger fra session
-    user = get_user_from_session_key(request)
-    if not user:
-        return JsonResponse({"error": "You are not logged in."}, status=401)
-    
-    received_status = PileStatus.RECEIVED
-    closed_status = PileStatus.CLOSED
-    
-    # Opdater alle Piles med status "Modtaget" til "Lukket" for den aktuelle bruger
-    updated_count = Pile.objects.filter(user_id=user.id, pile_status=received_status).update(pile_status=closed_status)
-    
-    return JsonResponse({"message": f"Updated {updated_count} piles to closed."}, status=200) """
-
-
 @router.patch("/close-pile/")
 def close_pile(request):
     # Hent bruger fra session

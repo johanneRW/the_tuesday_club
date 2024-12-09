@@ -3,7 +3,7 @@ from ninja import Router
 from django.http import JsonResponse
 from core.utils.csv_importer import import_csv_to_multiple_tables
 from core.models import Album, AlbumImage, Label, PileItem, PileStatus
-from core.api.serializers.admin_serializers import PileItemSchema
+from core.api.serializers.admin_serializers import PileItemSchema, UserSummarySchema
 from core.api.serializers.admin_serializers import PileItemUpdateSchema, UpdateStatusResponse
 from ..utils.helpers import get_user_from_session_key
 
@@ -33,6 +33,13 @@ def get_open_pile_items(request):
     orderd_pile_items = PileItem.admin_objects.pile_items_by_album(PileStatus.ORDERED)
     
     return list(orderd_pile_items)
+
+
+@router.get("/closed-pile-items-summary/", response=List[UserSummarySchema])
+def get_closed_pile_items_summary(request):
+    order_summery= PileItem.admin_adresses_objects.closed_items_grouped_by_user()
+    
+    return list(order_summery)
 
 
 

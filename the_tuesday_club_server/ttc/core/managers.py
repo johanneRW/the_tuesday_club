@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.db.models import F,Q, Value, CharField, Sum,  Case, When, BigIntegerField
 from django.db.models.functions import Concat, Coalesce
@@ -94,3 +95,65 @@ class PileItemOrderManager(models.Manager):
             total_quantity=Sum('quantity')  # Summer mængden for hvert album
         ).order_by('label_name', 'album_name')  # Sorter efter label og album
 
+
+
+
+
+class PileItemClosedOrderManager(models.Manager):
+    def closed_items_grouped_by_user(self):
+        from core.models import PileStatus
+        
+        queryset = (
+            self.filter(pile_status=PileStatus.CLOSED)
+            .select_related(
+                'pile_id__user_id',  # Forbind til User via Pile
+                'album_id__artist_id',  # Forbind til Artist via Album
+                'album_id__label_id',  # Forbind til Label via Album
+                'album_id__album_unit_format__album_format_id'  # Forbind til AlbumFormat
+            )
+            .annotate(
+                total_price_per_item=F('quantity') * F('pile_item_price')  # Beregn pris pr. item
+            )
+            .values(
+                'pile_id__user_id',  # Bruger ID
+                'pile_id__user_id__first_name',  # Fornavn
+                'pile_id__user_id__last_name',  # Efternavn
+                'pile_id__user_id__address__street',  # Adresse detaljer
+                'pile_id__user_id__address__city',
+                'pile_id__user_id__address__postal_code',
+                'pile_id__user_id__address__country',
+                'album_id__album_name',  # Albumnavn
+                'album_id__artist_id__artist_name',  # Kunstnernavn
+                'album_id__albumunitformat__album_format_id__album_format',  # Albumformat
+                'quantity',  # Antal pr. album
+                'total_price_per_item'  # Pris for alle albums
+            )
+        )
+
+        # Organiser data pr. bruger
+        grouped_data = {}
+        for item in queryset:
+            user_id = item['pile_id__user_id']
+            if user_id not in grouped_data:
+                grouped_data[user_id] = {
+                    'first_name': item['pile_id__user_id__first_name'],
+                    'last_name': item['pile_id__user_id__last_name'],
+                    'address': f"{item['pile_id__user_id__address__street']}, "
+                               f"{item['pile_id__user_id__address__city']}, "
+                               f"{item['pile_id__user_id__address__postal_code']}, "
+                               f"{item['pile_id__user_id__address__country']}",
+                    'total_quantity': 0,
+                    'total_price': Decimal("0"),
+                    'items': []
+                }
+            grouped_data[user_id]['items'].append({
+                'album_name': item['album_id__album_name'],
+                'artist_name': item['album_id__artist_id__artist_name'],
+                'format': item['album_id__albumunitformat__album_format_id__album_format'],
+                'quantity': item['quantity'],
+                'price': item['total_price_per_item']
+            })
+            grouped_data[user_id]['total_quantity'] += item['quantity']
+            grouped_data[user_id]['total_price'] += item['total_price_per_item']
+
+        return list(grouped_data.values())
