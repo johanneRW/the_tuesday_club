@@ -33,14 +33,22 @@ const HomePage = () => {
 
   return (
     <Grid
-      templateAreas={`
-        "aside main"`}
-      gridTemplateColumns={"300px 1fr"}
-      gap="4"
-      p="4"
-    >
+    templateAreas={`
+      "aside main"`}
+    gridTemplateColumns={"300px 1fr"}
+    gap="4"
+    p="4"
+  >
       {/* Sidebar */}
-      <Aside lpQuery={lpQuery} setLpQuery={setLpQuery} handleSearch={handleSearch} />
+      <GridItem
+        area={"aside"}
+                position="sticky" // Gør det sticky
+        top="0" // Sticky starter fra toppen af viewporten
+        height="100vh" // Fylder hele højden af viewporten
+        overflowY="auto" // Hvis indholdet i Aside er større, aktiver scrolling
+      >
+        <Aside lpQuery={lpQuery} setLpQuery={setLpQuery} handleSearch={handleSearch} />
+      </GridItem>
 
       {/* Main Content */}
       <GridItem area={"main"}>

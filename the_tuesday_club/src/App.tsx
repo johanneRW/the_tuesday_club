@@ -13,7 +13,7 @@ import { AuthProvider } from "./components/context/AuthContext";
 import EditProfilePage from "./pages/profile/EditProfilePage";
 import ManageOpenPileItemsPage from "./pages/admin/ManageOpenPileItemsPage";
 import ProfilePage from "./pages/profile/ProfilePage";
-import NotFoundPage from "./pages/NotFoundPage"; // Importér din NotFoundPage
+import NotFoundPage from "./pages/NotFoundPage"; 
 import ManageOrderdPileItemsPage from "./pages/admin/ManageOrderdPileItemsPage";
 import ManageOrderSendingPage from "./pages/admin/ManageOrderSendingPage";
 import AboutUsPage from "./pages/AboutUsPage";
