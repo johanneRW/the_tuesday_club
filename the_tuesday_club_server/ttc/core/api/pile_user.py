@@ -8,10 +8,11 @@ from .serializers.pile_serializers import AddToPileRequest, UnsentPileItemSchema
 from core.models import Pile, PileItem, Album, PileStatus 
 from django.db.models import Q, Count
 
-router = Router()
+
+pile_user_router = Router(tags=["Pile User"])
 
 
-@router.post("/add-to-pile/")
+@pile_user_router.post("/add-to-pile/")
 def add_to_pile(request, data: AddToPileRequest):
     # Få brugeren fra session
     user_or_none = get_user_from_session_key(request)
@@ -60,7 +61,7 @@ def add_to_pile(request, data: AddToPileRequest):
 
 
 
-@router.get("/pile-items", response=List[UnsentPileItemSchema])
+@pile_user_router.get("/pile-items", response=List[UnsentPileItemSchema])
 def get_pile_items(request):
     user = get_user_from_session_key(request)
     if not user:
@@ -72,7 +73,7 @@ def get_pile_items(request):
 
 
 
-@router.patch("/close-pile/")
+@pile_user_router.patch("/close-pile/")
 def close_pile(request):
     # Hent bruger fra session
     user = get_user_from_session_key(request)

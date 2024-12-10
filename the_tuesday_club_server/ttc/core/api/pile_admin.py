@@ -10,9 +10,9 @@ from ..utils.helpers import get_user_from_session_key
 
 
 
-router = Router()
+pile_admin_router = Router(tags=["Pile Admin"])
 
-@router.get("/open-pile-items", response=List[PileItemSchema])
+@pile_admin_router.get("/open-pile-items", response=List[PileItemSchema])
 def get_open_pile_items(request):
     user = get_user_from_session_key(request)
     if not user:
@@ -23,7 +23,7 @@ def get_open_pile_items(request):
     
     return list(open_pile_items)
 
-@router.get("/orderd-pile-items", response=List[PileItemSchema])
+@pile_admin_router.get("/orderd-pile-items", response=List[PileItemSchema])
 def get_open_pile_items(request):
     user = get_user_from_session_key(request)
     if not user:
@@ -35,7 +35,7 @@ def get_open_pile_items(request):
     return list(orderd_pile_items)
 
 
-@router.get("/closed-pile-items-summary/", response=List[UserSummarySchema])
+@pile_admin_router.get("/closed-pile-items-summary/", response=List[UserSummarySchema])
 def get_closed_pile_items_summary(request):
     user = get_user_from_session_key(request)
     if not user:
@@ -46,7 +46,7 @@ def get_closed_pile_items_summary(request):
     return list(order_summery)
 
 
-@router.patch("/update-pile-items-to-sent/")
+@pile_admin_router.patch("/update-pile-items-to-sent/")
 def update_pile_items_to_sent(request, user_ids: List[Dict[str, str]]):
     user = get_user_from_session_key(request)
     if not user:
@@ -76,7 +76,7 @@ def update_pile_items_to_sent(request, user_ids: List[Dict[str, str]]):
 
 
 
-@router.patch("/update-pile-items-status-orderd", response=UpdateStatusResponse)
+@pile_admin_router.patch("/update-pile-items-status-orderd", response=UpdateStatusResponse)
 def update_pile_items_status(request, items: List[PileItemUpdateSchema]):
     # Hent listen af åbne pile items
     open_pile_items = PileItem.admin_objects.pile_items_by_album(PileStatus.OPEN)
@@ -105,7 +105,7 @@ def update_pile_items_status(request, items: List[PileItemUpdateSchema]):
 
 
 
-@router.patch("/update-pile-items-status-received", response=UpdateStatusResponse)
+@pile_admin_router.patch("/update-pile-items-status-received", response=UpdateStatusResponse)
 def update_pile_items_status_received(request, items: List[PileItemUpdateSchema]):
     # Hent listen af pile items, der har status "ORDERED"
     ordered_pile_items = PileItem.admin_objects.pile_items_by_album(PileStatus.ORDERED)
