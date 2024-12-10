@@ -6,8 +6,10 @@ export interface AlbumItem{
     album_name: string
     artist_name: string
     format: string
+    album_units: string
     quantity: number
-    price: number}
+    price_per_item: number
+    total_price: number}
 
 export interface OrderSummary{
     user_id:string

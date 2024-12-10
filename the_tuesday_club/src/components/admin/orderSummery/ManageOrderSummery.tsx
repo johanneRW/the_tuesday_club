@@ -33,12 +33,12 @@ const ManageOrderSummaries: React.FC = () => {
 
   return (
     <div>
-      <UpdateOrderSummariesButton
+      <UpdateOrderSummariesButton 
         selectedItems={selectedUserIds}
         onClick={handleUpdateStatus}
         isLoading={false} // Hvis du har loading state for opdatering
       />
-      <OrderSummeryTable
+      <OrderSummeryTable 
         key={tableKey} // Brug key til at tvinge re-render
         onSelectionChange={handleSelectionChange}
       />

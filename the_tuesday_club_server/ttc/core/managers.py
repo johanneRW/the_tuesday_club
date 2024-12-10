@@ -102,17 +102,21 @@ class PileItemOrderManager(models.Manager):
 class PileItemClosedOrderManager(models.Manager):
     def closed_items_grouped_by_user(self):
         from core.models import PileStatus
-        
+        from decimal import Decimal
+        from django.db.models import F, Sum
+
+        # Queryset der henter data fra de relevante relationer
         queryset = (
             self.filter(pile_status=PileStatus.CLOSED)
             .select_related(
-                'pile_id__user_id',  # Forbind til User via Pile
-                'album_id__artist_id',  # Forbind til Artist via Album
-                'album_id__label_id',  # Forbind til Label via Album
-                'album_id__album_unit_format__album_format_id'  # Forbind til AlbumFormat
+                'pile_id__user_id',  # Bruger via Pile
+                'album_id__artist_id',  # Kunstner via Album
+                'album_id__label_id',  # Label via Album
+                'album_id__albumunitformat__album_format_id'  # Albumformat via AlbumUnitFormat
             )
             .annotate(
-                total_price_per_item=F('quantity') * F('pile_item_price')  # Beregn pris pr. item
+                total_price_per_item=F('quantity') * F('pile_item_price'),  # Pris pr. item
+                album_units=F('album_id__albumunitformat__album_units')  # Hent album_units
             )
             .values(
                 'pile_id__user_id',  # Bruger ID
@@ -122,11 +126,13 @@ class PileItemClosedOrderManager(models.Manager):
                 'pile_id__user_id__address__city',
                 'pile_id__user_id__address__postal_code',
                 'pile_id__user_id__address__country',
+                'album_id',  # Album ID
                 'album_id__album_name',  # Albumnavn
                 'album_id__artist_id__artist_name',  # Kunstnernavn
                 'album_id__albumunitformat__album_format_id__album_format',  # Albumformat
-                'quantity',  # Antal pr. album
-                'total_price_per_item'  # Pris for alle albums
+                'pile_item_price',  # Pris pr. item
+                'album_units',  # Album enheder
+                'quantity',  # Antal pr. pile item
             )
         )
 
@@ -145,16 +151,34 @@ class PileItemClosedOrderManager(models.Manager):
                                f"{item['pile_id__user_id__address__country']}",
                     'total_quantity': 0,
                     'total_price': Decimal("0"),
-                    'items': []
+                    'items': {}
                 }
-            grouped_data[user_id]['items'].append({
-                'album_name': item['album_id__album_name'],
-                'artist_name': item['album_id__artist_id__artist_name'],
-                'format': item['album_id__albumunitformat__album_format_id__album_format'],
-                'quantity': item['quantity'],
-                'price': item['total_price_per_item']
-            })
+
+            # Unik nøgle til gruppering: album_id og pris
+            album_key = (item['album_id'], item['pile_item_price'])
+            if album_key not in grouped_data[user_id]['items']:
+                grouped_data[user_id]['items'][album_key] = {
+                    'album_name': item['album_id__album_name'],
+                    'artist_name': item['album_id__artist_id__artist_name'],
+                    'format': item['album_id__albumunitformat__album_format_id__album_format'],
+                    'album_units': item['album_units'],
+                    'quantity': 0,
+                    'price_per_item': item['pile_item_price'],
+                    'total_price': Decimal("0")
+                }
+
+            # Opdater mængde og pris for eksisterende album
+            grouped_data[user_id]['items'][album_key]['quantity'] += item['quantity']
+            grouped_data[user_id]['items'][album_key]['total_price'] += (
+                item['quantity'] * item['pile_item_price']
+            )
+
+            # Opdater brugerens samlede mængde og pris
             grouped_data[user_id]['total_quantity'] += item['quantity']
-            grouped_data[user_id]['total_price'] += item['total_price_per_item']
+            grouped_data[user_id]['total_price'] += item['quantity'] * item['pile_item_price']
+
+        # Konverter items til en liste for hver bruger
+        for user_id in grouped_data:
+            grouped_data[user_id]['items'] = list(grouped_data[user_id]['items'].values())
 
         return list(grouped_data.values())

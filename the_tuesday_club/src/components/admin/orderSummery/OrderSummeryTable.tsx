@@ -62,60 +62,79 @@ const OrderSummeryTable: React.FC<OrderSummeryTableProps> = ({
   }
 
   return (
-    <Box maxW="1200px" mx="auto" mt="10" overflowX="auto">
-      <Table variant="striped" size="sm" minWidth="1000px">
-        <Thead>
-          <Tr>
-            <Th>Select</Th>
-            <Th>First Name</Th>
-            <Th>Last Name</Th>
-            <Th>Address</Th>
-            <Th>Total Quantity</Th>
-            <Th>Total Price</Th>
-            <Th>Album Name</Th>
-            <Th>Artist Name</Th>
-            <Th>Format</Th>
-            <Th>Quantity</Th>
-            <Th>Price</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {orderSummery.map((summary) => (
-            <React.Fragment key={`${summary.user_id}`}>
-              {/* Parent row for address and summary */}
-              <Tr>
-                <Td rowSpan={summary.items.length + 1}>
-                  <Checkbox
-                    isChecked={selectedUserIds.has(summary.user_id)}
-                    onChange={(e) =>
-                      handleCheckboxChange(summary.user_id, e.target.checked)
-                    }
-                  />
-                </Td>
-                <Td rowSpan={summary.items.length + 1}>{summary.first_name}</Td>
-                <Td rowSpan={summary.items.length + 1}>{summary.last_name}</Td>
-                <Td rowSpan={summary.items.length + 1}>{summary.address}</Td>
-                <Td rowSpan={summary.items.length + 1}>
-                  {summary.total_quantity}
-                </Td>
-                <Td rowSpan={summary.items.length + 1}>
-                  {summary.total_price.toFixed(2)}
-                </Td>
-              </Tr>
-              {/* Rows for individual album items */}
-              {summary.items.map((item: AlbumItem) => (
-                <Tr key={item.album_name}>
-                  <Td>{item.album_name}</Td>
-                  <Td>{item.artist_name}</Td>
-                  <Td>{item.format}</Td>
-                  <Td>{item.quantity}</Td>
-                  <Td>{item.price.toFixed(2)}</Td>
+    <Box maxW="100%" mx="auto" mt="2" overflowX="auto">
+    <Table variant="striped" size="sm" minWidth="1200px">
+  <Thead>
+    <Tr>
+      <Th width="10%">Select</Th> {/* Gør Select-kolonnen bredere */}
+      
+      <Th>Name</Th>
+      <Th>Address</Th>
+      <Th>Total Quantity</Th>
+      <Th>Total Price</Th>
+    </Tr>
+  </Thead>
+  <Tbody>
+    {orderSummery.map((summary) => (
+      <React.Fragment key={`${summary.user_id}`}>
+        {/* Hovedoplysninger */}
+        <Tr>
+          <Td  >
+            <Checkbox
+              isChecked={selectedUserIds.has(summary.user_id)}
+              onChange={(e) =>
+                handleCheckboxChange(summary.user_id, e.target.checked)
+              }
+            />
+          </Td>
+          <Td rowSpan={2}>{`${summary.first_name} ${summary.last_name}`}</Td>
+          <Td rowSpan={2}>{summary.address}</Td>
+          <Td>{summary.total_quantity}</Td>
+          <Td>{summary.total_price.toFixed(2)}</Td>
+        </Tr>
+        {/* Blank række mellem hovedoplysninger og albumtabel */}
+        <Tr>
+        
+        </Tr>
+        {/* Indlejret tabel for albumdetaljer */}
+        <Tr>
+          <Td colSpan={6}>
+            <Table size="sm" width="100%">
+              <Thead>
+                <Tr>
+                
+                  <Th>Album Name</Th>
+                  <Th>Artist Name</Th>
+                  <Th>Units</Th>
+                  <Th>Format</Th>
+                  <Th>pr. item</Th>
+                  <Th>Quantity</Th>
+                  <Th>Sub total</Th>
+
                 </Tr>
-              ))}
-            </React.Fragment>
-          ))}
-        </Tbody>
-      </Table>
+              </Thead>
+              <Tbody>
+                {summary.items.map((item, index) => (
+                  <Tr key={`${summary.user_id}-${index}`}>
+                    <Td>{item.album_name}</Td>
+                    <Td>{item.artist_name}</Td>
+                    <Td>{item.album_units}</Td>
+                    <Td>{item.format}</Td>
+                    <Td>{item.price_per_item.toFixed(2)}</Td>
+                    <Td>{item.quantity}</Td>
+                    <Td>{item.total_price.toFixed(2)}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Td>
+        </Tr>
+      </React.Fragment>
+    ))}
+  </Tbody>
+</Table>
+
+
     </Box>
   );
 };

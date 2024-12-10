@@ -26,8 +26,10 @@ class AlbumItemSchema(Schema):
     album_name: str
     artist_name: str
     format: str
+    album_units: str
     quantity: int
-    price: float
+    price_per_item: float
+    total_price: float
 
 class UserSummarySchema(Schema):
     user_id:str
@@ -37,3 +39,4 @@ class UserSummarySchema(Schema):
     total_quantity: int
     total_price: float
     items: List[AlbumItemSchema]
+
