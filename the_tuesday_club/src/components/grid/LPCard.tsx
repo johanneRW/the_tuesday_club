@@ -27,7 +27,9 @@ const LPCard = ({ album }: Props) => {
   const { user } = useAuth();
 
   return (
-    <Card maxW="100%" h="460px">
+    <Card maxW="100%" h="460px" sx={{
+      "--card-padding": "var(--chakra-space-4)", // Ændr card-padding
+    }}>
       <CardBody>
         <Box display="flex" justifyContent="center">
           <ImagePlaceholder format={album.format_name} />
@@ -76,6 +78,7 @@ const LPCard = ({ album }: Props) => {
                   variant="solid"
                   colorScheme="blue"
                   size="sm"
+                  mb="4"
                   onClick={() => addToCart(album)}
                 >
                   Add to cart
@@ -84,6 +87,7 @@ const LPCard = ({ album }: Props) => {
                   variant="outline"
                   colorScheme="red"
                   size="sm"
+                  mb="4"
                   onClick={() => console.log("Superuser action")}
                 >
                   Fetch Image
@@ -98,6 +102,7 @@ const LPCard = ({ album }: Props) => {
                 colorScheme="blue"
                 size="md"
                 width="80%"
+               
                 onClick={() => addToCart(album)}
               >
                 Add to cart
