@@ -10,13 +10,12 @@ import {
   Button,
   HStack,
 } from "@chakra-ui/react";
-import ImagePlaceholder from "./ImagePlaceholder";
+import AlbumImage from "./AlbumImage";
 import { useCart } from "../context/CartContext";
 import { Album } from "../../hooks/grid/useAlbums";
 import { capitalizeWords } from "../../services/utils/capitalizeWords";
 import { useAuth } from "../context/AuthContext";
 import ProtectedRoute from "../NavBar/ProtectedRout";
-
 
 interface Props {
   album: Album;
@@ -27,13 +26,19 @@ const LPCard = ({ album }: Props) => {
   const { user } = useAuth();
 
   return (
-    <Card maxW="100%" h="460px" sx={{
-      "--card-padding": "var(--chakra-space-4)", // Ændr card-padding
-    }}>
+    <Card
+      maxW="100%"
+      h="460px"
+      sx={{
+        "--card-padding": "var(--chakra-space-4)",
+      }}
+    >
       <CardBody>
-        <Box display="flex" justifyContent="center">
-          <ImagePlaceholder format={album.format_name} />
-        </Box>
+        <AlbumImage
+          imageUrl={album.image_url}
+          format={album.format_name}
+          alt={`${album.album_name} by ${album.artist_name}`}
+        />
         <Stack mt="3" spacing="1">
           <Heading
             fontSize="xl"
@@ -71,7 +76,6 @@ const LPCard = ({ album }: Props) => {
       >
         {user?.isAuthenticated && (
           <>
-            {/* Superuser actions */}
             <ProtectedRoute requireSuperuser>
               <HStack spacing="4">
                 <Button
@@ -95,14 +99,12 @@ const LPCard = ({ album }: Props) => {
               </HStack>
             </ProtectedRoute>
 
-            {/* Normal user action */}
             {!user.isSuperuser && (
               <Button
                 variant="solid"
                 colorScheme="blue"
                 size="md"
                 width="80%"
-               
                 onClick={() => addToCart(album)}
               >
                 Add to cart

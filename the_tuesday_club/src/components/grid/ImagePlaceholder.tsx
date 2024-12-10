@@ -32,7 +32,7 @@ const LPPlaceholder = ({ format }: LPPlaceholderProps) => {
       borderRadius="md"
     >
       <Image
-        src={selectedImage} // billede baseret på format
+        src={selectedImage} 
         alt="Cover not found"
         objectFit="contain"
         width="90%"

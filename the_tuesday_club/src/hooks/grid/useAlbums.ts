@@ -9,6 +9,7 @@ export interface Album {
   format_name: string;
   label_name: string;
   album_price: number;
+  image_url: string
 }
 
 export interface AlbumsResponse {
