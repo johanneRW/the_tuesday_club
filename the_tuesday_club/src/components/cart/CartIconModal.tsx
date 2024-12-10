@@ -49,7 +49,7 @@ const CartIcon = () => {
           position="absolute"
           top="-1"
           right="-1"
-          colorScheme="red"
+          colorScheme="green"
           borderRadius="full"
           px="2"
         >
