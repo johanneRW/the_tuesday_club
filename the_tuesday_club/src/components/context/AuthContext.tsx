@@ -66,6 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await apiClientWhitCredentials.post("/api/users/logout", {});
       setUser(null);
+      localStorage.removeItem("cart");
       return null;
     } catch (error: any) {
       setLogoutError(error.response?.data || { message: "Unknown error occurred" });
