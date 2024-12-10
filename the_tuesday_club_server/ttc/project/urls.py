@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from ninja import NinjaAPI
-from core.api.csv import router as csv_router
+from core.api.imports import router as imports_router
 from core.api.albums import router as albums_router
 from core.api.filters import router as filters_router
 from core.api.users import router as users_router
@@ -29,7 +29,7 @@ from core.api.pile_admin import pile_admin_router
 api = NinjaAPI()
 
 
-api.add_router("/csv", csv_router)  
+api.add_router("/imports", imports_router)  
 api.add_router("/albums", albums_router)  
 api.add_router("/filters", filters_router)
 api.add_router("/users", users_router)

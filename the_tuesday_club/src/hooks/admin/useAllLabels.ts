@@ -8,7 +8,7 @@ interface Label {
 
 //hook til at hente alle labels bruges til indlæsning af csv
 const useAllLabels = () => {
-  return useData<Label>("/api/csv/labels/all");
+  return useData<Label>("/api/imports/labels/all");
 };
 
 export default useAllLabels; 

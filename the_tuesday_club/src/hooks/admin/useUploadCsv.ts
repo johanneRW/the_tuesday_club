@@ -22,7 +22,7 @@ const useUploadCsv = () => {
     formData.append("label_name", label);
 
     try {
-      const response = await apiClientWhitCredentials.post<UploadResponse>("/api/csv/upload_csv", formData, {
+      const response = await apiClientWhitCredentials.post<UploadResponse>("/api/imports/upload_csv", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
