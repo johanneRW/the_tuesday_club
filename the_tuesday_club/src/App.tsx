@@ -16,6 +16,7 @@ import ProfilePage from "./pages/profile/ProfilePage";
 import NotFoundPage from "./pages/NotFoundPage"; // Importér din NotFoundPage
 import ManageOrderdPileItemsPage from "./pages/admin/ManageOrderdPileItemsPage";
 import ManageOrderSendingPage from "./pages/admin/ManageOrderSendingPage";
+import AboutUsPage from "./pages/AboutUsPage";
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
+                <Route path="/aboutus" element={<AboutUsPage />} />
                
                 
                 {/* Protected routes for regular users */}

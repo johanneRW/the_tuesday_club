@@ -14,6 +14,9 @@ const NavBar = () => {
         <Link as={RouterLink} to="/">
           Albums
         </Link>
+        <Link as={RouterLink} to="/aboutus">
+          About Us
+        </Link>
         {user?.isAuthenticated && (
           <Link as={RouterLink} to="/cart">
             Cart
