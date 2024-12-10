@@ -191,3 +191,6 @@ DEFAULT_FILE_STORAGE = 'project.custom_storages.MediaStorage'
 
 # Media URL
 MEDIA_URL = f'{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}'
+
+# BarcodeLookup.com API
+BARCODE_SCANNER_KEY = os.environ["BARCODE_SCANNER_KEY"]
