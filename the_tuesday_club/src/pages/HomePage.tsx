@@ -42,7 +42,7 @@ const HomePage = () => {
       {/* Sidebar */}
       <GridItem
         area={"aside"}
-                position="sticky" // Gør det sticky
+        position="sticky" // Gør det sticky
         top="0" // Sticky starter fra toppen af viewporten
         height="100vh" // Fylder hele højden af viewporten
         overflowY="auto" // Hvis indholdet i Aside er større, aktiver scrolling

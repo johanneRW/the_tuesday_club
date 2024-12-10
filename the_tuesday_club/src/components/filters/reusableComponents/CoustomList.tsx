@@ -13,8 +13,8 @@ import {
 interface CustomListProps<T> {
   title: string;
   useDataHook: () => { data: T[]; error: string | null; isLoading: boolean };
-  selectedItems?: T[];
-  onSelectItem: (items: T[]) => void;
+  selectedItems?: T[]; 
+  onSelectItem: (items: T[]) => void; 
 }
 
 const CustomList = <
@@ -22,10 +22,14 @@ const CustomList = <
 >({
   title,
   useDataHook,
-  selectedItems = [],
+  selectedItems = [], 
   onSelectItem,
 }: CustomListProps<T>) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   const { data: items, error, isLoading } = useDataHook();
+
+  // Viser kun de første 5 elementer, medmindre isExpanded er true
+  const displayedItems = isExpanded ? items : items.slice(0, 5);
 
   const handleSelectItem = (item: T) => {
     const isAlreadySelected = selectedItems.some(
@@ -50,18 +54,22 @@ const CustomList = <
   return (
     <Box padding={4}>
       <Heading size="xs">{title}</Heading>
-      {/* Tilføj scrollbar-containeren */}
-      <Box
-        maxHeight="250px" // Begræns højden på boksen
-        overflowY={items.length > 15 ? "auto" : "visible"} // Scrollbar kun hvis > 15 elementer
-        border={items.length > 15 ? "1px solid #e2e8f0" : "none"} // Tilføj evt. kant for at fremhæve
+      <Box 
+        maxHeight={items.length > 15 ? "300px" : "none"} 
+        overflowY={items.length > 15 ? "auto" : "visible"} 
+        border={items.length > 15 ? "1px solid #ccc" : "none"}
         borderRadius="md"
-        padding="2"
+        padding={items.length > 15 ? 2 : 0}
+        css={{
+          scrollbarWidth: "thin",
+          scrollbarColor: "#ccc #f9f9f9",
+        }}
       >
         <List>
-          {items.map((item) => (
+          {(items.length > 15 ? items : displayedItems).map((item) => (
             <ListItem key={item.id} paddingY="5px">
               <HStack>
+                {/* Afkrydsningsboks for hvert element */}
                 <Checkbox
                   isChecked={selectedItems.some(
                     (selectedItem) => selectedItem.id === item.id
@@ -75,6 +83,12 @@ const CustomList = <
           ))}
         </List>
       </Box>
+      {/* Vis kun knappen "Show More" hvis der er flere end 5 og mindre end 15 elementer */}
+      {items.length > 5 && items.length <= 15 && (
+        <Button onClick={() => setIsExpanded(!isExpanded)} mt={2}>
+          {isExpanded ? "Show less" : "Show more"}
+        </Button>
+      )}
     </Box>
   );
 };
