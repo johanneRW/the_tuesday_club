@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Card,
   CardBody,
@@ -6,7 +7,6 @@ import {
   Heading,
   Stack,
   Text,
-  Box,
   Button,
   HStack,
 } from "@chakra-ui/react";
@@ -16,6 +16,8 @@ import { Album } from "../../hooks/grid/useAlbums";
 import { capitalizeWords } from "../../services/utils/capitalizeWords";
 import { useAuth } from "../context/AuthContext";
 import ProtectedRoute from "../NavBar/ProtectedRout";
+import { fetchCoverImage } from "../../services/fetcCoverImage";
+
 
 interface Props {
   album: Album;
@@ -24,6 +26,24 @@ interface Props {
 const LPCard = ({ album }: Props) => {
   const { addToCart } = useCart();
   const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleFetchImageClick = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const result = await fetchCoverImage(album.album_id);
+      setData(result);
+      console.log("Fetched image data:", result);
+    } catch (err) {
+      setError("Failed to fetch image");
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Card
@@ -92,7 +112,8 @@ const LPCard = ({ album }: Props) => {
                   colorScheme="red"
                   size="sm"
                   mb="4"
-                  onClick={() => console.log("Superuser action")}
+                  onClick={handleFetchImageClick}
+                  isLoading={isLoading}
                 >
                   Fetch Image
                 </Button>
