@@ -14,6 +14,7 @@ class AlbumSchema(Schema):
     label_name: Optional[str]
     album_price: Optional[Decimal]
     image_url: Optional[str]
+    fetch_status: Optional[str]
     
 
 # Skema til paginerede resultater

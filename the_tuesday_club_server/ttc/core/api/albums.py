@@ -131,6 +131,8 @@ def list_albums(
             album.image_url = settings.MEDIA_URL + album.album_image
         else:
             album.image_url = None
+    
+    album.fetch_status = album.fetch_status if album.fetch_status else None           
 
     # Returnér paginerede resultater
     return {

@@ -10,6 +10,7 @@ export interface Album {
   label_name: string;
   album_price: number;
   image_url: string
+  fetch_status:string
 }
 
 export interface AlbumsResponse {

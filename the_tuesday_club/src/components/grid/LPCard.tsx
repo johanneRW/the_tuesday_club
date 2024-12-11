@@ -107,6 +107,11 @@ const LPCard = ({ album }: Props) => {
                 >
                   Add to cart
                 </Button>
+                {album.fetch_status === "failed" ? (
+                <Text color="red.500" fontSize="sm" mt="2">
+                  Image not found
+                </Text>
+              ) : (
                 <Button
                   variant="outline"
                   colorScheme="red"
@@ -117,6 +122,7 @@ const LPCard = ({ album }: Props) => {
                 >
                   Fetch Image
                 </Button>
+              )}
               </HStack>
             </ProtectedRoute>
 
