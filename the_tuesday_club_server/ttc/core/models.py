@@ -38,7 +38,8 @@ class AlbumImage(models.Model):
     album_id = models.OneToOneField(
         'Album', on_delete=models.CASCADE, unique=True, related_name='album_image'
     )
-    image = models.ImageField(upload_to='uploads/',storage=MediaStorage(),null=True)  # Filen gemmes i bucket i "media/uploads/"
+    image = models.ImageField(upload_to='uploads/',storage=MediaStorage(), null=True)  # Filen gemmes i bucket i "media/uploads/"
+    fetch_status = models.CharField(max_length=100, null=True)
 
 
 class Album(models.Model):

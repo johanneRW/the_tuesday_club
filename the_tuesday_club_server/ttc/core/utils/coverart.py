@@ -1,7 +1,7 @@
 from django.conf import settings
 import requests
 
-#udkommenteret fordi react-implentering spamede barcodeLookup, så ip er band, og betalt plan er for ret dyr"
+#udkommenteret fordi react-implentering spamede barcodeLookup, så ip og key er "band", og betalt plan er for ret dyr"
 """def get_barcode_data(barcode: str) -> dict:
     response = requests.get(
         f"https://api.barcodelookup.com/v3/products?barcode={barcode}&formatted=y&key={settings.BARCODE_SCANNER_KEY}"
