@@ -37,7 +37,7 @@ const CartIcon = () => {
 
   return (
     <Box position="relative">
-      {/* Kurv-ikon */}
+      {/* Stack-ikon */}
       <IconButton
         icon={<HiSquare3Stack3D />}
         aria-label="View basket"

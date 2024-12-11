@@ -1,7 +1,6 @@
 import { useState, useRef, ChangeEvent, FC } from "react";
 import {
   Box,
-  Heading,
   VStack,
   FormControl,
   FormLabel,
@@ -97,7 +96,6 @@ const FileUploadComponent: FC<FileUploadProps> = ({
 
   return (
     <Box p="4">
-      
       <VStack spacing="4" align="stretch">
         <FormControl>
           <FormLabel>Select Label</FormLabel>
@@ -134,7 +132,7 @@ const FileUploadComponent: FC<FileUploadProps> = ({
           />
         </FormControl>
         <Input
-          ref={fileInputRef} // Tilføj ref her
+          ref={fileInputRef}
           type="file"
           accept=".csv"
           onChange={handleFileChange}

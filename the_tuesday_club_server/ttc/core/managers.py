@@ -1,4 +1,3 @@
-from decimal import Decimal
 from django.db import models
 from django.db.models import F,Q, Value, CharField, Sum,  Case, When, BigIntegerField
 from django.db.models.functions import Concat, Coalesce

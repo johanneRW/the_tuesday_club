@@ -21,7 +21,6 @@ class PileItemUpdateSchema(Schema):
 class UpdateStatusResponse(Schema):
     updated_count: int
 
-
 class AlbumItemSchema(Schema):
     album_name: str
     artist_name: str

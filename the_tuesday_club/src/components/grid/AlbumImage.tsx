@@ -1,4 +1,4 @@
-import React from "react";
+import { FC } from "react";
 import { Box, Image } from "@chakra-ui/react";
 import ImagePlaceholder from "./ImagePlaceholder";
 
@@ -8,7 +8,7 @@ interface AlbumImageProps {
   alt: string;
 }
 
-const AlbumImage: React.FC<AlbumImageProps> = ({ imageUrl, format, alt }) => {
+const AlbumImage: FC<AlbumImageProps> = ({ imageUrl, format, alt }) => {
   return (
     <Box display="flex" justifyContent="center">
       {imageUrl ? (

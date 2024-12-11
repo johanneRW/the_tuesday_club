@@ -7,5 +7,5 @@ address_created = Signal()
 def create_address(sender, user, address_data, **kwargs):
     Address.objects.create(
         user_id=user,
-        **address_data  # Unpack dictionary direkte
+        **address_data 
     )

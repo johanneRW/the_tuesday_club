@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Card,
   CardBody,
@@ -16,7 +16,7 @@ import { Album } from "../../hooks/grid/useAlbums";
 import { capitalizeWords } from "../../services/utils/capitalizeWords";
 import { useAuth } from "../context/AuthContext";
 import ProtectedRoute from "../NavBar/ProtectedRout";
-import { fetchCoverImage } from "../../services/fetcCoverImage";
+import { fetchCoverImage } from "../../services/fetchCoverImage";
 
 
 interface Props {

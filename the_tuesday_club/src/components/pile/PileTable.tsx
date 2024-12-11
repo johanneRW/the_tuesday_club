@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Table, Tbody, Tr, Td, Thead, Th, Spinner, Box, Text, Button } from "@chakra-ui/react";
 import usePileItems from "../../hooks/pile/usePileItems";
 import useClosePile from "../../hooks/pile/useClosePile";

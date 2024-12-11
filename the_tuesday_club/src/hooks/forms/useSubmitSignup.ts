@@ -1,5 +1,4 @@
-import usePostData, { ErrorDetail } from "../reuseableHooks/usePostData";
-import useSendData from "../reuseableHooks/useSendData";
+import useSendData, { ErrorDetail } from "../reuseableHooks/useSendData";
 
 
 

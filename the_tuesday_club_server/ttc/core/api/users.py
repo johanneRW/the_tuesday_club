@@ -1,8 +1,6 @@
 from ninja import Router
-from django.contrib.auth import authenticate, login , logout
-
+from django.contrib.auth import authenticate, logout
 from core.models import Address, User
-
 from ..utils.helpers import get_user_from_session_key
 from ..signals import address_created
 from .serializers.address_serializers import (AddressCreateSchema)
@@ -10,13 +8,8 @@ from .serializers.login_serializers import (LoginSchema, UserSchema, ErrorSchema
 from .serializers.user_serializers import (
     UserCreateSchema,
     UserResponseSchema,
-    UserUpdateSchema,
-)
+    UserUpdateSchema)
 from django.http import JsonResponse
-from ninja.security import django_auth
-from django.contrib.sessions.backends.db import SessionStore
-from django.contrib.auth.decorators import login_required
-from django.contrib.sessions.models import Session
 from ninja.errors import HttpError
 from django.db import transaction
 

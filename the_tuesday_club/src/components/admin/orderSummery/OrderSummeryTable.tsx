@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { FC, Fragment, useState } from "react";
 import {
   Table,
   Thead,
@@ -11,13 +11,13 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import useOrderSummery, { OrderSummary, AlbumItem } from "../../../hooks/admin/useOrderSummery";
+import useOrderSummery from "../../../hooks/admin/useOrderSummery";
 
 export interface OrderSummeryTableProps {
   onSelectionChange: (userIds: string[]) => void; // Returnér user_ids
 }
 
-const OrderSummeryTable: React.FC<OrderSummeryTableProps> = ({
+const OrderSummeryTable: FC<OrderSummeryTableProps> = ({
   onSelectionChange,
 }) => {
   const { data: orderSummery, isLoading, error } = useOrderSummery();
@@ -63,11 +63,10 @@ const OrderSummeryTable: React.FC<OrderSummeryTableProps> = ({
 
   return (
     <Box maxW="100%" mx="auto" mt="2" overflowX="auto">
-    <Table variant="striped" size="sm" minWidth="1200px">
+    <Table  size="sm" minWidth="1200px">
   <Thead>
     <Tr>
-      <Th width="10%">Select</Th> {/* Gør Select-kolonnen bredere */}
-      
+      <Th width="10%">Select</Th> 
       <Th>Name</Th>
       <Th>Address</Th>
       <Th>Total Quantity</Th>
@@ -76,7 +75,7 @@ const OrderSummeryTable: React.FC<OrderSummeryTableProps> = ({
   </Thead>
   <Tbody>
     {orderSummery.map((summary) => (
-      <React.Fragment key={`${summary.user_id}`}>
+      <Fragment key={`${summary.user_id}`}>
         {/* Hovedoplysninger */}
         <Tr>
           <Td  >
@@ -94,7 +93,6 @@ const OrderSummeryTable: React.FC<OrderSummeryTableProps> = ({
         </Tr>
         {/* Blank række mellem hovedoplysninger og albumtabel */}
         <Tr>
-        
         </Tr>
         {/* Indlejret tabel for albumdetaljer */}
         <Tr>
@@ -102,7 +100,6 @@ const OrderSummeryTable: React.FC<OrderSummeryTableProps> = ({
             <Table size="sm" width="100%">
               <Thead>
                 <Tr>
-                
                   <Th>Album Name</Th>
                   <Th>Artist Name</Th>
                   <Th>Units</Th>
@@ -110,7 +107,6 @@ const OrderSummeryTable: React.FC<OrderSummeryTableProps> = ({
                   <Th>pr. item</Th>
                   <Th>Quantity</Th>
                   <Th>Sub total</Th>
-
                 </Tr>
               </Thead>
               <Tbody>
@@ -129,13 +125,11 @@ const OrderSummeryTable: React.FC<OrderSummeryTableProps> = ({
             </Table>
           </Td>
         </Tr>
-      </React.Fragment>
+      </Fragment>
     ))}
   </Tbody>
 </Table>
-
-
-    </Box>
+</Box>
   );
 };
 

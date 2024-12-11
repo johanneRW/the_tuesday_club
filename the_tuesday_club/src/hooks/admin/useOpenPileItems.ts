@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import useData from "../reuseableHooks/useData";
 import React from "react";
 

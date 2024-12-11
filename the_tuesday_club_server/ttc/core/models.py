@@ -150,7 +150,7 @@ class PileItem(models.Model):
     class Meta:
         unique_together = ('pile_id','album_id')
 
-
+#denne har ikke en manager men findes kun som SQL-viwe i databasen
 class AlbumView(models.Model):
     album_id = models.UUIDField(primary_key=True)
     album_name = models.CharField(max_length=255)
@@ -168,24 +168,6 @@ class AlbumView(models.Model):
         managed = False  # Django administrerer ikke viewet
         db_table = 'album_view'  # Navn på viewet i databasen
 
-
-""" class AdminAlbumView(models.Model):
-    album_id = models.UUIDField(primary_key=True)
-    album_name = models.CharField(max_length=255)
-    artist_name = models.CharField(max_length=255)
-    album_units = models.IntegerField(null=True, blank=True)
-    album_format_id = models.IntegerField(null=True, blank=True)
-    format_name = models.CharField(max_length=50)
-    label_name = models.CharField(max_length=255, null=True, blank=True)
-    album_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    price_start_date = models.DateField(null=True, blank=True)
-    album_ean_code = models.BigIntegerField( null=True, blank=True)
-    album_upc = models.BigIntegerField( null=True, blank=True)
-    fetch_status = models.CharField(max_length=100, null=True)
-
-    class Meta:
-        managed = False  
-        db_table = 'admin_album_view' """
 
 
 class UnsentPileItem(models.Model):

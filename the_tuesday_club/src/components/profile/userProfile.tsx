@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Heading, Text, VStack, Spinner, Alert, AlertIcon, Button } from "@chakra-ui/react";
+import { Box, Heading, Text, VStack, Spinner, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import useProfile from "../../hooks/forms/useProfile";
 

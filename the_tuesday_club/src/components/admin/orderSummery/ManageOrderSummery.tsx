@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import OrderSummeryTable from "./OrderSummeryTable";
 import userUpdateOrderSummery from "../../../hooks/admin/userUpdateOrderSummery";
 
-const ManageOrderSummaries: React.FC = () => {
+
+const ManageOrderSummaries: FC = () => {
   const [selectedUserIds, setSelectedUserIds] = useState<string[]>([]);
   const [tableKey, setTableKey] = useState(0); // Key til at force re-render
   const { updateStatus, isLoading } = userUpdateOrderSummery();

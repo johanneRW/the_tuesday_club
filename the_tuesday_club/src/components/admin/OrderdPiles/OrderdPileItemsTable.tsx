@@ -1,9 +1,8 @@
-import React from "react";
-
+import { FC } from "react";
 import useOrderdPileItems, { PileItem } from "../../../hooks/admin/useOrderdPileItems";
 import GenericItemsTable from "../../reusableComponents/GenericItemsTable ";
 
-const OrderdPileItemsTable: React.FC<{ onSelectionChange: (items: PileItem[]) => void }> = ({
+const OrderdPileItemsTable: FC<{ onSelectionChange: (items: PileItem[]) => void }> = ({
   onSelectionChange,
 }) => {
   return (

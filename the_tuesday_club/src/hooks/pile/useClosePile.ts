@@ -1,4 +1,3 @@
-import usePutData from "../reuseableHooks/usePutData";
 import useSendData from "../reuseableHooks/useSendData";
 import useToastHandler from "../reuseableHooks/UseToastHandler";
 

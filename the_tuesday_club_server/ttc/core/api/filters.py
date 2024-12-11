@@ -36,10 +36,10 @@ def list_formats(request):
 def list_units(request):
     units = (
         AlbumView.objects
-        .extra(select={'units_as_int': 'CAST(album_units AS INTEGER)'})  # SQL-kastning til integer
+        .extra(select={'units_as_int': 'CAST(album_units AS INTEGER)'})
         .values_list('album_units', flat=True)
         .distinct()
-        .order_by('units_as_int')  # Sorter i stigende rækkefølge
+        .order_by('units_as_int')  # Sorter i stigende
     )
     unit_data = [{"album_units": unit} for unit in units]
     return unit_data

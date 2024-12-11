@@ -2,9 +2,8 @@ from datetime import datetime
 from decimal import Decimal
 from ninja import Schema
 from uuid import UUID
-from typing import List, Optional
+from typing import List
 
-from core.models import PileItem
 
 class AlbumQuantity(Schema):
     album_id: UUID

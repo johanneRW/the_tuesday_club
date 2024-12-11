@@ -1,3 +1,4 @@
+import { FC } from "react";
 import { FormControl, FormLabel, Input, VStack, FormErrorMessage } from "@chakra-ui/react";
 
 interface AddressFormProps {
@@ -6,7 +7,7 @@ interface AddressFormProps {
   handleChange: (field: string, value: string) => void;
 }
 
-const AddressForm: React.FC<AddressFormProps> = ({ values, errors, handleChange }) => (
+const AddressForm: FC<AddressFormProps> = ({ values, errors, handleChange }) => (
   <VStack spacing="4" align="stretch">
     <FormControl>
       <FormLabel>Street</FormLabel>

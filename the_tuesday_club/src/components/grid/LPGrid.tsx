@@ -9,7 +9,6 @@ import { LpQuery } from "../../pages/HomePage";
 import { useAuth } from "../context/AuthContext";
 
 
-
 interface Props {
   lpQuery: LpQuery;
 }
@@ -71,7 +70,7 @@ const LPGrid = ({ lpQuery }: Props) => {
           </LPCardContainer>
         ))}
 
-        {/* Besked hvis ingen albums findes */}
+        {/* Besked hvis ingen albums */}
         {!isLoading && allAlbums.length === 0 && <p>No albums found.</p>}
       </SimpleGrid>
       

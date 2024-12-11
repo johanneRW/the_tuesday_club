@@ -14,16 +14,17 @@ const NavBar = () => {
       <Link as={RouterLink} to="/aboutus">
           About Us
         </Link>
+
         <Link as={RouterLink} to="/">
           Albums
         </Link>
        
-        
          {user?.isAuthenticated && (
           <Link as={RouterLink} to="/profile">
             Your Profile
           </Link>
         )}
+
         {user?.isAuthenticated && user.isSuperuser && (
           <Link as={RouterLink} to="/admin-dashboard">
             Admin Dashboard
@@ -33,14 +34,13 @@ const NavBar = () => {
       <HStack spacing="4">   
           {user?.isAuthenticated && (
         <CartIcon/>)}
+
           {user?.isAuthenticated && (
           <Link as={RouterLink} to="/cart">
-            Stack
+            Basket
           </Link>
         )}
        
-     
-      
         {user?.isAuthenticated ? (
           <LogoutButton />
         ) : (

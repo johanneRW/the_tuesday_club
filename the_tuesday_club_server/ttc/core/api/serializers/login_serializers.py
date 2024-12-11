@@ -5,8 +5,6 @@ class LoginSchema(Schema):
     password: str
     
     
-    
-
 class UserSchema(Schema):
     username: str
     isAuthenticated: bool

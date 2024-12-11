@@ -91,15 +91,15 @@ def close_pile(request):
 
     updated_count = pile_items_to_update.update(pile_status=closed_status)
 
-    # Find alle piles, hvor alle items nu er "closed"
+    
     piles_with_all_closed_items = (
         Pile.objects.annotate(
             open_items_count=Count(
                 'pileitem',
-                filter=~Q(pileitem__pile_status=closed_status)  # Items, der ikke er "closed"
+                filter=~Q(pileitem__pile_status=closed_status) 
             )
         )
-        .filter(user_id=user.id, open_items_count=0)  # Kun piles uden åbne items
+        .filter(user_id=user.id, open_items_count=0) 
     )
 
     return JsonResponse({

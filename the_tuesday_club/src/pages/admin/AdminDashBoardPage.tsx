@@ -35,10 +35,8 @@ const AdminDashboard = () => {
         Handle Orders
       </Heading>
           <Box p="6" border="1px solid #ddd" borderRadius="8px">
-      
           <Box
             p="4"
-           
             textAlign="center"
           >
             <Button
@@ -63,7 +61,6 @@ const AdminDashboard = () => {
 
           <Box
             p="4"
-            
             textAlign="center"
           >
             <Button

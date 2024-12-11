@@ -12,8 +12,8 @@ const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, requireSuperuser = 
   const { user } = useAuth();
 
   if (!user || !user.isAuthenticated) {
-    // Hvis brugeren ikke er logget ind, omdiriger til login
-    return <Navigate to="/login" />;
+    // Hvis brugeren ikke er logget ind, omdiriger
+    return <Navigate to="/" />;
   }
 
   if (requireSuperuser && !user.isSuperuser) {

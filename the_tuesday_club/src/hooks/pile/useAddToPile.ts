@@ -1,10 +1,9 @@
-import usePostData from "../reuseableHooks/usePostData";
 import useSendData from "../reuseableHooks/useSendData";
 
 
 export type AlbumQuantity = {
   album_id: string; // Album ID
-  quantity: number; // Mængde af albummer
+  quantity: number; // Mængde af albums
 };
 
 

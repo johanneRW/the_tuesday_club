@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, VStack, Text, Link, Heading } from "@chakra-ui/react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useForm from "../hooks/forms/useForm";
@@ -105,7 +105,7 @@ const SignupPage = () => {
           colorScheme="blue"
           onClick={handleSignup}
           isLoading={isLoading}
-          isDisabled={!isFormReady} // Dynamisk opdatering
+          isDisabled={!isFormReady}
         >
           Sign Up
         </Button>

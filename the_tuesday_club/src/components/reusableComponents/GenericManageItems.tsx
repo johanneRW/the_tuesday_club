@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import  { FC, useState } from "react";
 import { Button } from "@chakra-ui/react";
 
 interface GenericManageItemsProps<T> {
-    TableComponent: React.FC<{ key: number; onSelectionChange: (items: T[]) => void }>;
+    TableComponent: FC<{ key: number; onSelectionChange: (items: T[]) => void }>;
     useUpdateHook: () => { updateStatus: (items: any[]) => Promise<void>; isLoading: boolean };
     buttonText: string; 
   }
