@@ -1,6 +1,5 @@
 import { Box, Heading, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import ManageOpenPileItems from "../../components/admin/openpileManager/ManageOpenPileItems";
 import ManageOrderSummaries from "../../components/admin/orderSummery/ManageOrderSummery";
 
 const ManageOrderSendingPage = () => {

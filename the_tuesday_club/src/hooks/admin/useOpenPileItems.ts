@@ -3,7 +3,7 @@ import useData from "../reuseableHooks/useData";
 import React from "react";
 
 
-export interface OpenPileItem {
+export interface PileItem {
   album_id: string;
   label_name: string;
   album_name: string;
@@ -16,7 +16,7 @@ export interface OpenPileItem {
 
 const useOpenPileItems = () => {
   // Brug useData til at hente data med credentials
-  const { data, error, isLoading, refetch } = useData<OpenPileItem>(
+  const { data, error, isLoading, refetch } = useData<PileItem>(
     "/api/admin/open-pile-items",
     undefined, // Ingen dynamisk `requestConfig`
     [], // Ingen afhængigheder for at forhindre genkald
