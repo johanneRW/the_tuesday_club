@@ -28,24 +28,24 @@ const useUploadCsv = () => {
         },
       });
 
-      showToast({
-        title: "Upload Successful",
-        description: response.data.message,
-        status: "success",
-        duration: 3000,
-      });
+      // showToast({
+      //   title: "Upload Successful",
+      //   description: response.data.message,
+      //   status: "success",
+      //   duration: 3000,
+      // });
 
       return response.data;
     } catch (err: any) {
       const errorMessage = formatErrorMessage(err.response?.data?.error || "An error occurred.");
       setError(errorMessage);
 
-      showToast({
-        title: "Upload Failed",
-        description: errorMessage,
-        status: "error",
-        duration: 5000,
-      });
+      // showToast({
+      //   title: "Upload Failed",
+      //   description: errorMessage,
+      //   status: "error",
+      //   duration: 5000,
+      // });
 
       return null;
     } finally {
