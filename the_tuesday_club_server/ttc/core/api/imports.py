@@ -90,7 +90,7 @@ def find_image(request, album_id: str):
     )
     album = get_object_or_404(album_qs, album_id=album_id)
     print("album", album)
-    return JsonResponse({"disabled": True})
+    #return JsonResponse({"disabled": True})
     data = get_barcode_data(album.identifier)
     try:
         image_url = data["products"][0]["images"][0]
