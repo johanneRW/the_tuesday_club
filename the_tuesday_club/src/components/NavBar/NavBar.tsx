@@ -10,23 +10,18 @@ const NavBar = () => {
 
   return (
     <Box as="nav" p="4" display="flex" justifyContent="space-between" alignItems="center">
-      <HStack spacing="4">
+      <HStack spacing="10">
+      <Link as={RouterLink} to="/aboutus">
+          About Us
+        </Link>
         <Link as={RouterLink} to="/">
           Albums
         </Link>
-        <Link as={RouterLink} to="/aboutus">
-          About Us
-        </Link>
-        {user?.isAuthenticated && (
-          <Link as={RouterLink} to="/cart">
-            Cart
-          </Link>
-        )}
-         {user?.isAuthenticated && (
-        <CartIcon/>)}
+       
+        
          {user?.isAuthenticated && (
           <Link as={RouterLink} to="/profile">
-            profile
+            Your Profile
           </Link>
         )}
         {user?.isAuthenticated && user.isSuperuser && (
@@ -35,7 +30,17 @@ const NavBar = () => {
           </Link>
         )}
       </HStack>
-      <HStack spacing="4">
+      <HStack spacing="4">   
+          {user?.isAuthenticated && (
+        <CartIcon/>)}
+          {user?.isAuthenticated && (
+          <Link as={RouterLink} to="/cart">
+            Stack
+          </Link>
+        )}
+       
+     
+      
         {user?.isAuthenticated ? (
           <LogoutButton />
         ) : (
@@ -49,6 +54,7 @@ const NavBar = () => {
           </>
         )}
       </HStack>
+      
     </Box>
   );
 };

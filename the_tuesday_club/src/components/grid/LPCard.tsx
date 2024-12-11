@@ -108,7 +108,7 @@ const LPCard = ({ album }: Props) => {
                   Add to cart
                 </Button>
                 {album.fetch_status === "failed" ? (
-                <Text color="gray.200" fontSize="sm" mt="2" pb="4">
+                <Text color="gray.500" fontSize="sm" mt="2" pb="4">
                   Cover not found
                 </Text>
               ) : (
