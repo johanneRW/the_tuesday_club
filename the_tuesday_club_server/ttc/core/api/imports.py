@@ -11,7 +11,7 @@ import tempfile
 import requests
 from core.utils.csv_importer import import_csv_to_multiple_tables
 from core.models import Album, AlbumImage, Label
-from core.utils.coverart import get_barcode_data
+from core.utils.coverart import get_musicbrainz_data
 from .serializers.imports_serializers import ErrorOutput, FindImageOutput
 from .serializers.filter_serializers import (LabelNameSchema)
 
@@ -55,30 +55,39 @@ def upload_csv(
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
     
-"""    
-#skal ikke implemters men dele skal formtlig benyttes senere til at hente og gemme billeder  
-@router.post("/upload_image")
-#@login_required
-def upload_image(
-    request,
-    image: UploadedFile = File(...),
-):
-    
-    album = Album.objects.get(album_id="383568e1-3b4c-441b-94c7-ea1d5a7ea230")
-    
-    try:
-        album_image = AlbumImage.objects.create(
-            album_id=album,
-            image=image,
-        )
-        return {"message": "Filen er indlæst og behandlet korrekt."}
-    except ValueError as ve:
-        return JsonResponse({"error": str(ve)}, status=400)
-    except Exception as e:
-        raise 
-        return JsonResponse({"error": str(e)}, status=500) """
 
+#ikke den mest robuste løsning men virker for de flestte albums, som alternativ til barcodeLocup
 @router.get("/find-image", response={200: FindImageOutput, 400: ErrorOutput})
+def find_image(request, album_id: str):
+
+    album = get_object_or_404(Album, album_id=album_id)
+    data = get_musicbrainz_data(album.artist_id.artist_name, album.album_name)
+    mbid = None
+    for rel in data["releases"]:
+        for media in rel["media"]:
+            if media["format"] == "Digital Media":
+                mbid = rel["id"]             
+        
+    if mbid is not None:
+        print("mbid", mbid)
+    else:
+        return JsonResponse({"error": "no mbid found"}, 404)        
+
+    image_data_url = f"https://coverartarchive.org/release/{mbid}"
+    image_data = requests.get(image_data_url)
+    image_url = image_data.json()["images"][0]["thumbnails"]["250"]
+    
+    image = requests.get(image_url)
+    print(image_url, image.headers, image.status_code)
+    image.raise_for_status()
+    img_temp = BytesIO(image.content)
+    album_image, created = AlbumImage.objects.get_or_create(album_id=album)
+    album_image.image.save(f"{album.identifier}.png", img_temp)
+    album_image.save()
+    return JsonResponse({"image_url": image_url})
+
+#udkommenteret fordi react-implentering spamede barcodeLookup, så ip er band, og betalt plan er for ret dyr"
+""" @router.get("/find-image", response={200: FindImageOutput, 400: ErrorOutput})
 def find_image(request, album_id: str):
     album_qs = Album.objects.annotate(
         identifier=Coalesce(
@@ -102,4 +111,4 @@ def find_image(request, album_id: str):
         album_image, created = AlbumImage.objects.get_or_create(album_id=album)
         album_image.image.save(f"{album.identifier}.png", File(img_temp))
         album_image.save()
-        return JsonResponse({"image_url": image_url})
+        return JsonResponse({"image_url": image_url}) """
