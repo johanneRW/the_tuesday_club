@@ -78,11 +78,11 @@ def find_image(request, album_id: str):
     image_url = image_data.json()["images"][0]["thumbnails"]["250"]
     
     image = requests.get(image_url)
-    print(image_url, image.headers, image.status_code)
+    print(image_url, image.status_code)
     image.raise_for_status()
     img_temp = BytesIO(image.content)
     album_image, created = AlbumImage.objects.get_or_create(album_id=album)
-    album_image.image.save(f"{album.identifier}.png", img_temp)
+    album_image.image.save(f"{album.album_id}.png", img_temp)
     album_image.save()
     return JsonResponse({"image_url": image_url})
 
