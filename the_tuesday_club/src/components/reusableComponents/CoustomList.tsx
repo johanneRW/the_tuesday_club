@@ -1,20 +1,21 @@
 import { useState } from "react";
 import {
   Box,
+  Button,
   Checkbox,
   Heading,
   HStack,
   List,
   ListItem,
   Spinner,
-  Button,
+  Text,
 } from "@chakra-ui/react";
 
 interface CustomListProps<T> {
   title: string;
   useDataHook: () => { data: T[]; error: string | null; isLoading: boolean };
-  selectedItems?: T[]; 
-  onSelectItem: (items: T[]) => void; 
+  selectedItems?: T[];
+  onSelectItem: (items: T[]) => void;
 }
 
 const CustomList = <
@@ -22,7 +23,7 @@ const CustomList = <
 >({
   title,
   useDataHook,
-  selectedItems = [], 
+  selectedItems = [],
   onSelectItem,
 }: CustomListProps<T>) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -45,7 +46,11 @@ const CustomList = <
       newSelectedItems = [...selectedItems, item];
     }
 
-    onSelectItem(newSelectedItems); // Opdaterer listen af valgte elementer
+    onSelectItem(newSelectedItems); 
+  };
+
+  const handleReset = () => {
+    onSelectItem([]); 
   };
 
   if (error) return <p>Error: {error}</p>;
@@ -54,9 +59,9 @@ const CustomList = <
   return (
     <Box padding={4}>
       <Heading size="xs">{title}</Heading>
-      <Box 
-        maxHeight={items.length > 15 ? "300px" : "none"} 
-        overflowY={items.length > 15 ? "auto" : "visible"} 
+      <Box
+        maxHeight={items.length > 15 ? "300px" : "none"}
+        overflowY={items.length > 15 ? "auto" : "visible"}
         border={items.length > 15 ? "1px solid #ccc" : "none"}
         borderRadius="md"
         padding={items.length > 15 ? 2 : 0}
@@ -85,10 +90,21 @@ const CustomList = <
       </Box>
       {/* Vis kun knappen "Show More" hvis der er flere end 5 og mindre end 15 elementer */}
       {items.length > 5 && items.length <= 15 && (
-        <Button onClick={() => setIsExpanded(!isExpanded)} mt={2}>
-          {isExpanded ? "Show less" : "Show more"}
-        </Button>
+         <Button onClick={() => setIsExpanded(!isExpanded)} mt={2}>
+         {isExpanded ? "Show less" : "Show more"}
+       </Button>
       )}
+      {/* Reset Text */}
+      <Text
+        onClick={handleReset}
+        color="gray.500"
+        cursor="pointer"
+        mt={4}
+        fontSize="sm"
+        _hover={{ textDecoration: "underline" }}
+      >
+        Reset Filter
+      </Text>
     </Box>
   );
 };
