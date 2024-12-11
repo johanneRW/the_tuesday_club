@@ -108,8 +108,8 @@ const LPCard = ({ album }: Props) => {
                   Add to cart
                 </Button>
                 {album.fetch_status === "failed" ? (
-                <Text color="red.500" fontSize="sm" mt="2">
-                  Image not found
+                <Text color="gray.200" fontSize="sm" mt="2" pb="4">
+                  Cover not found
                 </Text>
               ) : (
                 <Button
@@ -120,7 +120,7 @@ const LPCard = ({ album }: Props) => {
                   onClick={handleFetchImageClick}
                   isLoading={isLoading}
                 >
-                  Fetch Image
+                  Fetch cover
                 </Button>
               )}
               </HStack>

@@ -33,6 +33,7 @@ const useAlbums = (lpQuery: LpQuery, page: number) => {
         min_price: lpQuery.priceRange ? lpQuery.priceRange[0] : undefined,
         max_price: lpQuery.priceRange ? lpQuery.priceRange[1] : undefined,
         search_string: lpQuery.search_string || undefined, 
+        sort_by: lpQuery.sortAlphabetical ? "alphabetical" : undefined,
       },
     },
     [lpQuery, page], // Dependencies

@@ -1,24 +1,17 @@
-import { GridItem } from "@chakra-ui/react";
-import useAlbumUnits, { AlbumUnit } from "../../hooks/filters/useAlbumUnits";
-import useAlbumFormats, { AlbumFormat } from "../../hooks/filters/useAlbumFormats";
-import useAlbumArtists, { AlbumArtist } from "../../hooks/filters/useAlbumArtists";
-import useAlbumLabels, { AlbumLabel } from "../../hooks/filters/useAlbumLabels";
+import { Checkbox, GridItem, VStack } from "@chakra-ui/react";
+import useAlbumUnits from "../../hooks/filters/useAlbumUnits";
+import useAlbumFormats from "../../hooks/filters/useAlbumFormats";
+import useAlbumArtists from "../../hooks/filters/useAlbumArtists";
+import useAlbumLabels from "../../hooks/filters/useAlbumLabels";
 import SearchInput from "./searchBar";
-import CustomList from "./reusableComponents/CoustomList";
 import PriceSlider from "./PriceSlider";
 import { usePriceRange } from "../../hooks/filters/usePriceRange";
 import { LpQuery } from "../../pages/HomePage";
-
+import CustomList from "../reusableComponents/CoustomList";
 
 interface AsideProps {
-  lpQuery: {
-    albumUnits: AlbumUnit[];
-    albumFormats: AlbumFormat[];
-    albumLabels: AlbumLabel[];
-    albumArtists: AlbumArtist[];
-    priceRange: [number, number] | undefined;
-  };
-  setLpQuery: React.Dispatch<React.SetStateAction<any>>;
+  lpQuery: LpQuery; 
+  setLpQuery: React.Dispatch<React.SetStateAction<LpQuery>>; 
   handleSearch: (searchString: string) => void;
 }
 
@@ -27,10 +20,26 @@ const Aside = ({ lpQuery, setLpQuery, handleSearch }: AsideProps) => {
     <GridItem area={"aside"}>
       <SearchInput onSearch={handleSearch} />
 
+      {/* Add sorting checkbox */}
+      <VStack mt={4} alignItems="flex-start">
+        <Checkbox
+          isChecked={lpQuery.sortAlphabetical || false}
+          onChange={(e) =>
+            setLpQuery((prev) => ({
+              ...prev,
+              sortAlphabetical: e.target.checked,
+            }))
+          }
+           fontWeight="normal" color="gray.400"
+        >
+          Sort Albums Alphabetically
+        </Checkbox>
+      </VStack>
+
       <CustomList
         title="Album Units"
         useDataHook={useAlbumUnits}
-        selectedItems={lpQuery.albumUnits}
+        selectedItems={lpQuery.albumUnits || []}
         onSelectItem={(selectedAlbumUnits) =>
           setLpQuery({ ...lpQuery, albumUnits: selectedAlbumUnits })
         }
@@ -39,7 +48,7 @@ const Aside = ({ lpQuery, setLpQuery, handleSearch }: AsideProps) => {
       <CustomList
         title="Album Formats"
         useDataHook={useAlbumFormats}
-        selectedItems={lpQuery.albumFormats}
+        selectedItems={lpQuery.albumFormats || []}
         onSelectItem={(selectedAlbumFormats) =>
           setLpQuery({ ...lpQuery, albumFormats: selectedAlbumFormats })
         }
@@ -48,7 +57,7 @@ const Aside = ({ lpQuery, setLpQuery, handleSearch }: AsideProps) => {
       <CustomList
         title="Album Labels"
         useDataHook={useAlbumLabels}
-        selectedItems={lpQuery.albumLabels}
+        selectedItems={lpQuery.albumLabels || []}
         onSelectItem={(selectedAlbumLabels) =>
           setLpQuery({ ...lpQuery, albumLabels: selectedAlbumLabels })
         }
@@ -57,7 +66,7 @@ const Aside = ({ lpQuery, setLpQuery, handleSearch }: AsideProps) => {
       <CustomList
         title="Album Artists"
         useDataHook={useAlbumArtists}
-        selectedItems={lpQuery.albumArtists}
+        selectedItems={lpQuery.albumArtists || []}
         onSelectItem={(selectedAlbumArtists) =>
           setLpQuery({ ...lpQuery, albumArtists: selectedAlbumArtists })
         }
@@ -68,8 +77,8 @@ const Aside = ({ lpQuery, setLpQuery, handleSearch }: AsideProps) => {
         useDataHook={usePriceRange}
         selectedRange={lpQuery.priceRange}
         onSelectRange={(range) =>
-            setLpQuery((prev: LpQuery) => ({ ...prev, priceRange: range }))
-          }
+          setLpQuery((prev) => ({ ...prev, priceRange: range }))
+        }
       />
     </GridItem>
   );

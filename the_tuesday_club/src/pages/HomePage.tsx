@@ -17,6 +17,7 @@ export interface LpQuery {
   priceRange: [number, number] | undefined;
   page: number | undefined;
   search_string: string;
+  sortAlphabetical?: boolean; 
 }
 
 const HomePage = () => {

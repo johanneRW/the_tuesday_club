@@ -1,7 +1,7 @@
 from decimal import Decimal
 import os
 from typing import Optional, List
-from django.db.models import  Q
+from django.db.models import F, Q
 from django.core.paginator import Paginator
 from ninja import Router
 from core.models import AlbumView
@@ -119,7 +119,7 @@ def list_albums(
     if sort_by == "alphabetical":  # Hvis brugeren ønsker alfabetisk sortering
         albums = albums.order_by('album_name')
     else:  # Standard er "custom" sortering
-        albums = albums.order_by('-has_image', '-price_start_date', 'album_name')
+        albums = albums.order_by(F('album_image').desc(nulls_last=True), '-price_start_date', 'album_name')
 
     # Paginér resultaterne
     paginator = Paginator(albums, page_size)

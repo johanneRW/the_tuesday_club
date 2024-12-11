@@ -23,10 +23,11 @@ from core.api.filters import router as filters_router
 from core.api.users import router as users_router
 from core.api.pile_user import pile_user_router
 from core.api.pile_admin import pile_admin_router
+from ninja import Redoc
 
 
 
-api = NinjaAPI()
+api = NinjaAPI(docs=Redoc())
 
 
 api.add_router("/imports", imports_router)  
