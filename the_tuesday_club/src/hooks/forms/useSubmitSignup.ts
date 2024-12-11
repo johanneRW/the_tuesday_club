@@ -27,8 +27,7 @@ const useSignup = () => {
 
   const signup = async (payload: SignupPayload): Promise<ErrorDetail[] | null> => {
     const signupError = await execute(payload);
-    console.log("useSignup received error:", signupError); // Log fejl
-    return signupError; // Returnér fejl til handleSignup
+    return signupError; 
   };
 
   return { signup, error, isLoading, data };

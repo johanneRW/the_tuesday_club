@@ -13,13 +13,12 @@ export const usePriceRange = () => {
     apiClient
       .get("/api/filters/price-range")
       .then((response) => {
-        console.log("Price range response:", response.data); 
         setMinPrice(response.data.min_price ?? 0); 
         setMaxPrice(response.data.max_price ?? 1000); 
       })
       .catch((err) => {
         setError(err.message);
-        console.error("Error fetching price range:", err); // Debug
+        console.error("Error fetching price range:", err); 
       })
       .finally(() => {
         setIsLoading(false);

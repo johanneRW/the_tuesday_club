@@ -1,5 +1,4 @@
-import useData from "../reuseableHooks/useData";
-import React from "react";
+import useData from "../reuseableHooks/useData"
 
 
 export interface AlbumItem{
@@ -29,10 +28,7 @@ const useOrderSummery = () => {
     { withCredentials: true },  // options
   );
 
-  React.useEffect(() => {
-    console.log("Data updated:", data); // Log data, når det opdateres
-  }, [data]);
-
+ 
   return { data, error, isLoading, refetch };
 };
 

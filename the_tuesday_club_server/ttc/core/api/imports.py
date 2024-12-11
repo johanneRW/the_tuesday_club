@@ -88,7 +88,6 @@ def find_image(request, album_id: str):
         return JsonResponse({"error": "could not find mbid in data"}, status=404)
         
     if mbid is not None:
-        print("mbid", mbid)
         image_data_url = f"https://coverartarchive.org/release/{mbid}"
         try:
             image_data = requests.get(image_data_url)
@@ -100,7 +99,6 @@ def find_image(request, album_id: str):
         
         try:
             image = requests.get(image_url)
-            print(image_url, image.status_code)
             image.raise_for_status()
         except requests.HTTPError:
             save_image_fail(album)
@@ -129,7 +127,6 @@ def find_image(request, album_id: str):
         ),
     )
     album = get_object_or_404(album_qs, album_id=album_id)
-    print("album", album)
     #return JsonResponse({"disabled": True})
     data = get_barcode_data(album.identifier)
     try:

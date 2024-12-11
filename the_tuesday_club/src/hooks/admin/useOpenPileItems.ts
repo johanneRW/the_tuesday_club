@@ -1,5 +1,4 @@
 import useData from "../reuseableHooks/useData";
-import React from "react";
 
 
 export interface PileItem {
@@ -21,10 +20,6 @@ const useOpenPileItems = () => {
     [], // Ingen afhængigheder for at forhindre genkald
     { withCredentials: true },  // options
   );
-
-  React.useEffect(() => {
-    console.log("Data updated:", data); // Log data, når det opdateres
-  }, [data]);
 
   return { data, error, isLoading, refetch };
 };

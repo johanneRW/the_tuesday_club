@@ -91,8 +91,6 @@ def user_logout(request):
     
     try:
         logout(request)
-        print("Logged out", user_or_none)
-        
         # Fjern session-cookien
         response = JsonResponse({"message": "Logout successful!"})
         response.delete_cookie("sessionid")
@@ -100,7 +98,6 @@ def user_logout(request):
 
     except Exception as e:
         return JsonResponse({"detail": "You are not logged in."}, status=500)
-        #return 500, {"error": "An error occurred during logout. Please try again."}
 
 
 @router.get("/profile", response=dict)

@@ -25,7 +25,6 @@ const GenericManageItems = <T extends { album_id: string }>({
     try {
       // Opdater status for valgte items
       await updateStatus(selectedItems.map((item) => ({ album_id: item.album_id })));
-      console.log("Status updated successfully.");
       setTableKey((prevKey) => prevKey + 1); // Force re-render af tabellen
     } catch (error) {
       console.error("Failed to update status:", error);

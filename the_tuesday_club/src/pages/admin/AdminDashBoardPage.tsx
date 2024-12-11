@@ -55,7 +55,7 @@ const AdminDashboard = () => {
               colorScheme="teal"
               onClick={() => navigate("/manage-orderd-pile-items")}
             >
-              Manage Recived Orders
+              Manage Received Orders
             </Button>
           </Box>
 

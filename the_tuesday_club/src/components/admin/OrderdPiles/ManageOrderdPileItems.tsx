@@ -9,7 +9,7 @@ const ManageOrderdPileItems: FC = () => {
     <GenericManageItems<PileItem>
       TableComponent={OrderdPileItemsTable}
       useUpdateHook={useUpdatePileItemsStatusRecived}
-      buttonText="Change Status to Recived"
+      buttonText="Change Status to Received"
     />
   );
 };

@@ -36,7 +36,6 @@ const LPCard = ({ album }: Props) => {
     try {
       const result = await fetchCoverImage(album.album_id);
       setData(result);
-      console.log("Fetched image data:", result);
     } catch (err) {
       setError("Failed to fetch image");
       console.error(err);

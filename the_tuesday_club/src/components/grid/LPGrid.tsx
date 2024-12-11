@@ -47,11 +47,11 @@ const LPGrid = ({ lpQuery }: Props) => {
     {!user?.isAuthenticated && (
       <Alert status="info" mb="4" borderRadius="md">
         <AlertIcon />
-        Log in to be able to add to your lp-stack.
+        Log in to be able to add to your album stack.
       </Alert>
     )}
     
-      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} spacing={4} padding={3}>
+      <SimpleGrid columns={{ sm: 1, md: 2, lg: 4, xl: 5 }} spacing={4} padding={3}>
         {/* Fejlmeddelelse */}
         {error && <p>{error}</p>}
 

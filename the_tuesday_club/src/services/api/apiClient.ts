@@ -22,5 +22,5 @@ apiClient.interceptors.response.use(
   }
 );
 
-console.log("Base URL hentet");
+
 export default apiClient;

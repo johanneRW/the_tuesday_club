@@ -1,6 +1,6 @@
 import useSendData from "../reuseableHooks/useSendData";
 
-interface OrderSendtUpdate {
+interface OrderSentUpdate {
   user_ids: string;
 }
 
@@ -13,7 +13,7 @@ const useUpdatePileItemsStatusOrderd = () => {
     "/api/admin/update-pile-items-to-sent/","PATCH"
   );
 
-  const updateStatus = async (summary: OrderSendtUpdate[]) => {
+  const updateStatus = async (summary: OrderSentUpdate[]) => {
     if (!summary || summary.length === 0) {
       throw new Error("The items list is empty.");
     }

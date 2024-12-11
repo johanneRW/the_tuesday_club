@@ -67,9 +67,6 @@ def user_login(request, credentials: LoginSchema):
      # eller det fungere kun over https fobindelse og kan derfor ikke teste lokalt uden tunneling
 @router.get("/me", response=UserSchema)
 def get_current_user(request):
-    print("Session data:", list(request.session.items()))  # Log sessionen
-    print("Authenticated user:", request.user.is_authenticated)  # Log brugerstatus
-    print("User object:", request.user)  # Log brugerobjekt
     if request.user.is_authenticated:
         return UserSchema(
             username=request.user.username,

@@ -21,7 +21,6 @@ const ManageOrderSummaries: FC = () => {
       // Opdater status for de valgte user_ids
       await updateStatus(userIds.map((user_ids) => ({ user_ids })));
   
-      console.log("Status updated successfully.");
       setTableKey((prevKey) => prevKey + 1); // Force re-render af tabellen
     } catch (error) {
       console.error("Failed to update status:", error);
@@ -36,7 +35,7 @@ const ManageOrderSummaries: FC = () => {
         isLoading={isLoading}
         isDisabled={selectedUserIds.length === 0}
       >
-        Change Status to Sendt
+        Change Status to Sent
       </Button>
 
       <OrderSummeryTable 

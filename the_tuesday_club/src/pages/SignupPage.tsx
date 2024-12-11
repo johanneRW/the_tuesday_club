@@ -31,11 +31,6 @@ const SignupPage = () => {
     const allFieldsFilled = Object.values(values).every((value) => value.trim() !== "");
     const noErrors = Object.values(errors).every((error) => !error);
 
-    console.log("Values:", values);
-    console.log("Errors:", errors);
-    console.log("All fields filled:", allFieldsFilled);
-    console.log("No errors:", noErrors);
-
     setIsFormReady(allFieldsFilled && noErrors);
   }, [values, errors]);
 
