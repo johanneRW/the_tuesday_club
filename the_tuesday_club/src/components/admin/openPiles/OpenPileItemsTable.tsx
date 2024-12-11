@@ -116,13 +116,13 @@
 import React from "react";
 
 import useOpenPileItems, { PileItem } from "../../../hooks/admin/useOpenPileItems";
-import GenericPileItemsTable from "../../reusableComponents/PileItemTabel";
+import GenericItemsTable from "../../reusableComponents/GenericItemsTable ";
 
 const OrderdPileItemsTable: React.FC<{ onSelectionChange: (items: PileItem[]) => void }> = ({
   onSelectionChange,
 }) => {
   return (
-    <GenericPileItemsTable
+    <GenericItemsTable
       useDataHook={useOpenPileItems}
       onSelectionChange={onSelectionChange}
     />

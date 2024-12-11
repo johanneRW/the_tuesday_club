@@ -17,7 +17,7 @@ interface GenericPileItemsTableProps<T> {
   onSelectionChange: (items: T[]) => void;
 }
 
-const GenericPileItemsTable = <T extends { 
+const GenericItemsTable = <T extends { 
   album_id: string; 
   label_name?: string; 
   identifier_type?: string; 
@@ -110,4 +110,4 @@ const GenericPileItemsTable = <T extends {
   );
 };
 
-export default GenericPileItemsTable;
+export default GenericItemsTable;
