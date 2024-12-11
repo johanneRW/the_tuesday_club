@@ -16,18 +16,7 @@ const UserProfile: React.FC = () => {
     );
   }
 
-  if (error) {
-    return (
-      <Box textAlign="center" mt="10">
-        <Alert status="error">
-          <AlertIcon />
-          {error}
-        </Alert>
-      </Box>
-    );
-  }
-
-  if (!profile) {
+  if (error || !profile){
     return (
       <Box textAlign="center" mt="10">
         <Text>No profile data found.</Text>

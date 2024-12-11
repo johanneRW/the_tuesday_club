@@ -40,7 +40,7 @@ const CartIcon = () => {
       {/* Kurv-ikon */}
       <IconButton
         icon={<HiSquare3Stack3D />}
-        aria-label="View cart"
+        aria-label="View basket"
         onClick={openCart}
       />
       {/* Badge til tæller */}
@@ -61,10 +61,10 @@ const CartIcon = () => {
       <Modal isOpen={isOpen} onClose={closeCart} size="md">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Your Cart</ModalHeader>
+          <ModalHeader>Your Basket</ModalHeader>
           <ModalBody>
             {cart.length === 0 ? (
-              <Text>Your cart is empty.</Text>
+              <Text>Your basket is empty.</Text>
             ) : (
               <VStack spacing="4" align="stretch">
                 {cart.map(({ item, count }) => (
@@ -113,12 +113,13 @@ const CartIcon = () => {
               variant="outline"
               colorScheme="green"
               ml="3"
+              p="5"
               onClick={() => {
                 closeCart();
                 navigate("/cart"); // Naviger til cart-siden
               }}
             >
-              To cart
+              To basket
             </Button>
           </ModalFooter>
         </ModalContent>

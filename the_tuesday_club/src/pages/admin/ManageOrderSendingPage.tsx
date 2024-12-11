@@ -8,7 +8,7 @@ const ManageOrderSendingPage = () => {
   return (
     <Box maxW="95%" mx="auto" mt="10" p="4">
       <Heading size="lg" mb="6" textAlign="center">
-        Manage Open Pile Items
+      Send Stacks
       </Heading>
       <Box mb="4" textAlign="center">
         <Button colorScheme="teal" onClick={() => navigate("/admin-dashboard")}>

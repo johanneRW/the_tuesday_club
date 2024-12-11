@@ -20,7 +20,7 @@ const usePileItems = () => {
     { withCredentials: true },  // options
   );
 
-  // Memoiserede pileItems, så de ikke ændrer sig mellem renders
+  // Memo pileItems, så de ikke ændrer sig mellem renders
   const pileItems = useMemo(() => {
     // Fallback til tom liste, hvis data er `null` eller `undefined`
     return Array.isArray(data) ? data : [];

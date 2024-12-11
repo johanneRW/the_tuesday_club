@@ -18,11 +18,11 @@ const PileTable: React.FC = () => {
   }
 
   if (error) {
-    return <Text color="red.500">Failed to load pile items: {error}</Text>;
+    return <Text color="red.500">Failed to load stack items: {error}</Text>;
   }
 
   if (!pileItems.length) {
-    return <Text textAlign="center">No items found in the pile.</Text>;
+    return <Text textAlign="center">No items found in the stack.</Text>;
   }
 
   const earliestItemDate = pileItems.reduce((earliest, item) => {
@@ -44,7 +44,7 @@ const daysSinceEarliest = Math.floor(
           Total Price: {pileItems.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)} kr
         </Text>
         <Text>Total Albums: {pileItems.reduce((sum, item) => sum + item.quantity, 0)}</Text>
-        <Text>Pile has been open for: {daysSinceEarliest} days</Text>
+        <Text>Stack has been open for: {daysSinceEarliest} days</Text>
       </Box>
 
       {/* Data Tablen */}
@@ -79,7 +79,7 @@ const daysSinceEarliest = Math.floor(
           isLoading={isClosing}
           isDisabled={isClosing}
         >
-          request pile closing
+           Request Delivery of Received Items
         </Button>
       </Box>
     </Box>

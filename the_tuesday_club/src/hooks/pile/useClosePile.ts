@@ -12,15 +12,15 @@ const useClosePile = () => {
     if (result === null) {
       // Hvis der ikke er fejl
       showToast({
-        title: "Pile Closed",
-        description: "All items in your pile have been closed.",
+        title: "Request of Delivery",
+        description: "Your Request has been Received.",
         status: "success",
       });
     } else {
       // Hvis der er fejl
       showToast({
         title: "Error",
-        description: "Failed to close pile items.",
+        description: "Failed to send Request.",
         status: "error",
       });
     }

@@ -93,11 +93,12 @@ const LPCard = ({ album }: Props) => {
         justifyContent="center"
         alignItems="center"
         mt="auto"
+        p="3"
       >
         {user?.isAuthenticated && (
           <>
             <ProtectedRoute requireSuperuser>
-              <HStack spacing="4">
+              <HStack spacing="2">
                 <Button
                   variant="solid"
                   colorScheme="blue"
@@ -105,7 +106,7 @@ const LPCard = ({ album }: Props) => {
                   mb="4"
                   onClick={() => addToCart(album)}
                 >
-                  Add to cart
+                  Add to basket
                 </Button>
                 {album.fetch_status === "failed" ? (
                 <Text color="gray.500" fontSize="sm" mt="2" pb="4">
@@ -134,7 +135,7 @@ const LPCard = ({ album }: Props) => {
                 width="80%"
                 onClick={() => addToCart(album)}
               >
-                Add to cart
+                Add to basket
               </Button>
             )}
           </>

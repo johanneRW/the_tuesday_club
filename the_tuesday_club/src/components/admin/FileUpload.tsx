@@ -96,10 +96,8 @@ const FileUploadComponent: FC<FileUploadProps> = ({
   };
 
   return (
-    <Box p="6" border="1px solid #ddd" borderRadius="8px">
-      <Heading size="md" mb="4">
-        Upload new file
-      </Heading>
+    <Box p="4">
+      
       <VStack spacing="4" align="stretch">
         <FormControl>
           <FormLabel>Select Label</FormLabel>

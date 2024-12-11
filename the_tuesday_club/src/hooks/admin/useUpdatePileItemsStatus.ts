@@ -22,7 +22,7 @@ const useUpdatePileItemsStatusOrderd = () => {
     const errors = await execute(items);
 
     if (errors) {
-      console.error("Failed to update pile item statuses:", errors);
+      console.error("Failed to update item statuses:", errors);
     }
 
     return errors;

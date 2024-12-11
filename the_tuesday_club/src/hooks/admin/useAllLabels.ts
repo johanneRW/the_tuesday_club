@@ -11,4 +11,5 @@ const useAllLabels = () => {
   return useData<Label>("/api/imports/labels/all");
 };
 
+
 export default useAllLabels; 

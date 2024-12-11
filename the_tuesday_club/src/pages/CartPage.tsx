@@ -24,7 +24,7 @@ import AddToPileButton from "../components/pile/AddToPileButton";
   
     return (
       <Box maxW="800px" mx="auto" p="4">
-        <Heading mb="4">Your Shopping Cart</Heading>
+        <Heading mb="4">Your Basket</Heading>
   
         {/* Betinget besked */}
         {cart.length > 0 && (
@@ -35,7 +35,7 @@ import AddToPileButton from "../components/pile/AddToPileButton";
         )}
   
         {cart.length === 0 ? (
-          <Text>Your cart is empty.</Text>
+          <Text>Your basket is empty.</Text>
         ) : (
           <VStack spacing="4" align="stretch">
             {cart.map(({ item, count }) => (
@@ -92,7 +92,7 @@ import AddToPileButton from "../components/pile/AddToPileButton";
             {/* Handling Buttons */}
             <HStack spacing="4" justifyContent="flex-end">
               <Button variant="outline" colorScheme="red" onClick={clearCart}>
-                Clear Cart
+                Clear basket
               </Button>
               <AddToPileButton/>
             </HStack>

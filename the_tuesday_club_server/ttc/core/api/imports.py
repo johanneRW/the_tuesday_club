@@ -12,6 +12,7 @@ import requests
 from core.utils.csv_importer import import_csv_to_multiple_tables
 from core.models import Album, AlbumImage, Label
 from core.utils.coverart import get_musicbrainz_data
+from core.utils.helpers import get_user_from_session_key
 from .serializers.imports_serializers import ErrorOutput, FindImageOutput
 from .serializers.filter_serializers import (LabelNameSchema)
 
@@ -22,6 +23,7 @@ router = Router()
 #endpoint til at hente alle labels uanset om de har albums tilknyttet eller ej
 @router.get("/labels/all", response=List[LabelNameSchema])
 def list_labels(request):
+ 
     labels = (
         Label.objects.values_list('label_name', flat=True)
         .distinct()
@@ -39,6 +41,10 @@ def upload_csv(
     file: UploadedFile = File(...),
     label_name: str = Form(...)
 ):
+    user_or_none = get_user_from_session_key(request)
+    if user_or_none is None:
+        return JsonResponse({"error": "You are not logged in."}, status=401)
+    
     """Uploader og indlæser en CSV-fil."""
     try:
         # Gem CSV-filen midlertidigt
@@ -59,6 +65,11 @@ def upload_csv(
 #ikke den mest robuste løsning men virker for de flestte albums, som alternativ til barcodeLocup
 @router.get("/find-image", response={200: FindImageOutput, 400: ErrorOutput})
 def find_image(request, album_id: str):
+    
+    user_or_none = get_user_from_session_key(request)
+    if user_or_none is None:
+        return JsonResponse({"error": "You are not logged in."}, status=401)
+    
     def save_image_fail(album):
         # Gem markering af at billede ikke kunne findes
         album_image, created = AlbumImage.objects.get_or_create(album_id=album)

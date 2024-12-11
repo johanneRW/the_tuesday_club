@@ -36,7 +36,7 @@ const HomePage = () => {
     <Grid
     templateAreas={`
       "aside main"`}
-      gridTemplateColumns={"minmax(0, 270px) 4fr"} 
+      gridTemplateColumns={"minmax(0, 250px) 4fr"} 
     gap="4"
     p="4"
   >

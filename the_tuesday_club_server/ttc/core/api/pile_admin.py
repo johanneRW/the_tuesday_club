@@ -23,6 +23,7 @@ def get_open_pile_items(request):
     
     return list(open_pile_items)
 
+
 @pile_admin_router.get("/orderd-pile-items", response=List[PileItemSchema])
 def get_open_pile_items(request):
     user = get_user_from_session_key(request)
@@ -35,6 +36,7 @@ def get_open_pile_items(request):
     return list(orderd_pile_items)
 
 
+
 @pile_admin_router.get("/closed-pile-items-summary/", response=List[UserSummarySchema])
 def get_closed_pile_items_summary(request):
     user = get_user_from_session_key(request)
@@ -44,6 +46,7 @@ def get_closed_pile_items_summary(request):
     order_summery= PileItem.admin_adresses_objects.closed_items_grouped_by_user()
     
     return list(order_summery)
+
 
 
 @pile_admin_router.patch("/update-pile-items-to-sent/")
@@ -76,6 +79,7 @@ def update_pile_items_to_sent(request, user_ids: List[Dict[str, str]]):
 
 
 
+
 @pile_admin_router.patch("/update-pile-items-status-orderd", response=UpdateStatusResponse)
 def update_pile_items_status(request, items: List[PileItemUpdateSchema]):
     # Hent listen af åbne pile items
@@ -102,6 +106,7 @@ def update_pile_items_status(request, items: List[PileItemUpdateSchema]):
     )
 
     return {"updated_count": updated_count}
+
 
 
 

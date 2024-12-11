@@ -50,7 +50,7 @@ const GenericItemsTable = <T extends {
     return (
       <Box textAlign="center" mt="10">
         <Spinner size="lg" />
-        <Text>Loading pile items...</Text>
+        <Text>Loading items...</Text>
       </Box>
     );
   }
@@ -66,7 +66,7 @@ const GenericItemsTable = <T extends {
   if (!pileItems || pileItems.length === 0) {
     return (
       <Box textAlign="center" mt="10">
-        <Text>No pile items found.</Text>
+        <Text>No items found.</Text>
       </Box>
     );
   }

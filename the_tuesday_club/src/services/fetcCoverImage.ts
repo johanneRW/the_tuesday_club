@@ -1,9 +1,10 @@
 import apiClient from "./api/apiClient";
+import apiClientWhitCredentials from "./api/apiClientWhitCredentials";
 
 
 export const fetchCoverImage = async (albumId: string) => {
   try {
-    const response = await apiClient.get("/api/imports/find-image", {
+    const response = await apiClientWhitCredentials.get("/api/imports/find-image", {
       params: { album_id: albumId },
     });
     return response.data; // Returner data fra API-svaret

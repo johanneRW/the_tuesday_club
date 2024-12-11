@@ -12,8 +12,8 @@ const AddToPileButton: FC = () => {
   const handleAddToPile = async () => {
     if (cart.length === 0) {
       showToast({
-        title: "Cart is empty",
-        description: "Please add items to your cart before adding to a pile.",
+        title: "Basket is empty",
+        description: "Please add items to your basket before adding to a stack.",
         status: "warning",
       });
       return;
@@ -33,14 +33,14 @@ const AddToPileButton: FC = () => {
     if (success) {
       showToast({
         title: "Success",
-        description: `Successfully added ${totalQuantity} items to your pile!`, 
+        description: `Successfully added ${totalQuantity} items to your stack!`, 
         status: "success",
       });
       clearCart(); // Tøm kurven efter succes
     } else {
       showToast({
         title: "Error",
-        description: "Failed to add items to pile. Please try again.",
+        description: "Failed to add items to stack. Please try again.",
         status: "error",
       });
     }
@@ -53,7 +53,7 @@ const AddToPileButton: FC = () => {
       onClick={handleAddToPile}
       isLoading={isLoading}
     >
-      {isLoading ? "Adding to Pile..." : "Add to Pile"}
+      {isLoading ? "Adding to Stack..." : "Add to Stack"}
     </Button>
   );
 };

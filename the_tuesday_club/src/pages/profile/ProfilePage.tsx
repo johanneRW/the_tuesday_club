@@ -13,20 +13,22 @@ const ProfilePage: React.FC = () => {
   
 
   return (
-    <Box maxW="800px" mx="auto" mt="10">
+    <Box maxW="1200px" mx="auto" mt="10">
       <Heading size="lg" mb="6" textAlign="center">
         Profile Page
       </Heading>
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         <GridItem>
+        <Heading size="md" mb="4">Your Information</Heading>
           <Box p="4" borderWidth="1px" borderRadius="lg" boxShadow="md">
-            <Heading size="md" mb="4">Member Information</Heading>
+            
             <UserProfile/>
           </Box>
         </GridItem>
         <GridItem>
+        <Heading size="md" mb="4">Your Stack</Heading>
           <Box p="4" borderWidth="1px" borderRadius="lg" boxShadow="md">
-            <Heading size="md" mb="4">Pile List</Heading>
+            
             <PileTable/>
           </Box>
         </GridItem>

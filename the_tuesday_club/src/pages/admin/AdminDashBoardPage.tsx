@@ -15,7 +15,11 @@ const AdminDashboard = () => {
       <Grid templateColumns="repeat(2, 1fr)" gap={6}>
         {/* File Upload Box */}
         <GridItem>
-          <Box p="4" borderWidth="1px" borderRadius="lg" boxShadow="md">
+        <Heading size="md" mb="4" >
+        Upload new file
+      </Heading>
+          <Box p="6" border="1px solid #ddd" borderRadius="8px">
+            
             <FileUploadComponent
               labels={labels || []}
               isLoading={isLoading}
@@ -27,49 +31,48 @@ const AdminDashboard = () => {
 
         {/* Manage Open Pile Items Button */}
         <GridItem>
+        <Heading size="md" mb="4" >
+        Handle Orders
+      </Heading>
+          <Box p="6" border="1px solid #ddd" borderRadius="8px">
+      
           <Box
             p="4"
-            borderWidth="1px"
-            borderRadius="lg"
-            boxShadow="md"
+           
             textAlign="center"
           >
             <Button
               colorScheme="teal"
               onClick={() => navigate("/manage-open-pile-items")}
             >
-              Manage Open Pile Items
+              Manage New Orders
             </Button>
           </Box>
 
           <Box
             p="4"
-            borderWidth="1px"
-            borderRadius="lg"
-            boxShadow="md"
             textAlign="center"
           >
             <Button
               colorScheme="teal"
               onClick={() => navigate("/manage-orderd-pile-items")}
             >
-              Manage Orderd Pile Items
+              Manage Recived Orders
             </Button>
           </Box>
 
           <Box
             p="4"
-            borderWidth="1px"
-            borderRadius="lg"
-            boxShadow="md"
+            
             textAlign="center"
           >
             <Button
               colorScheme="teal"
               onClick={() => navigate("/manage-order-sending")}
             >
-              Manage Order sending
+              Send Stacks
             </Button>
+          </Box>
           </Box>
         </GridItem>
       </Grid>

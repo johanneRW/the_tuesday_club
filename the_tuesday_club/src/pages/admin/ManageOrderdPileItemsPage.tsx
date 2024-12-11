@@ -9,7 +9,7 @@ const ManageOrderdPileItemsPage = () => {
   return (
     <Box maxW="800px" mx="auto" mt="10" p="4">
       <Heading size="lg" mb="6" textAlign="center">
-        Manage Open Pile Items
+      Manage Recived Orders
       </Heading>
       <Box mb="4" textAlign="center">
         <Button colorScheme="teal" onClick={() => navigate("/admin-dashboard")}>
