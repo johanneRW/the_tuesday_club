@@ -8,32 +8,32 @@ const AboutUsPage = () => {
     <Box maxW="800px" mx="auto" mt="10" p="6" border="1px solid #ddd" borderRadius="8px">
     <Box textAlign="left" mt="10" >
       <Heading size="lg" mb="6">
-      Velkommen i klubben.
+      Welcome to the Club
       </Heading>
       <Text >
-
-      Tirsdagsklubben er et samlingspunkt, hvor vinyl-LP fans samles og finder nye plader.<br/>
+      The Tuesday Club is a meeting place where vinyl LP fans gather and discover new records.<br/>
       <br/>
-Tirsdagsklubben er et fællesskab for vinyl-LP fans, hvor du kan opdage og bestille nye plader. <br/>
-Vi tilbyder et udvalg af nye udgivelser, genudgivelser og andre spændende titler – alle plader er nye, ingen second-hand.<br/>
-<br/>
-<br/>
-Bestillinger hives hjem og lægges i din personlige bunke: Her kan du tilføje så mange eller så få plader du vil, og selv bestemme hvornår du vil have dine plader. <br/>
-Dette er en måde at spare porto på i modsætning til, hvis man køber pladerne enkeltvis i traditionelle webshops. <br/>
-Ønsker du blot en enkelt plade er det naturligvis også helt ok - der er intet krav om mindstekøb.<br/>
-<br/>
-En bunke kan være åben i op til 3 mdr. eller indtil den når 3.000 kr. Så giver jeg besked om at det tid til at tømme bunken, og du kan starte på en ny bunke, hvis du ønsker.<br/>
-<br/>
-Hvis der derudover er særlige titler du er interesseret i, så kan du skrive til mig. Så finder jeg en pris til dig og du kan vælge at bestille hvis du har lyst.<br/> 
-Jeg kan også skaffe de fleste titler som stadigvæk er i salg. Så hvis der er en nyere udgivelse som du aldrig fik købt, så kan jeg sikkert også hjælpe på den front.<br/>
-<br/>
-<br/>
-OBS: Det er ikke muligt at afbestille en bestilling, så bestil kun hvis du er sikker på at du ønsker at købe den/de plader du bestiller eller får lagt I din bunke. <br/>
-Bemærk også at enkelte titler kan blive forsinkede fra selskabet (dét man kalder restordrer) hvis der er stor rift om dem, og i så fald giver jeg dig besked og holder dig opdateret om status.<br/>
-<br/>
-Jeg glæder mig til at byde dig velkommen i klubben<br/>
-
-
+      The Tuesday Club is a community for vinyl LP fans where you can explore and order new records. <br/> 
+      We offer a selection of new releases, reissues, and other exciting titles – all records are brand new, no second-hand.<br/> 
+      <br/> 
+      <br/> 
+      Orders are placed in your personal stack: Here, you can add as many or as few records as you like and decide when you want to receive them. <br/> 
+      This is a way to save on shipping costs compared to buying records individually from traditional webshops. 
+      <br/> 
+      If you only want a single record, that's perfectly fine too – there is no minimum purchase requirement.
+      <br/>
+      <br/>
+      A stack can remain open for up to 3 months or until it reaches 3,000 DKK. At that point, I will notify you that it's time to clear the stack, and you can start a new one if you wish.<br/> <br/> If there are any specific titles you're interested in, feel free to reach out to me. I’ll find a price for you, and you can decide if you want to place an order.
+      <br/> 
+      I can also source most titles that are still available for sale. So, if there's a recent release you missed out on, I can probably help you with that too.
+      <br/> 
+      <br/> 
+      <br/> 
+      Please note: It is not possible to cancel an order once placed, so only order if you’re sure you want to buy the record(s) added to your stack.
+      <br/> 
+      Also, be aware that some titles may be delayed by the label (what is known as backorders) if demand is high. In such cases, I will notify you and keep you updated on the status.
+      <br/> 
+      <br/> I look forward to welcoming you to the club.
       </Text>
     </Box>
     </Box>
