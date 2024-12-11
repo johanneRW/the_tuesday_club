@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { Button } from "@chakra-ui/react";
 
 interface GenericManageItemsProps<T> {
-  TableComponent: React.FC<{ key: number; onSelectionChange: (items: T[]) => void }>;
-  useUpdateHook: () => { updateStatus: (items: any[]) => Promise<void>; isLoading: boolean };
-}
+    TableComponent: React.FC<{ key: number; onSelectionChange: (items: T[]) => void }>;
+    useUpdateHook: () => { updateStatus: (items: any[]) => Promise<void>; isLoading: boolean };
+    buttonText: string; 
+  }
+  
 
 const GenericManageItems = <T extends { album_id: string }>({
   TableComponent,
   useUpdateHook,
+  buttonText,
 }: GenericManageItemsProps<T>) => {
   const [selectedItems, setSelectedItems] = useState<T[]>([]);
   const [tableKey, setTableKey] = useState(0); // Key til at force re-render
@@ -37,7 +40,7 @@ const GenericManageItems = <T extends { album_id: string }>({
         isLoading={isLoading}
         isDisabled={selectedItems.length === 0}
       >
-        Update Status
+        {buttonText}
       </Button>
 
       <TableComponent key={tableKey} onSelectionChange={handleSelectionChange} />

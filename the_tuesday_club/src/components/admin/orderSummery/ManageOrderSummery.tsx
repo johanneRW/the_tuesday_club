@@ -85,7 +85,7 @@ const ManageOrderSummaries: React.FC = () => {
         isLoading={isLoading}
         isDisabled={selectedUserIds.length === 0}
       >
-        Update Status
+        Change Status to Sendt
       </Button>
 
       <OrderSummeryTable 

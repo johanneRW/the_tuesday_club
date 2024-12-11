@@ -102,6 +102,7 @@ const ManageOpenPileItems: React.FC = () => {
     <GenericManageItems<PileItem>
       TableComponent={OpenPileItemsTable}
       useUpdateHook={useUpdatePileItemsStatusOrderd}
+      buttonText="Change Status to Ordered" 
     />
   );
 };

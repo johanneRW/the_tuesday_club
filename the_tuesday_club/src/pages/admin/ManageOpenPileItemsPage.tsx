@@ -1,6 +1,6 @@
 import { Box, Heading, Button } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import ManageOpenPileItems from "../../components/admin/openpileManager/ManageOpenPileItems";
+import ManageOpenPileItems from "../../components/admin/openPiles/ManageOpenPileItems";
 
 const ManageOpenPileItemsPage = () => {
   const navigate = useNavigate();

@@ -105,6 +105,7 @@ const ManageOrderdPileItems: React.FC = () => {
     <GenericManageItems<PileItem>
       TableComponent={OrderdPileItemsTable}
       useUpdateHook={useUpdatePileItemsStatusRecived}
+      buttonText="Change Status to Recived"
     />
   );
 };
